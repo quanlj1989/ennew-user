@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.DeliverAddressDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.DeliverAddress" id="deliverAddressResultMap">
+		<result property="deliverAddressId" column="DELIVER_ADDRESS_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="areaId" column="AREA_ID"  />
+		<result property="areaIdFullPath" column="AREA_ID_FULL_PATH"  />
+		<result property="areaNameFullPath" column="AREA_NAME_FULL_PATH"  />
+		<result property="addressDetail" column="ADDRESS_DETAIL"  />
+		<result property="contact" column="CONTACT"  />
+		<result property="contactTel" column="CONTACT_TEL"  />
+		<result property="fixedPhone" column="FIXED_PHONE"  />
+		<result property="isDefaultDeliverAddr" column="IS_DEFAULT_DELIVER_ADDR"  />
+		<result property="isDefaultRefundAddr" column="IS_DEFAULT_REFUND_ADDR"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		DELIVER_ADDRESS_ID,
+		MEMBER_ID,
+		AREA_ID,
+		AREA_ID_FULL_PATH,
+		AREA_NAME_FULL_PATH,
+		ADDRESS_DETAIL,
+		CONTACT,
+		CONTACT_TEL,
+		FIXED_PHONE,
+		IS_DEFAULT_DELIVER_ADDR,
+		IS_DEFAULT_REFUND_ADDR,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{deliverAddressId},
+		#{memberId},
+		#{areaId},
+		#{areaIdFullPath},
+		#{areaNameFullPath},
+		#{addressDetail},
+		#{contact},
+		#{contactTel},
+		#{fixedPhone},
+		#{isDefaultDeliverAddr},
+		#{isDefaultRefundAddr},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="deliverAddressId != null ">and DELIVER_ADDRESS_ID = #{deliverAddressId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="areaId != null ">and AREA_ID = #{areaId}</if>
+				<if test="areaIdFullPath != null and areaIdFullPath != ''">and AREA_ID_FULL_PATH = #{areaIdFullPath}</if>
+				<if test="areaNameFullPath != null and areaNameFullPath != ''">and AREA_NAME_FULL_PATH = #{areaNameFullPath}</if>
+				<if test="addressDetail != null and addressDetail != ''">and ADDRESS_DETAIL = #{addressDetail}</if>
+				<if test="contact != null and contact != ''">and CONTACT = #{contact}</if>
+				<if test="contactTel != null and contactTel != ''">and CONTACT_TEL = #{contactTel}</if>
+				<if test="fixedPhone != null and fixedPhone != ''">and FIXED_PHONE = #{fixedPhone}</if>
+				<if test="isDefaultDeliverAddr != null ">and IS_DEFAULT_DELIVER_ADDR = #{isDefaultDeliverAddr}</if>
+				<if test="isDefaultRefundAddr != null ">and IS_DEFAULT_REFUND_ADDR = #{isDefaultRefundAddr}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.DeliverAddress" useGeneratedKeys="true" keyProperty="deliverAddressId">
+		insert into deliver_address( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.DeliverAddress">
+        insert into deliver_address
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="deliverAddressId != null ">DELIVER_ADDRESS_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="areaId != null ">AREA_ID,</if>
+				<if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH,</if>
+				<if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH,</if>
+				<if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL,</if>
+				<if test="contact != null and contact != ''">CONTACT,</if>
+				<if test="contactTel != null and contactTel != ''">CONTACT_TEL,</if>
+				<if test="fixedPhone != null and fixedPhone != ''">FIXED_PHONE,</if>
+				<if test="isDefaultDeliverAddr != null ">IS_DEFAULT_DELIVER_ADDR,</if>
+				<if test="isDefaultRefundAddr != null ">IS_DEFAULT_REFUND_ADDR,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="deliverAddressId != null ">#{deliverAddressId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="areaId != null ">#{areaId},</if>
+				<if test="areaIdFullPath != null and areaIdFullPath != ''">#{areaIdFullPath},</if>
+				<if test="areaNameFullPath != null and areaNameFullPath != ''">#{areaNameFullPath},</if>
+				<if test="addressDetail != null and addressDetail != ''">#{addressDetail},</if>
+				<if test="contact != null and contact != ''">#{contact},</if>
+				<if test="contactTel != null and contactTel != ''">#{contactTel},</if>
+				<if test="fixedPhone != null and fixedPhone != ''">#{fixedPhone},</if>
+				<if test="isDefaultDeliverAddr != null ">#{isDefaultDeliverAddr},</if>
+				<if test="isDefaultRefundAddr != null ">#{isDefaultRefundAddr},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.DeliverAddress">
+		delete from deliver_address
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from deliver_address
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DELIVER_ADDRESS_ID = #{deliverAddressId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.DeliverAddress"  useGeneratedKeys="true" keyProperty="deliverAddressId">
+		update deliver_address 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="areaId != null ">AREA_ID = #{areaId},</if>
+				<if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH = #{areaIdFullPath},</if>
+				<if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH = #{areaNameFullPath},</if>
+				<if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL = #{addressDetail},</if>
+				<if test="contact != null and contact != ''">CONTACT = #{contact},</if>
+				<if test="contactTel != null and contactTel != ''">CONTACT_TEL = #{contactTel},</if>
+				<if test="fixedPhone != null and fixedPhone != ''">FIXED_PHONE = #{fixedPhone},</if>
+				<if test="isDefaultDeliverAddr != null ">IS_DEFAULT_DELIVER_ADDR = #{isDefaultDeliverAddr},</if>
+				<if test="isDefaultRefundAddr != null ">IS_DEFAULT_REFUND_ADDR = #{isDefaultRefundAddr},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DELIVER_ADDRESS_ID = #{deliverAddressId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="deliverAddressResultMap">
+        select <include refid="table_columns" />
+        from deliver_address
+    </select>
+
+    <select id="find" resultMap="deliverAddressResultMap">
+        select <include refid="table_columns" />
+        from deliver_address
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from deliver_address
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="deliverAddressResultMap"  >
+		select <include refid="table_columns" />
+		from deliver_address
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DELIVER_ADDRESS_ID = #{deliverAddressId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	<select id="findPage" parameterType="cn.enn.ygego.sunny.user.dto.vo.BaseQueryVO" resultType="cn.enn.ygego.sunny.user.dto.DeliverAddressDTO">
+		select <include refid="table_columns" />
+		from deliver_address
+		WHERE
+		 MEMBER_ID = #{memberId}
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow}, #{pageSize}
+		</if>
+	</select>
+
+
+</mapper>

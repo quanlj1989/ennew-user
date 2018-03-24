@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualServiceCertFileDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualServiceCertFile" id="individualServiceCertFileResultMap">
+		<result property="certApplyFileId" column="CERT_APPLY_FILE_ID"  />
+		<result property="serviceApplyCertId" column="SERVICE_APPLY_CERT_ID"  />
+		<result property="certFileType" column="CERT_FILE_TYPE"  />
+		<result property="fileSize" column="FILE_SIZE"  />
+		<result property="fileUrl" column="FILE_URL"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_FILE_ID,
+		SERVICE_APPLY_CERT_ID,
+		CERT_FILE_TYPE,
+		FILE_SIZE,
+		FILE_URL
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyFileId},
+		#{serviceApplyCertId},
+		#{certFileType},
+		#{fileSize},
+		#{fileUrl}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyFileId != null ">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+				<if test="serviceApplyCertId != null ">and SERVICE_APPLY_CERT_ID = #{serviceApplyCertId}</if>
+				<if test="certFileType != null ">and CERT_FILE_TYPE = #{certFileType}</if>
+				<if test="fileSize != null ">and FILE_SIZE = #{fileSize}</if>
+				<if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCertFile" >
+		insert into individual_service_cert_file( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCertFile">
+        insert into individual_service_cert_file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certApplyFileId != null ">CERT_APPLY_FILE_ID,</if>
+				<if test="serviceApplyCertId != null ">SERVICE_APPLY_CERT_ID,</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE,</if>
+				<if test="fileSize != null ">FILE_SIZE,</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certApplyFileId != null ">#{certApplyFileId},</if>
+				<if test="serviceApplyCertId != null ">#{serviceApplyCertId},</if>
+				<if test="certFileType != null ">#{certFileType},</if>
+				<if test="fileSize != null ">#{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCertFile">
+		delete from individual_service_cert_file
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_service_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCertFile">
+		update individual_service_cert_file 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="serviceApplyCertId != null ">SERVICE_APPLY_CERT_ID = #{serviceApplyCertId},</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE = #{certFileType},</if>
+				<if test="fileSize != null ">FILE_SIZE = #{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualServiceCertFileResultMap">
+        select <include refid="table_columns" />
+        from individual_service_cert_file
+    </select>
+
+    <select id="find" resultMap="individualServiceCertFileResultMap">
+        select <include refid="table_columns" />
+        from individual_service_cert_file
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_service_cert_file
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualServiceCertFileResultMap"  >
+		select <include refid="table_columns" />
+		from individual_service_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

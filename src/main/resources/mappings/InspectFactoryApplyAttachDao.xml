@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.InspectFactoryApplyAttachDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.InspectFactoryApplyAttach" id="inspectFactoryApplyAttachResultMap">
+		<result property="attaId" column="ATTA_ID"  />
+		<result property="applyItemId" column="APPLY_ITEM_ID"  />
+		<result property="fileUrl" column="FILE_URL"  />
+		<result property="fileType" column="FILE_TYPE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		ATTA_ID,
+		APPLY_ITEM_ID,
+		FILE_URL,
+		FILE_TYPE
+    </sql>
+	<sql id="entity_properties">
+		#{attaId},
+		#{applyItemId},
+		#{fileUrl},
+		#{fileType}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="attaId != null ">and ATTA_ID = #{attaId}</if>
+				<if test="applyItemId != null ">and APPLY_ITEM_ID = #{applyItemId}</if>
+				<if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+				<if test="fileType != null ">and FILE_TYPE = #{fileType}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyAttach" >
+		insert into inspect_factory_apply_attach( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyAttach">
+        insert into inspect_factory_apply_attach
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="attaId != null ">ATTA_ID,</if>
+				<if test="applyItemId != null ">APPLY_ITEM_ID,</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+				<if test="fileType != null ">FILE_TYPE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="attaId != null ">#{attaId},</if>
+				<if test="applyItemId != null ">#{applyItemId},</if>
+				<if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+				<if test="fileType != null ">#{fileType},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyAttach">
+		delete from inspect_factory_apply_attach
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from inspect_factory_apply_attach
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ATTA_ID = #{attaId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyAttach">
+		update inspect_factory_apply_attach 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyItemId != null ">APPLY_ITEM_ID = #{applyItemId},</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+				<if test="fileType != null ">FILE_TYPE = #{fileType},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ATTA_ID = #{attaId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="inspectFactoryApplyAttachResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_attach
+    </select>
+
+    <select id="find" resultMap="inspectFactoryApplyAttachResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_attach
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from inspect_factory_apply_attach
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="inspectFactoryApplyAttachResultMap"  >
+		select <include refid="table_columns" />
+		from inspect_factory_apply_attach
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ATTA_ID = #{attaId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

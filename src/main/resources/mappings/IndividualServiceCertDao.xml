@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualServiceCertDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualServiceCert" id="individualServiceCertResultMap">
+		<result property="serviceCertId" column="SERVICE_CERT_ID"  />
+		<result property="serviceId" column="SERVICE_ID"  />
+		<result property="certUrl" column="CERT_URL"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certName" column="CERT_NAME"  />
+		<result property="certNo" column="CERT_NO"  />
+		<result property="certValidDate" column="CERT_VALID_DATE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		SERVICE_CERT_ID,
+		SERVICE_ID,
+		CERT_URL,
+		CERT_TYPE,
+		CERT_NAME,
+		CERT_NO,
+		CERT_VALID_DATE
+    </sql>
+	<sql id="entity_properties">
+		#{serviceCertId},
+		#{serviceId},
+		#{certUrl},
+		#{certType},
+		#{certName},
+		#{certNo},
+		#{certValidDate}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="serviceCertId != null ">and SERVICE_CERT_ID = #{serviceCertId}</if>
+				<if test="serviceId != null ">and SERVICE_ID = #{serviceId}</if>
+				<if test="certUrl != null and certUrl != ''">and CERT_URL = #{certUrl}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
+				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
+				<if test="certValidDate != null ">and CERT_VALID_DATE = #{certValidDate}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCert" >
+		insert into individual_service_cert( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCert">
+        insert into individual_service_cert
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="serviceCertId != null ">SERVICE_CERT_ID,</if>
+				<if test="serviceId != null ">SERVICE_ID,</if>
+				<if test="certUrl != null and certUrl != ''">CERT_URL,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certName != null and certName != ''">CERT_NAME,</if>
+				<if test="certNo != null and certNo != ''">CERT_NO,</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="serviceCertId != null ">#{serviceCertId},</if>
+				<if test="serviceId != null ">#{serviceId},</if>
+				<if test="certUrl != null and certUrl != ''">#{certUrl},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certName != null and certName != ''">#{certName},</if>
+				<if test="certNo != null and certNo != ''">#{certNo},</if>
+				<if test="certValidDate != null ">#{certValidDate},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCert">
+		delete from individual_service_cert
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_service_cert
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SERVICE_CERT_ID = #{serviceCertId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualServiceCert">
+		update individual_service_cert 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="serviceId != null ">SERVICE_ID = #{serviceId},</if>
+				<if test="certUrl != null and certUrl != ''">CERT_URL = #{certUrl},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
+				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE = #{certValidDate},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SERVICE_CERT_ID = #{serviceCertId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualServiceCertResultMap">
+        select <include refid="table_columns" />
+        from individual_service_cert
+    </select>
+
+    <select id="find" resultMap="individualServiceCertResultMap">
+        select <include refid="table_columns" />
+        from individual_service_cert
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_service_cert
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualServiceCertResultMap"  >
+		select <include refid="table_columns" />
+		from individual_service_cert
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SERVICE_CERT_ID = #{serviceCertId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

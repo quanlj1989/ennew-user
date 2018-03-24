@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntPaySetDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntPaySet" id="entPaySetResultMap">
+		<result property="paySetId" column="PAY_SET_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="payNodeType" column="PAY_NODE_TYPE"  />
+		<result property="payNodeName" column="PAY_NODE_NAME"  />
+		<result property="payRatio" column="PAY_RATIO"  />
+		<result property="payoffDays" column="PAYOFF_DAYS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		PAY_SET_ID,
+		MEMBER_ID,
+		PAY_NODE_TYPE,
+		PAY_NODE_NAME,
+		PAY_RATIO,
+		PAYOFF_DAYS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{paySetId},
+		#{memberId},
+		#{payNodeType},
+		#{payNodeName},
+		#{payRatio},
+		#{payoffDays},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="paySetId != null ">and PAY_SET_ID = #{paySetId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="payNodeType != null ">and PAY_NODE_TYPE = #{payNodeType}</if>
+				<if test="payNodeName != null and payNodeName != ''">and PAY_NODE_NAME = #{payNodeName}</if>
+				<if test="payRatio != null ">and PAY_RATIO = #{payRatio}</if>
+				<if test="payoffDays != null ">and PAYOFF_DAYS = #{payoffDays}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntPaySet" >
+		insert into ent_pay_set( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntPaySet">
+        insert into ent_pay_set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="paySetId != null ">PAY_SET_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="payNodeType != null ">PAY_NODE_TYPE,</if>
+				<if test="payNodeName != null and payNodeName != ''">PAY_NODE_NAME,</if>
+				<if test="payRatio != null ">PAY_RATIO,</if>
+				<if test="payoffDays != null ">PAYOFF_DAYS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="paySetId != null ">#{paySetId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="payNodeType != null ">#{payNodeType},</if>
+				<if test="payNodeName != null and payNodeName != ''">#{payNodeName},</if>
+				<if test="payRatio != null ">#{payRatio},</if>
+				<if test="payoffDays != null ">#{payoffDays},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntPaySet">
+		delete from ent_pay_set
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_pay_set
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PAY_SET_ID = #{paySetId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntPaySet">
+		update ent_pay_set 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="payNodeType != null ">PAY_NODE_TYPE = #{payNodeType},</if>
+				<if test="payNodeName != null and payNodeName != ''">PAY_NODE_NAME = #{payNodeName},</if>
+				<if test="payRatio != null ">PAY_RATIO = #{payRatio},</if>
+				<if test="payoffDays != null ">PAYOFF_DAYS = #{payoffDays},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PAY_SET_ID = #{paySetId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entPaySetResultMap">
+        select <include refid="table_columns" />
+        from ent_pay_set
+    </select>
+
+    <select id="find" resultMap="entPaySetResultMap">
+        select <include refid="table_columns" />
+        from ent_pay_set
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_pay_set
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entPaySetResultMap"  >
+		select <include refid="table_columns" />
+		from ent_pay_set
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PAY_SET_ID = #{paySetId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

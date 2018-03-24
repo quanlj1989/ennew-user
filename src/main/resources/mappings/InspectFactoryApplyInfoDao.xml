@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.InspectFactoryApplyInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.InspectFactoryApplyInfo" id="inspectFactoryApplyInfoResultMap">
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="gcPictureUrl" column="GC_PICTURE_URL"  />
+		<result property="categoryName" column="CATEGORY_NAME"  />
+		<result property="typeId" column="TYPE_ID"  />
+		<result property="entName" column="ENT_NAME"  />
+		<result property="applyStatus" column="APPLY_STATUS"  />
+		<result property="isApproachExpire" column="IS_APPROACH_EXPIRE"  />
+		<result property="inspFactLevel" column="INSP_FACT_LEVEL"  />
+		<result property="expireTime" column="EXPIRE_TIME"  />
+		<result property="rejectReason" column="REJECT_REASON"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+		<result property="approveAcctId" column="APPROVE_ACCT_ID"  />
+		<result property="approveName" column="APPROVE_NAME"  />
+		<result property="approveMemberId" column="APPROVE_MEMBER_ID"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="auditTime" column="AUDIT_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		APPLY_ID,
+		CATEGORY_ID,
+		GC_PICTURE_URL,
+		CATEGORY_NAME,
+		TYPE_ID,
+		ENT_NAME,
+		APPLY_STATUS,
+		IS_APPROACH_EXPIRE,
+		INSP_FACT_LEVEL,
+		EXPIRE_TIME,
+		REJECT_REASON,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		APPROVE_ACCT_ID,
+		APPROVE_NAME,
+		APPROVE_MEMBER_ID,
+		CREATE_TIME,
+		AUDIT_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{applyId},
+		#{categoryId},
+		#{gcPictureUrl},
+		#{categoryName},
+		#{typeId},
+		#{entName},
+		#{applyStatus},
+		#{isApproachExpire},
+		#{inspFactLevel},
+		#{expireTime},
+		#{rejectReason},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{approveAcctId},
+		#{approveName},
+		#{approveMemberId},
+		#{createTime},
+		#{auditTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="gcPictureUrl != null and gcPictureUrl != ''">and GC_PICTURE_URL = #{gcPictureUrl}</if>
+				<if test="categoryName != null and categoryName != ''">and CATEGORY_NAME = #{categoryName}</if>
+				<if test="typeId != null ">and TYPE_ID = #{typeId}</if>
+				<if test="entName != null and entName != ''">and ENT_NAME = #{entName}</if>
+				<if test="applyStatus != null ">and APPLY_STATUS = #{applyStatus}</if>
+				<if test="isApproachExpire != null ">and IS_APPROACH_EXPIRE = #{isApproachExpire}</if>
+				<if test="inspFactLevel != null and inspFactLevel != ''">and INSP_FACT_LEVEL = #{inspFactLevel}</if>
+				<if test="expireTime != null ">and EXPIRE_TIME = #{expireTime}</if>
+				<if test="rejectReason != null and rejectReason != ''">and REJECT_REASON = #{rejectReason}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+				<if test="approveAcctId != null ">and APPROVE_ACCT_ID = #{approveAcctId}</if>
+				<if test="approveName != null and approveName != ''">and APPROVE_NAME = #{approveName}</if>
+				<if test="approveMemberId != null ">and APPROVE_MEMBER_ID = #{approveMemberId}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="auditTime != null ">and AUDIT_TIME = #{auditTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyInfo" >
+		insert into inspect_factory_apply_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyInfo">
+        insert into inspect_factory_apply_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="gcPictureUrl != null and gcPictureUrl != ''">GC_PICTURE_URL,</if>
+				<if test="categoryName != null and categoryName != ''">CATEGORY_NAME,</if>
+				<if test="typeId != null ">TYPE_ID,</if>
+				<if test="entName != null and entName != ''">ENT_NAME,</if>
+				<if test="applyStatus != null ">APPLY_STATUS,</if>
+				<if test="isApproachExpire != null ">IS_APPROACH_EXPIRE,</if>
+				<if test="inspFactLevel != null and inspFactLevel != ''">INSP_FACT_LEVEL,</if>
+				<if test="expireTime != null ">EXPIRE_TIME,</if>
+				<if test="rejectReason != null and rejectReason != ''">REJECT_REASON,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID,</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME,</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="auditTime != null ">AUDIT_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="gcPictureUrl != null and gcPictureUrl != ''">#{gcPictureUrl},</if>
+				<if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+				<if test="typeId != null ">#{typeId},</if>
+				<if test="entName != null and entName != ''">#{entName},</if>
+				<if test="applyStatus != null ">#{applyStatus},</if>
+				<if test="isApproachExpire != null ">#{isApproachExpire},</if>
+				<if test="inspFactLevel != null and inspFactLevel != ''">#{inspFactLevel},</if>
+				<if test="expireTime != null ">#{expireTime},</if>
+				<if test="rejectReason != null and rejectReason != ''">#{rejectReason},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+				<if test="approveAcctId != null ">#{approveAcctId},</if>
+				<if test="approveName != null and approveName != ''">#{approveName},</if>
+				<if test="approveMemberId != null ">#{approveMemberId},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="auditTime != null ">#{auditTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyInfo">
+		delete from inspect_factory_apply_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from inspect_factory_apply_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyInfo">
+		update inspect_factory_apply_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="gcPictureUrl != null and gcPictureUrl != ''">GC_PICTURE_URL = #{gcPictureUrl},</if>
+				<if test="categoryName != null and categoryName != ''">CATEGORY_NAME = #{categoryName},</if>
+				<if test="typeId != null ">TYPE_ID = #{typeId},</if>
+				<if test="entName != null and entName != ''">ENT_NAME = #{entName},</if>
+				<if test="applyStatus != null ">APPLY_STATUS = #{applyStatus},</if>
+				<if test="isApproachExpire != null ">IS_APPROACH_EXPIRE = #{isApproachExpire},</if>
+				<if test="inspFactLevel != null and inspFactLevel != ''">INSP_FACT_LEVEL = #{inspFactLevel},</if>
+				<if test="expireTime != null ">EXPIRE_TIME = #{expireTime},</if>
+				<if test="rejectReason != null and rejectReason != ''">REJECT_REASON = #{rejectReason},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID = #{approveAcctId},</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME = #{approveName},</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID = #{approveMemberId},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="auditTime != null ">AUDIT_TIME = #{auditTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="inspectFactoryApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_info
+    </select>
+
+    <select id="find" resultMap="inspectFactoryApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from inspect_factory_apply_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="inspectFactoryApplyInfoResultMap"  >
+		select <include refid="table_columns" />
+		from inspect_factory_apply_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

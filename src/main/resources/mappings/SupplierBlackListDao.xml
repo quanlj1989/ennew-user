@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.SupplierBlackListDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.SupplierBlackList" id="supplierBlackListResultMap">
+		<result property="supplierListId" column="SUPPLIER_LIST_ID"  />
+		<result property="listId" column="LIST_ID"  />
+		<result property="supplierMemberId" column="SUPPLIER_MEMBER_ID"  />
+		<result property="supplierName" column="SUPPLIER_NAME"  />
+		<result property="listStatus" column="LIST_STATUS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		SUPPLIER_LIST_ID,
+		LIST_ID,
+		SUPPLIER_MEMBER_ID,
+		SUPPLIER_NAME,
+		LIST_STATUS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{supplierListId},
+		#{listId},
+		#{supplierMemberId},
+		#{supplierName},
+		#{listStatus},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="supplierListId != null ">and SUPPLIER_LIST_ID = #{supplierListId}</if>
+				<if test="listId != null ">and LIST_ID = #{listId}</if>
+				<if test="supplierMemberId != null ">and SUPPLIER_MEMBER_ID = #{supplierMemberId}</if>
+				<if test="supplierName != null and supplierName != ''">and SUPPLIER_NAME = #{supplierName}</if>
+				<if test="listStatus != null ">and LIST_STATUS = #{listStatus}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.SupplierBlackList" >
+		insert into supplier_black_list( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.SupplierBlackList">
+        insert into supplier_black_list
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="supplierListId != null ">SUPPLIER_LIST_ID,</if>
+				<if test="listId != null ">LIST_ID,</if>
+				<if test="supplierMemberId != null ">SUPPLIER_MEMBER_ID,</if>
+				<if test="supplierName != null and supplierName != ''">SUPPLIER_NAME,</if>
+				<if test="listStatus != null ">LIST_STATUS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="supplierListId != null ">#{supplierListId},</if>
+				<if test="listId != null ">#{listId},</if>
+				<if test="supplierMemberId != null ">#{supplierMemberId},</if>
+				<if test="supplierName != null and supplierName != ''">#{supplierName},</if>
+				<if test="listStatus != null ">#{listStatus},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.SupplierBlackList">
+		delete from supplier_black_list
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from supplier_black_list
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SUPPLIER_LIST_ID = #{supplierListId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.SupplierBlackList">
+		update supplier_black_list 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="listId != null ">LIST_ID = #{listId},</if>
+				<if test="supplierMemberId != null ">SUPPLIER_MEMBER_ID = #{supplierMemberId},</if>
+				<if test="supplierName != null and supplierName != ''">SUPPLIER_NAME = #{supplierName},</if>
+				<if test="listStatus != null ">LIST_STATUS = #{listStatus},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SUPPLIER_LIST_ID = #{supplierListId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="supplierBlackListResultMap">
+        select <include refid="table_columns" />
+        from supplier_black_list
+    </select>
+
+    <select id="find" resultMap="supplierBlackListResultMap">
+        select <include refid="table_columns" />
+        from supplier_black_list
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from supplier_black_list
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="supplierBlackListResultMap"  >
+		select <include refid="table_columns" />
+		from supplier_black_list
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SUPPLIER_LIST_ID = #{supplierListId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

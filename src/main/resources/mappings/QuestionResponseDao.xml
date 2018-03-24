@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.QuestionResponseDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.QuestionResponse" id="questionResponseResultMap">
+		<result property="responseId" column="RESPONSE_ID"  />
+		<result property="questionId" column="QUESTION_ID"  />
+		<result property="responseContent" column="RESPONSE_CONTENT"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		RESPONSE_ID,
+		QUESTION_ID,
+		RESPONSE_CONTENT,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{responseId},
+		#{questionId},
+		#{responseContent},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="responseId != null ">and RESPONSE_ID = #{responseId}</if>
+				<if test="questionId != null ">and QUESTION_ID = #{questionId}</if>
+				<if test="responseContent != null and responseContent != ''">and RESPONSE_CONTENT = #{responseContent}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.QuestionResponse" >
+		insert into question_response( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.QuestionResponse">
+        insert into question_response
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="responseId != null ">RESPONSE_ID,</if>
+				<if test="questionId != null ">QUESTION_ID,</if>
+				<if test="responseContent != null and responseContent != ''">RESPONSE_CONTENT,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="responseId != null ">#{responseId},</if>
+				<if test="questionId != null ">#{questionId},</if>
+				<if test="responseContent != null and responseContent != ''">#{responseContent},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.QuestionResponse">
+		delete from question_response
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from question_response
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RESPONSE_ID = #{responseId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.QuestionResponse">
+		update question_response 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="questionId != null ">QUESTION_ID = #{questionId},</if>
+				<if test="responseContent != null and responseContent != ''">RESPONSE_CONTENT = #{responseContent},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RESPONSE_ID = #{responseId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="questionResponseResultMap">
+        select <include refid="table_columns" />
+        from question_response
+    </select>
+
+    <select id="find" resultMap="questionResponseResultMap">
+        select <include refid="table_columns" />
+        from question_response
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from question_response
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="questionResponseResultMap"  >
+		select <include refid="table_columns" />
+		from question_response
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RESPONSE_ID = #{responseId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

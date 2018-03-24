@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualCustDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualCust" id="individualCustResultMap">
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="name" column="NAME"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certCode" column="CERT_CODE"  />
+		<result property="status" column="STATUS"  />
+		<result property="authTime" column="AUTH_TIME"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="modTime" column="MOD_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		MEMBER_ID,
+		NAME,
+		CERT_TYPE,
+		CERT_CODE,
+		STATUS,
+		AUTH_TIME,
+		CREATE_TIME,
+		MOD_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{memberId},
+		#{name},
+		#{certType},
+		#{certCode},
+		#{status},
+		#{authTime},
+		#{createTime},
+		#{modTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="name != null and name != ''">and NAME = #{name}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certCode != null and certCode != ''">and CERT_CODE = #{certCode}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="authTime != null ">and AUTH_TIME = #{authTime}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="modTime != null ">and MOD_TIME = #{modTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualCust" >
+		insert into individual_cust( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.IndividualCust">
+        insert into individual_cust
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="name != null and name != ''">NAME,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certCode != null and certCode != ''">CERT_CODE,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="authTime != null ">AUTH_TIME,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="modTime != null ">MOD_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="name != null and name != ''">#{name},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certCode != null and certCode != ''">#{certCode},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="authTime != null ">#{authTime},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="modTime != null ">#{modTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualCust">
+		delete from individual_cust
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_cust
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualCust">
+		update individual_cust 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="name != null and name != ''">NAME = #{name},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certCode != null and certCode != ''">CERT_CODE = #{certCode},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="authTime != null ">AUTH_TIME = #{authTime},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="modTime != null ">MOD_TIME = #{modTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualCustResultMap">
+        select <include refid="table_columns" />
+        from individual_cust
+    </select>
+
+    <select id="find" resultMap="individualCustResultMap">
+        select <include refid="table_columns" />
+        from individual_cust
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_cust
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualCustResultMap"  >
+		select <include refid="table_columns" />
+		from individual_cust
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	
+	<!-- TODO -->
+	<select id="getIndividualCustById" resultType="cn.enn.ygego.sunny.user.dto.IndividualCustDTO" >
+		SELECT 
+			cus.MEMBER_ID memberId ,
+			cus.`NAME` `name` ,
+			cus.CERT_TYPE certType ,
+			cus.CERT_CODE certCode ,
+			cus.`STATUS` `status` ,
+			cus.AUTH_TIME authTime ,
+			cus.MOD_TIME modTime ,
+			cus.CREATE_TIME createTime ,
+			cus.CREATE_NAME createName ,
+			cus.CREATE_ACCT_ID createAcctId ,
+			cus.CREATE_MEMBER_ID createMemberId ,
+		
+			inf.CERT_INFO_ID certInfoId 
+			
+		FROM individual_cust cus 
+		LEFT JOIN individual_cert_info inf ON cus.MEMBER_ID = inf.MEMBER_ID
+		WHERE 
+		<choose>
+			<when test="memberId != null">
+				apl.MEMBER_ID = #{memberId}
+			</when>
+			<otherwise>
+				apl.MEMBER_ID = ''
+			</otherwise>
+		</choose>
+		
+	</select>
+	
+	<select id="getPersonById" resultType="cn.enn.ygego.sunny.user.dto.vo.PersonVO" >
+        SELECT 
+            rel.MEMBER_ID memberId , 
+			rel.MEMBER_TYPE memberType ,
+			
+            bu.ACCT_ID acctId ,
+            bu.ACCT_NAME acctName ,
+            bu.ACCT_CODE acctCode ,
+            bu.ACCT_STATE acctState ,
+            bu.LOGO_URL logoUrl ,
+            bu.`NAME` `name` ,
+            bu.GENDER_TYPE genderType ,
+            bu.DEPT_ID deptId ,
+            bu.MOBILE_NUM mobileNum ,
+            bu.EMAIL email ,
+            bu.AREA_ID areaId ,
+            bu.AREA_ID_FULL_PATH areaIdFullPath ,
+            bu.AREA_NAME_FULL_PATH areaNameFullPath ,
+            bu.CONTACT_ADDR contactAddr ,
+            bu.POST_CODE postCode ,
+            bu.REGISTER_TIME registerTime
+        FROM busi_acct_info bu
+        LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
+        WHERE
+        <choose>
+            <when test="memberId != null and acctId != null">
+                    rel.MEMBER_ID = #{memberId} AND bu.ACCT_ID = #{acctId}
+            </when>
+            <when test="memberId == null and acctId != null" >
+                    bu.ACCT_ID = #{acctId} AND rel.MEMBER_TYPE = 3
+            </when>
+            <when test="memberId != null and acctId == null" >
+                    rel.MEMBER_ID = #{memberId} AND rel.MEMBER_TYPE = 3
+            </when>
+            <otherwise>
+                    mem.MEMBER_ID = ''
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="getPersonCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO" 
+		resultType="java.lang.Integer" >
+    	SELECT 
+			COUNT(bu.ACCT_ID)
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
+		LEFT JOIN individual_cust cu ON rel.MEMBER_ID = cu.MEMBER_ID
+		<include refid="person_page_where" />
+    </select>
+
+	<select id="getPersonList" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO"
+		resultType="cn.enn.ygego.sunny.user.dto.vo.PersonVO" >
+		SELECT 
+				rel.MEMBER_ID memberId , 
+				rel.MEMBER_TYPE memberType ,
+				cu.CERT_CODE certCode ,
+				cu.CERT_TYPE certType ,
+				cu.AUTH_TIME authTime ,
+				bu.ACCT_ID acctId ,
+				bu.ACCT_NAME acctName ,
+				bu.ACCT_CODE acctCode ,
+				bu.ACCT_STATE acctState ,
+				bu.LOGO_URL logoUrl ,
+				bu.`NAME` `name` ,
+				bu.GENDER_TYPE genderType ,
+				bu.DEPT_ID deptId ,
+				bu.MOBILE_NUM mobileNum ,
+				bu.EMAIL email ,
+				bu.AREA_ID areaId ,
+				bu.AREA_ID_FULL_PATH areaIdFullPath ,
+				bu.AREA_NAME_FULL_PATH areaNameFullPath ,
+				bu.CONTACT_ADDR contactAddr ,
+				bu.POST_CODE postCode ,
+				bu.REGISTER_TIME registerTime
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
+		LEFT JOIN individual_cust cu ON rel.MEMBER_ID = cu.MEMBER_ID
+		<include refid="person_page_where" />
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<sql id="person_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+	        <if test="startTime != null and startTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME > DATE_FORMAT(#{startTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+	        <if test="endTime != null and endTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME <= DATE_FORMAT(#{endTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+        </trim>
+    </sql>
+
+</mapper>

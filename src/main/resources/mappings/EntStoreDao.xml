@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntStoreDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntStore" id="entStoreResultMap">
+		<result property="storeId" column="STORE_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="headBanner" column="HEAD_BANNER"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		STORE_ID,
+		MEMBER_ID,
+		HEAD_BANNER
+    </sql>
+	<sql id="entity_properties">
+		#{storeId},
+		#{memberId},
+		#{headBanner}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="storeId != null ">and STORE_ID = #{storeId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="headBanner != null and headBanner != ''">and HEAD_BANNER = #{headBanner}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntStore" >
+		insert into ent_store( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntStore">
+        insert into ent_store
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="storeId != null ">STORE_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="headBanner != null and headBanner != ''">HEAD_BANNER,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="storeId != null ">#{storeId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="headBanner != null and headBanner != ''">#{headBanner},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntStore">
+		delete from ent_store
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_store
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and STORE_ID = #{storeId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntStore">
+		update ent_store 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="headBanner != null and headBanner != ''">HEAD_BANNER = #{headBanner},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and STORE_ID = #{storeId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entStoreResultMap">
+        select <include refid="table_columns" />
+        from ent_store
+    </select>
+
+    <select id="find" resultMap="entStoreResultMap">
+        select <include refid="table_columns" />
+        from ent_store
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_store
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entStoreResultMap"  >
+		select <include refid="table_columns" />
+		from ent_store
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and STORE_ID = #{storeId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

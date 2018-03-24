@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntBrandCertFileDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntBrandCertFile" id="entBrandCertFileResultMap">
+		<result property="certApplyFileId" column="CERT_APPLY_FILE_ID"  />
+		<result property="brandCertId" column="BRAND_CERT_ID"  />
+		<result property="certFileType" column="CERT_FILE_TYPE"  />
+		<result property="fileSize" column="FILE_SIZE"  />
+		<result property="fileUrl" column="FILE_URL"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_FILE_ID,
+		BRAND_CERT_ID,
+		CERT_FILE_TYPE,
+		FILE_SIZE,
+		FILE_URL
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyFileId},
+		#{brandCertId},
+		#{certFileType},
+		#{fileSize},
+		#{fileUrl}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyFileId != null ">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+				<if test="brandCertId != null ">and BRAND_CERT_ID = #{brandCertId}</if>
+				<if test="certFileType != null ">and CERT_FILE_TYPE = #{certFileType}</if>
+				<if test="fileSize != null ">and FILE_SIZE = #{fileSize}</if>
+				<if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntBrandCertFile" >
+		insert into ent_brand_cert_file( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntBrandCertFile">
+        insert into ent_brand_cert_file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certApplyFileId != null ">CERT_APPLY_FILE_ID,</if>
+				<if test="brandCertId != null ">BRAND_CERT_ID,</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE,</if>
+				<if test="fileSize != null ">FILE_SIZE,</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certApplyFileId != null ">#{certApplyFileId},</if>
+				<if test="brandCertId != null ">#{brandCertId},</if>
+				<if test="certFileType != null ">#{certFileType},</if>
+				<if test="fileSize != null ">#{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntBrandCertFile">
+		delete from ent_brand_cert_file
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_brand_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntBrandCertFile">
+		update ent_brand_cert_file 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="brandCertId != null ">BRAND_CERT_ID = #{brandCertId},</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE = #{certFileType},</if>
+				<if test="fileSize != null ">FILE_SIZE = #{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entBrandCertFileResultMap">
+        select <include refid="table_columns" />
+        from ent_brand_cert_file
+    </select>
+
+    <select id="find" resultMap="entBrandCertFileResultMap">
+        select <include refid="table_columns" />
+        from ent_brand_cert_file
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_brand_cert_file
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entBrandCertFileResultMap"  >
+		select <include refid="table_columns" />
+		from ent_brand_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

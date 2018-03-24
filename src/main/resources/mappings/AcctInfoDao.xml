@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.AcctInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.AcctInfo" id="acctInfoResultMap">
+		<result property="acctId" column="ACCT_ID"  />
+		<result property="entId" column="ENT_ID"  />
+		<result property="loginSource" column="LOGIN_SOURCE"  />
+		<result property="acctName" column="ACCT_NAME"  />
+		<result property="password" column="PASSWORD"  />
+		<result property="acctCode" column="ACCT_CODE"  />
+		<result property="acctState" column="ACCT_STATE"  />
+		<result property="name" column="NAME"  />
+		<result property="dept" column="DEPT"  />
+		<result property="mobileNum" column="MOBILE_NUM"  />
+		<result property="email" column="EMAIL"  />
+		<result property="registerTime" column="REGISTER_TIME"  />
+		<result property="updateTime" column="UPDATE_TIME"  />
+		<result property="lastLoginTime" column="LAST_LOGIN_TIME"  />
+		<result property="isDelete" column="IS_DELETE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		ACCT_ID,
+		ENT_ID,
+		LOGIN_SOURCE,
+		ACCT_NAME,
+		PASSWORD,
+		ACCT_CODE,
+		ACCT_STATE,
+		NAME,
+		DEPT,
+		MOBILE_NUM,
+		EMAIL,
+		REGISTER_TIME,
+		UPDATE_TIME,
+		LAST_LOGIN_TIME,
+		IS_DELETE
+    </sql>
+	<sql id="entity_properties">
+		#{acctId},
+		#{entId},
+		#{loginSource},
+		#{acctName},
+		#{password},
+		#{acctCode},
+		#{acctState},
+		#{name},
+		#{dept},
+		#{mobileNum},
+		#{email},
+		#{registerTime},
+		#{updateTime},
+		#{lastLoginTime},
+		#{isDelete}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="acctId != null ">and ACCT_ID = #{acctId}</if>
+				<if test="entId != null ">and ENT_ID = #{entId}</if>
+				<if test="loginSource != null and loginSource != ''">and LOGIN_SOURCE = #{loginSource}</if>
+				<if test="acctName != null and acctName != ''">and ACCT_NAME = #{acctName}</if>
+				<if test="password != null and password != ''">and PASSWORD = #{password}</if>
+				<if test="acctCode != null and acctCode != ''">and ACCT_CODE = #{acctCode}</if>
+				<if test="acctState != null ">and ACCT_STATE = #{acctState}</if>
+				<if test="name != null and name != ''">and NAME = #{name}</if>
+				<if test="dept != null and dept != ''">and DEPT = #{dept}</if>
+				<if test="mobileNum != null and mobileNum != ''">and MOBILE_NUM = #{mobileNum}</if>
+				<if test="email != null and email != ''">and EMAIL = #{email}</if>
+				<if test="registerTime != null ">and REGISTER_TIME = #{registerTime}</if>
+				<if test="updateTime != null ">and UPDATE_TIME = #{updateTime}</if>
+				<if test="lastLoginTime != null ">and LAST_LOGIN_TIME = #{lastLoginTime}</if>
+				<if test="isDelete != null ">and IS_DELETE = #{isDelete}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.AcctInfo" >
+		insert into acct_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.AcctInfo">
+        insert into acct_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="acctId != null ">ACCT_ID,</if>
+				<if test="entId != null ">ENT_ID,</if>
+				<if test="loginSource != null and loginSource != ''">LOGIN_SOURCE,</if>
+				<if test="acctName != null and acctName != ''">ACCT_NAME,</if>
+				<if test="password != null and password != ''">PASSWORD,</if>
+				<if test="acctCode != null and acctCode != ''">ACCT_CODE,</if>
+				<if test="acctState != null ">ACCT_STATE,</if>
+				<if test="name != null and name != ''">NAME,</if>
+				<if test="dept != null and dept != ''">DEPT,</if>
+				<if test="mobileNum != null and mobileNum != ''">MOBILE_NUM,</if>
+				<if test="email != null and email != ''">EMAIL,</if>
+				<if test="registerTime != null ">REGISTER_TIME,</if>
+				<if test="updateTime != null ">UPDATE_TIME,</if>
+				<if test="lastLoginTime != null ">LAST_LOGIN_TIME,</if>
+				<if test="isDelete != null ">IS_DELETE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="acctId != null ">#{acctId},</if>
+				<if test="entId != null ">#{entId},</if>
+				<if test="loginSource != null and loginSource != ''">#{loginSource},</if>
+				<if test="acctName != null and acctName != ''">#{acctName},</if>
+				<if test="password != null and password != ''">#{password},</if>
+				<if test="acctCode != null and acctCode != ''">#{acctCode},</if>
+				<if test="acctState != null ">#{acctState},</if>
+				<if test="name != null and name != ''">#{name},</if>
+				<if test="dept != null and dept != ''">#{dept},</if>
+				<if test="mobileNum != null and mobileNum != ''">#{mobileNum},</if>
+				<if test="email != null and email != ''">#{email},</if>
+				<if test="registerTime != null ">#{registerTime},</if>
+				<if test="updateTime != null ">#{updateTime},</if>
+				<if test="lastLoginTime != null ">#{lastLoginTime},</if>
+				<if test="isDelete != null ">#{isDelete},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.AcctInfo">
+		delete from acct_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from acct_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ACCT_ID = #{acctId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.AcctInfo">
+		update acct_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="entId != null ">ENT_ID = #{entId},</if>
+				<if test="loginSource != null and loginSource != ''">LOGIN_SOURCE = #{loginSource},</if>
+				<if test="acctName != null and acctName != ''">ACCT_NAME = #{acctName},</if>
+				<if test="password != null and password != ''">PASSWORD = #{password},</if>
+				<if test="acctCode != null and acctCode != ''">ACCT_CODE = #{acctCode},</if>
+				<if test="acctState != null ">ACCT_STATE = #{acctState},</if>
+				<if test="name != null and name != ''">NAME = #{name},</if>
+				<if test="dept != null and dept != ''">DEPT = #{dept},</if>
+				<if test="mobileNum != null and mobileNum != ''">MOBILE_NUM = #{mobileNum},</if>
+				<if test="email != null and email != ''">EMAIL = #{email},</if>
+				<if test="registerTime != null ">REGISTER_TIME = #{registerTime},</if>
+				<if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+				<if test="lastLoginTime != null ">LAST_LOGIN_TIME = #{lastLoginTime},</if>
+				<if test="isDelete != null ">IS_DELETE = #{isDelete},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ACCT_ID = #{acctId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="acctInfoResultMap">
+        select <include refid="table_columns" />
+        from acct_info
+    </select>
+
+    <select id="find" resultMap="acctInfoResultMap">
+        select <include refid="table_columns" />
+        from acct_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from acct_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="acctInfoResultMap"  >
+		select <include refid="table_columns" />
+		from acct_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ACCT_ID = #{acctId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

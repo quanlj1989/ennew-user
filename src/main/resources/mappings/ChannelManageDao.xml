@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.ChannelManageDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.ChannelManage" id="channelManageResultMap">
+		<result property="channelId" column="CHANNEL_ID"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="channelCode" column="CHANNEL_CODE"  />
+		<result property="channelName" column="CHANNEL_NAME"  />
+		<result property="isIndepDomain" column="IS_INDEP_DOMAIN"  />
+		<result property="channelDomain" column="CHANNEL_DOMAIN"  />
+		<result property="permitOutsideEnt" column="PERMIT_OUTSIDE_ENT"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CHANNEL_ID,
+		APP_ID,
+		CHANNEL_CODE,
+		CHANNEL_NAME,
+		IS_INDEP_DOMAIN,
+		CHANNEL_DOMAIN,
+		PERMIT_OUTSIDE_ENT,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{channelId},
+		#{appId},
+		#{channelCode},
+		#{channelName},
+		#{isIndepDomain},
+		#{channelDomain},
+		#{permitOutsideEnt},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="channelId != null ">and CHANNEL_ID = #{channelId}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="channelCode != null and channelCode != ''">and CHANNEL_CODE = #{channelCode}</if>
+				<if test="channelName != null and channelName != ''">and CHANNEL_NAME = #{channelName}</if>
+				<if test="isIndepDomain != null ">and IS_INDEP_DOMAIN = #{isIndepDomain}</if>
+				<if test="channelDomain != null and channelDomain != ''">and CHANNEL_DOMAIN = #{channelDomain}</if>
+				<if test="permitOutsideEnt != null ">and PERMIT_OUTSIDE_ENT = #{permitOutsideEnt}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage" >
+		insert into channel_manage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage">
+        insert into channel_manage
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="channelId != null ">CHANNEL_ID,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="channelCode != null and channelCode != ''">CHANNEL_CODE,</if>
+				<if test="channelName != null and channelName != ''">CHANNEL_NAME,</if>
+				<if test="isIndepDomain != null ">IS_INDEP_DOMAIN,</if>
+				<if test="channelDomain != null and channelDomain != ''">CHANNEL_DOMAIN,</if>
+				<if test="permitOutsideEnt != null ">PERMIT_OUTSIDE_ENT,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="channelId != null ">#{channelId},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+				<if test="channelName != null and channelName != ''">#{channelName},</if>
+				<if test="isIndepDomain != null ">#{isIndepDomain},</if>
+				<if test="channelDomain != null and channelDomain != ''">#{channelDomain},</if>
+				<if test="permitOutsideEnt != null ">#{permitOutsideEnt},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage">
+		delete from channel_manage
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from channel_manage
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CHANNEL_ID = #{channelId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage">
+		update channel_manage 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="channelCode != null and channelCode != ''">CHANNEL_CODE = #{channelCode},</if>
+				<if test="channelName != null and channelName != ''">CHANNEL_NAME = #{channelName},</if>
+				<if test="isIndepDomain != null ">IS_INDEP_DOMAIN = #{isIndepDomain},</if>
+				<if test="channelDomain != null and channelDomain != ''">CHANNEL_DOMAIN = #{channelDomain},</if>
+				<if test="permitOutsideEnt != null ">PERMIT_OUTSIDE_ENT = #{permitOutsideEnt},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CHANNEL_ID = #{channelId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="channelManageResultMap">
+        select <include refid="table_columns" />
+        from channel_manage
+    </select>
+
+    <select id="find" resultMap="channelManageResultMap">
+        select <include refid="table_columns" />
+        from channel_manage
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from channel_manage
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="channelManageResultMap"  >
+		select <include refid="table_columns" />
+		from channel_manage
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CHANNEL_ID = #{channelId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

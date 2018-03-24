@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MemberInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.MemberInfo" id="memberInfoResultMap">
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="memberType" column="MEMBER_TYPE"  />
+		<result property="status" column="STATUS"  />
+        <result property="ygegoCoin" column="YGEGO_COIN"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		MEMBER_ID,
+		MEMBER_TYPE,
+		STATUS,
+		YGEGO_COIN
+    </sql>
+	<sql id="entity_properties">
+		#{memberId},
+		#{memberType},
+		#{status},
+		#{ygegoCoin}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="memberType != null ">and MEMBER_TYPE = #{memberType}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+                <if test="ygegoCoin != null ">and YGEGO_COIN = #{ygegoCoin}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MemberInfo" useGeneratedKeys="true" keyProperty="memberId">
+		insert into member_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MemberInfo">
+        insert into member_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="memberType != null ">MEMBER_TYPE,</if>
+				<if test="status != null ">STATUS,</if>
+                <if test="ygegoCoin != null ">YGEGO_COIN,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="memberType != null ">#{memberType},</if>
+				<if test="status != null ">#{status},</if>
+                <if test="ygegoCoin != null ">YGEGO_COIN,</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MemberInfo">
+		delete from member_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from member_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.MemberInfo">
+		update member_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberType != null ">MEMBER_TYPE = #{memberType},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="memberInfoResultMap">
+        select <include refid="table_columns" />
+        from member_info
+    </select>
+
+    <select id="find" resultMap="memberInfoResultMap">
+        select <include refid="table_columns" />
+        from member_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from member_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="memberInfoResultMap"  >
+		select <include refid="table_columns" />
+		from member_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	
+
+    <!-- 根据acctId查询所有关联的审核通过并且可用的会员 -->
+    <select id="findMemberInfosByAcctId" resultMap="memberInfoResultMap">
+        SELECT a.* FROM member_info a
+        LEFT JOIN rela_member_to_acct b ON a.MEMBER_ID = b.MEMBER_ID
+        WHERE b.ACCT_ID = #{acctId} AND a.STATUS = 1
+    </select>
+
+	<!-- 根据acctId查询所对应的个人会员信息 -->
+	<select id="findPersonMember" resultMap="memberInfoResultMap">
+		SELECT a.* FROM member_info a
+        LEFT JOIN rela_member_to_acct b ON a.MEMBER_ID = b.MEMBER_ID
+        WHERE b.ACCT_ID = #{acctId} AND a.STATUS = 1 AND a.MEMBER_TYPE = 3
+	</select>
+
+
+</mapper>

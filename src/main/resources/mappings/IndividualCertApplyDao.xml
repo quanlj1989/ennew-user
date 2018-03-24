@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualCertApplyDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualCertApply" id="individualCertApplyResultMap">
+		<result property="certApplyId" column="CERT_APPLY_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="applyType" column="APPLY_TYPE"  />
+		<result property="name" column="NAME"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certCode" column="CERT_CODE"  />
+		<result property="status" column="STATUS"  />
+		<result property="applyTime" column="APPLY_TIME"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+		<result property="approveAcctId" column="APPROVE_ACCT_ID"  />
+		<result property="approveName" column="APPROVE_NAME"  />
+		<result property="approveMemberId" column="APPROVE_MEMBER_ID"  />
+		<result property="auditTime" column="AUDIT_TIME"  />
+		<result property="approveDesc" column="APPROVE_DESC"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_ID,
+		MEMBER_ID,
+		APPLY_TYPE,
+		NAME,
+		CERT_TYPE,
+		CERT_CODE,
+		STATUS,
+		APPLY_TIME,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		APPROVE_ACCT_ID,
+		APPROVE_NAME,
+		APPROVE_MEMBER_ID,
+		AUDIT_TIME,
+		APPROVE_DESC
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyId},
+		#{memberId},
+		#{applyType},
+		#{name},
+		#{certType},
+		#{certCode},
+		#{status},
+		#{applyTime},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{approveAcctId},
+		#{approveName},
+		#{approveMemberId},
+		#{auditTime},
+		#{approveDesc}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyId != null ">and CERT_APPLY_ID = #{certApplyId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="applyType != null ">and APPLY_TYPE = #{applyType}</if>
+				<if test="name != null and name != ''">and NAME = #{name}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certCode != null and certCode != ''">and CERT_CODE = #{certCode}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="applyTime != null ">and APPLY_TIME = #{applyTime}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+				<if test="approveAcctId != null ">and APPROVE_ACCT_ID = #{approveAcctId}</if>
+				<if test="approveName != null and approveName != ''">and APPROVE_NAME = #{approveName}</if>
+				<if test="approveMemberId != null ">and APPROVE_MEMBER_ID = #{approveMemberId}</if>
+				<if test="auditTime != null ">and AUDIT_TIME = #{auditTime}</if>
+				<if test="approveDesc != null and approveDesc != ''">and APPROVE_DESC = #{approveDesc}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertApply" >
+		insert into individual_cert_apply( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="certApplyId" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertApply">
+        insert into individual_cert_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<!-- <if test="certApplyId != null ">CERT_APPLY_ID,</if> -->
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="applyType != null ">APPLY_TYPE,</if>
+				<if test="name != null and name != ''">NAME,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certCode != null and certCode != ''">CERT_CODE,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="applyTime != null ">APPLY_TIME,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID,</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME,</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID,</if>
+				<if test="auditTime != null ">AUDIT_TIME,</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<!-- <if test="certApplyId != null ">#{certApplyId},</if> -->
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="applyType != null ">#{applyType},</if>
+				<if test="name != null and name != ''">#{name},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certCode != null and certCode != ''">#{certCode},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="applyTime != null ">#{applyTime},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+				<if test="approveAcctId != null ">#{approveAcctId},</if>
+				<if test="approveName != null and approveName != ''">#{approveName},</if>
+				<if test="approveMemberId != null ">#{approveMemberId},</if>
+				<if test="auditTime != null ">#{auditTime},</if>
+				<if test="approveDesc != null and approveDesc != ''">#{approveDesc},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertApply">
+		delete from individual_cert_apply
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertApply">
+		update individual_cert_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="applyType != null ">APPLY_TYPE = #{applyType},</if>
+				<if test="name != null and name != ''">NAME = #{name},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certCode != null and certCode != ''">CERT_CODE = #{certCode},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="applyTime != null ">APPLY_TIME = #{applyTime},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID = #{approveAcctId},</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME = #{approveName},</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID = #{approveMemberId},</if>
+				<if test="auditTime != null ">AUDIT_TIME = #{auditTime},</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC = #{approveDesc},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualCertApplyResultMap">
+        select <include refid="table_columns" />
+        from individual_cert_apply
+    </select>
+
+    <select id="find" resultMap="individualCertApplyResultMap">
+        select <include refid="table_columns" />
+        from individual_cert_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_cert_apply
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualCertApplyResultMap"  >
+		select <include refid="table_columns" />
+		from individual_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	
+	<sql id="applyList_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+	        <if test="startTime != null and startTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME > DATE_FORMAT(#{startTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+	        <if test="endTime != null and endTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME <= DATE_FORMAT(#{endTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+        </trim>
+	</sql>
+	
+	<select id="getAcctCertApplyCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO" 
+		resultType="java.lang.Integer" >
+		
+		SELECT 
+			COUNT(bu.ACCT_ID)
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID AND rel.MEMBER_TYPE = 3
+		LEFT JOIN INDIVIDUAL_CERT_APPLY apl ON rel.MEMBER_ID = apl.MEMBER_ID
+		<include refid="applyList_where" />
+		
+	</select>
+
+	<select id="getAcctCertApplyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO" 
+		resultType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO" >
+		SELECT 
+			bu.ACCT_ID acctId ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.ACCT_STATE acctState ,
+			bu.LOGO_URL logoUrl ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.DEPT_ID deptId ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.AREA_ID areaId ,
+			bu.AREA_ID_FULL_PATH areaIdFullPath ,
+			bu.AREA_NAME_FULL_PATH areaNameFullPath ,
+			bu.CONTACT_ADDR contactAddr ,
+			bu.POST_CODE postCode ,
+			bu.REGISTER_TIME registerTime ,
+			
+			apl.CERT_APPLY_ID certApplyId , 
+			rel.MEMBER_ID memberId ,
+			apl.APPLY_TYPE applyType ,
+			apl.CERT_TYPE certType ,
+			apl.CERT_CODE certCode ,
+			apl.`STATUS` `status` ,
+			apl.APPLY_TIME applyTime ,
+			apl.CREATE_TIME createTime ,
+			apl.CREATE_NAME createName ,
+			apl.APPROVE_ACCT_ID approveAcctId ,
+			apl.APPROVE_NAME approveName ,
+			apl.APPROVE_MEMBER_ID approveMemberId ,
+			apl.AUDIT_TIME auditTime ,
+			apl.APPROVE_DESC approveDesc 
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID AND rel.MEMBER_TYPE = 3
+		LEFT JOIN INDIVIDUAL_CERT_APPLY apl ON rel.MEMBER_ID = apl.MEMBER_ID
+		<include refid="applyList_where" />
+		
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<select id="getCertApplyByApplyId" resultType="cn.enn.ygego.sunny.user.dto.IndividualCertApplyDTO" >
+		SELECT 
+			apl.MEMBER_ID memberId ,
+			apl.CERT_APPLY_ID certApplyId , 
+			apl.APPLY_TYPE applyType ,
+			apl.CERT_TYPE certType ,
+			apl.CERT_CODE certCode ,
+			apl.`STATUS` `status` ,
+			apl.APPLY_TIME applyTime ,
+			apl.CREATE_TIME createTime ,
+			apl.CREATE_NAME createName ,
+			apl.APPROVE_ACCT_ID approveAcctId ,
+			apl.APPROVE_NAME approveName ,
+			apl.APPROVE_MEMBER_ID approveMemberId ,
+			apl.AUDIT_TIME auditTime ,
+			apl.APPROVE_DESC approveDesc ,
+		
+			dtl.CERT_APPLY_DETAIL_ID certApplyDetailId , 
+			dtl.CERT_VALID_DATE certValidDate ,
+			dtl.sortNum sortNum
+			
+		FROM INDIVIDUAL_CERT_APPLY apl 
+		LEFT JOIN individual_cert_apply_detail dtl ON apl.CERT_APPLY_ID = dtl.CERT_APPLY_ID
+		WHERE 
+		<choose>
+			<when test="certApplyId != null">
+				apl.CERT_APPLY_ID = #{certApplyId}
+			</when>
+			<otherwise>
+				apl.CERT_APPLY_ID = ''
+			</otherwise>
+		</choose>
+		
+	</select>
+	
+	<select id="getCertApplyByMemberId" parameterType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO"
+			resultType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO" >
+		
+		SELECT 
+			rel.MEMBER_ID memberId ,
+			
+			bu.ACCT_ID acctId ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.ACCT_STATE acctState ,
+			bu.LOGO_URL logoUrl ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.DEPT_ID deptId ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.AREA_ID areaId ,
+			bu.AREA_ID_FULL_PATH areaIdFullPath ,
+			bu.AREA_NAME_FULL_PATH areaNameFullPath ,
+			bu.CONTACT_ADDR contactAddr ,
+			bu.POST_CODE postCode ,
+			bu.REGISTER_TIME registerTime ,
+			
+			apl.CERT_APPLY_ID certApplyId , 
+			apl.APPLY_TYPE applyType ,
+			apl.CERT_TYPE certType ,
+			apl.CERT_CODE certCode ,
+			apl.`STATUS` `status` ,
+			apl.APPLY_TIME applyTime ,
+			apl.CREATE_TIME createTime ,
+			apl.CREATE_NAME createName ,
+			apl.APPROVE_ACCT_ID approveAcctId ,
+			apl.APPROVE_NAME approveName ,
+			apl.APPROVE_MEMBER_ID approveMemberId ,
+			apl.AUDIT_TIME auditTime ,
+			apl.APPROVE_DESC approveDesc ,
+		
+			dtl.CERT_APPLY_DETAIL_ID , 
+			dtl.CERT_VALID_DATE 
+		FROM INDIVIDUAL_CERT_APPLY apl 
+		LEFT JOIN individual_cert_apply_detail dtl ON apl.CERT_APPLY_ID = dtl.CERT_APPLY_ID
+		LEFT JOIN rela_member_to_acct rel ON apl.MEMBER_ID = rel.MEMBER_ID AND rel.MEMBER_TYPE = 3
+		LEFT JOIN busi_acct_info bu ON rel.ACCT_ID = bu.ACCT_ID
+		<choose>
+			<when test="certApplyId == null and  memberId == null"> where apl.CERT_APPLY_ID = '' </when>
+			<otherwise>
+				<trim prefix="where" prefixOverrides="and | or ">
+					<if test="certApplyId != null">and apl.CERT_APPLY_ID = #{certApplyId}</if>
+					<if test="memberId != null">and apl.MEMBER_ID = #{memberId}</if>
+		        </trim>
+			</otherwise>
+		</choose>
+		
+		
+		
+	</select>
+	
+</mapper>

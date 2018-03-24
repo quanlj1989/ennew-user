@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.DataPrivDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.DataPriv" id="dataPrivResultMap">
+		<result property="privId" column="PRIV_ID"  />
+		<result property="relaId" column="RELA_ID"  />
+		<result property="privType" column="PRIV_TYPE"  />
+		<result property="linkDataId" column="LINK_DATA_ID"  />
+		<result property="functionId" column="FUNCTION_ID"  />
+		<result property="operId" column="OPER_ID"  />
+		<result property="privCode" column="PRIV_CODE"  />
+		<result property="privTitle" column="PRIV_TITLE"  />
+		<result property="dataLink" column="DATA_LINK"  />
+		<result property="contentType" column="CONTENT_TYPE"  />
+		<result property="privContent" column="PRIV_CONTENT"  />
+		<result property="valueRange" column="VALUE_RANGE"  />
+		<result property="dataPriTitle" column="DATA_PRI_TITLE"  />
+		<result property="dataRange" column="DATA_RANGE"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="updateTime" column="UPDATE_TIME"  />
+		<result property="isDelete" column="IS_DELETE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		PRIV_ID,
+		RELA_ID,
+		PRIV_TYPE,
+		LINK_DATA_ID,
+		FUNCTION_ID,
+		OPER_ID,
+		PRIV_CODE,
+		PRIV_TITLE,
+		DATA_LINK,
+		CONTENT_TYPE,
+		PRIV_CONTENT,
+		VALUE_RANGE,
+		DATA_PRI_TITLE,
+		DATA_RANGE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		IS_DELETE
+    </sql>
+	<sql id="entity_properties">
+		#{privId},
+		#{relaId},
+		#{privType},
+		#{linkDataId},
+		#{functionId},
+		#{operId},
+		#{privCode},
+		#{privTitle},
+		#{dataLink},
+		#{contentType},
+		#{privContent},
+		#{valueRange},
+		#{dataPriTitle},
+		#{dataRange},
+		#{createTime},
+		#{updateTime},
+		#{isDelete}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="privId != null ">and PRIV_ID = #{privId}</if>
+				<if test="relaId != null ">and RELA_ID = #{relaId}</if>
+				<if test="privType != null ">and PRIV_TYPE = #{privType}</if>
+				<if test="linkDataId != null ">and LINK_DATA_ID = #{linkDataId}</if>
+				<if test="functionId != null ">and FUNCTION_ID = #{functionId}</if>
+				<if test="operId != null ">and OPER_ID = #{operId}</if>
+				<if test="privCode != null and privCode != ''">and PRIV_CODE = #{privCode}</if>
+				<if test="privTitle != null and privTitle != ''">and PRIV_TITLE = #{privTitle}</if>
+				<if test="dataLink != null and dataLink != ''">and DATA_LINK = #{dataLink}</if>
+				<if test="contentType != null ">and CONTENT_TYPE = #{contentType}</if>
+				<if test="privContent != null and privContent != ''">and PRIV_CONTENT = #{privContent}</if>
+				<if test="valueRange != null and valueRange != ''">and VALUE_RANGE = #{valueRange}</if>
+				<if test="dataPriTitle != null and dataPriTitle != ''">and DATA_PRI_TITLE = #{dataPriTitle}</if>
+				<if test="dataRange != null and dataRange != ''">and DATA_RANGE = #{dataRange}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="updateTime != null ">and UPDATE_TIME = #{updateTime}</if>
+				<if test="isDelete != null ">and IS_DELETE = #{isDelete}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.DataPriv" >
+		insert into data_priv( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.DataPriv">
+        insert into data_priv
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="privId != null ">PRIV_ID,</if>
+				<if test="relaId != null ">RELA_ID,</if>
+				<if test="privType != null ">PRIV_TYPE,</if>
+				<if test="linkDataId != null ">LINK_DATA_ID,</if>
+				<if test="functionId != null ">FUNCTION_ID,</if>
+				<if test="operId != null ">OPER_ID,</if>
+				<if test="privCode != null and privCode != ''">PRIV_CODE,</if>
+				<if test="privTitle != null and privTitle != ''">PRIV_TITLE,</if>
+				<if test="dataLink != null and dataLink != ''">DATA_LINK,</if>
+				<if test="contentType != null ">CONTENT_TYPE,</if>
+				<if test="privContent != null and privContent != ''">PRIV_CONTENT,</if>
+				<if test="valueRange != null and valueRange != ''">VALUE_RANGE,</if>
+				<if test="dataPriTitle != null and dataPriTitle != ''">DATA_PRI_TITLE,</if>
+				<if test="dataRange != null and dataRange != ''">DATA_RANGE,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="updateTime != null ">UPDATE_TIME,</if>
+				<if test="isDelete != null ">IS_DELETE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="privId != null ">#{privId},</if>
+				<if test="relaId != null ">#{relaId},</if>
+				<if test="privType != null ">#{privType},</if>
+				<if test="linkDataId != null ">#{linkDataId},</if>
+				<if test="functionId != null ">#{functionId},</if>
+				<if test="operId != null ">#{operId},</if>
+				<if test="privCode != null and privCode != ''">#{privCode},</if>
+				<if test="privTitle != null and privTitle != ''">#{privTitle},</if>
+				<if test="dataLink != null and dataLink != ''">#{dataLink},</if>
+				<if test="contentType != null ">#{contentType},</if>
+				<if test="privContent != null and privContent != ''">#{privContent},</if>
+				<if test="valueRange != null and valueRange != ''">#{valueRange},</if>
+				<if test="dataPriTitle != null and dataPriTitle != ''">#{dataPriTitle},</if>
+				<if test="dataRange != null and dataRange != ''">#{dataRange},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="updateTime != null ">#{updateTime},</if>
+				<if test="isDelete != null ">#{isDelete},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.DataPriv">
+		delete from data_priv
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from data_priv
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PRIV_ID = #{privId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.DataPriv">
+		update data_priv 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="relaId != null ">RELA_ID = #{relaId},</if>
+				<if test="privType != null ">PRIV_TYPE = #{privType},</if>
+				<if test="linkDataId != null ">LINK_DATA_ID = #{linkDataId},</if>
+				<if test="functionId != null ">FUNCTION_ID = #{functionId},</if>
+				<if test="operId != null ">OPER_ID = #{operId},</if>
+				<if test="privCode != null and privCode != ''">PRIV_CODE = #{privCode},</if>
+				<if test="privTitle != null and privTitle != ''">PRIV_TITLE = #{privTitle},</if>
+				<if test="dataLink != null and dataLink != ''">DATA_LINK = #{dataLink},</if>
+				<if test="contentType != null ">CONTENT_TYPE = #{contentType},</if>
+				<if test="privContent != null and privContent != ''">PRIV_CONTENT = #{privContent},</if>
+				<if test="valueRange != null and valueRange != ''">VALUE_RANGE = #{valueRange},</if>
+				<if test="dataPriTitle != null and dataPriTitle != ''">DATA_PRI_TITLE = #{dataPriTitle},</if>
+				<if test="dataRange != null and dataRange != ''">DATA_RANGE = #{dataRange},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+				<if test="isDelete != null ">IS_DELETE = #{isDelete},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PRIV_ID = #{privId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="dataPrivResultMap">
+        select <include refid="table_columns" />
+        from data_priv
+    </select>
+
+    <select id="find" resultMap="dataPrivResultMap">
+        select <include refid="table_columns" />
+        from data_priv
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from data_priv
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="dataPrivResultMap"  >
+		select <include refid="table_columns" />
+		from data_priv
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and PRIV_ID = #{privId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

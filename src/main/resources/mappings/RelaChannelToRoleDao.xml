@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.RelaChannelToRoleDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.RelaChannelToRole" id="relaChannelToRoleResultMap">
+		<result property="relaId" column="RELA_ID"  />
+		<result property="channelId" column="CHANNEL_ID"  />
+		<result property="roleId" column="ROLE_ID"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		RELA_ID,
+		CHANNEL_ID,
+		ROLE_ID
+    </sql>
+	<sql id="entity_properties">
+		#{relaId},
+		#{channelId},
+		#{roleId}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="relaId != null ">and RELA_ID = #{relaId}</if>
+				<if test="channelId != null ">and CHANNEL_ID = #{channelId}</if>
+				<if test="roleId != null ">and ROLE_ID = #{roleId}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.RelaChannelToRole" >
+		insert into rela_channel_to_role( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.RelaChannelToRole">
+        insert into rela_channel_to_role
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="relaId != null ">RELA_ID,</if>
+				<if test="channelId != null ">CHANNEL_ID,</if>
+				<if test="roleId != null ">ROLE_ID,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="relaId != null ">#{relaId},</if>
+				<if test="channelId != null ">#{channelId},</if>
+				<if test="roleId != null ">#{roleId},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.RelaChannelToRole">
+		delete from rela_channel_to_role
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from rela_channel_to_role
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RELA_ID = #{relaId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaChannelToRole">
+		update rela_channel_to_role 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="channelId != null ">CHANNEL_ID = #{channelId},</if>
+				<if test="roleId != null ">ROLE_ID = #{roleId},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RELA_ID = #{relaId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="relaChannelToRoleResultMap">
+        select <include refid="table_columns" />
+        from rela_channel_to_role
+    </select>
+
+    <select id="find" resultMap="relaChannelToRoleResultMap">
+        select <include refid="table_columns" />
+        from rela_channel_to_role
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from rela_channel_to_role
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="relaChannelToRoleResultMap"  >
+		select <include refid="table_columns" />
+		from rela_channel_to_role
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RELA_ID = #{relaId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

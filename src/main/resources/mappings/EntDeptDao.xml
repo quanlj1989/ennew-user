@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntDeptDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntDept" id="entDeptResultMap">
+		<result property="deptId" column="DEPT_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="pareDeptId" column="PARE_DEPT_ID"  />
+		<result property="deptName" column="DEPT_NAME"  />
+		<result property="memo" column="MEMO"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		DEPT_ID,
+		MEMBER_ID,
+		PARE_DEPT_ID,
+		DEPT_NAME,
+		MEMO,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{deptId},
+		#{memberId},
+		#{pareDeptId},
+		#{deptName},
+		#{memo},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="deptId != null ">and DEPT_ID = #{deptId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="pareDeptId != null ">and PARE_DEPT_ID = #{pareDeptId}</if>
+				<if test="deptName != null and deptName != ''">and DEPT_NAME = #{deptName}</if>
+				<if test="memo != null and memo != ''">and MEMO = #{memo}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntDept" >
+		insert into ent_dept( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntDept">
+        insert into ent_dept
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="deptId != null ">DEPT_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="pareDeptId != null ">PARE_DEPT_ID,</if>
+				<if test="deptName != null and deptName != ''">DEPT_NAME,</if>
+				<if test="memo != null and memo != ''">MEMO,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="deptId != null ">#{deptId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="pareDeptId != null ">#{pareDeptId},</if>
+				<if test="deptName != null and deptName != ''">#{deptName},</if>
+				<if test="memo != null and memo != ''">#{memo},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntDept">
+		delete from ent_dept
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_dept
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DEPT_ID = #{deptId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntDept">
+		update ent_dept 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="pareDeptId != null ">PARE_DEPT_ID = #{pareDeptId},</if>
+				<if test="deptName != null and deptName != ''">DEPT_NAME = #{deptName},</if>
+				<if test="memo != null and memo != ''">MEMO = #{memo},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DEPT_ID = #{deptId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entDeptResultMap">
+        select <include refid="table_columns" />
+        from ent_dept
+    </select>
+
+    <select id="find" resultMap="entDeptResultMap">
+        select <include refid="table_columns" />
+        from ent_dept
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_dept
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entDeptResultMap"  >
+		select <include refid="table_columns" />
+		from ent_dept
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and DEPT_ID = #{deptId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

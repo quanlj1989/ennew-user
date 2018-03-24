@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.QuestionFeedbackDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.QuestionFeedback" id="questionFeedbackResultMap">
+		<result property="questionId" column="QUESTION_ID"  />
+		<result property="questionType" column="QUESTION_TYPE"  />
+		<result property="questionCode" column="QUESTION_CODE"  />
+		<result property="questionUrl" column="QUESTION_URL"  />
+		<result property="questionModule" column="QUESTION_MODULE"  />
+		<result property="questionDesc" column="QUESTION_DESC"  />
+		<result property="status" column="STATUS"  />
+		<result property="contact" column="CONTACT"  />
+		<result property="contactTel" column="CONTACT_TEL"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		QUESTION_ID,
+		QUESTION_TYPE,
+		QUESTION_CODE,
+		QUESTION_URL,
+		QUESTION_MODULE,
+		QUESTION_DESC,
+		STATUS,
+		CONTACT,
+		CONTACT_TEL,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{questionId},
+		#{questionType},
+		#{questionCode},
+		#{questionUrl},
+		#{questionModule},
+		#{questionDesc},
+		#{status},
+		#{contact},
+		#{contactTel},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="questionId != null ">and QUESTION_ID = #{questionId}</if>
+				<if test="questionType != null ">and QUESTION_TYPE = #{questionType}</if>
+				<if test="questionCode != null and questionCode != ''">and QUESTION_CODE = #{questionCode}</if>
+				<if test="questionUrl != null and questionUrl != ''">and QUESTION_URL = #{questionUrl}</if>
+				<if test="questionModule != null and questionModule != ''">and QUESTION_MODULE = #{questionModule}</if>
+				<if test="questionDesc != null and questionDesc != ''">and QUESTION_DESC = #{questionDesc}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="contact != null and contact != ''">and CONTACT = #{contact}</if>
+				<if test="contactTel != null and contactTel != ''">and CONTACT_TEL = #{contactTel}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.QuestionFeedback" >
+		insert into question_feedback( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.QuestionFeedback">
+        insert into question_feedback
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="questionId != null ">QUESTION_ID,</if>
+				<if test="questionType != null ">QUESTION_TYPE,</if>
+				<if test="questionCode != null and questionCode != ''">QUESTION_CODE,</if>
+				<if test="questionUrl != null and questionUrl != ''">QUESTION_URL,</if>
+				<if test="questionModule != null and questionModule != ''">QUESTION_MODULE,</if>
+				<if test="questionDesc != null and questionDesc != ''">QUESTION_DESC,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="contact != null and contact != ''">CONTACT,</if>
+				<if test="contactTel != null and contactTel != ''">CONTACT_TEL,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="questionId != null ">#{questionId},</if>
+				<if test="questionType != null ">#{questionType},</if>
+				<if test="questionCode != null and questionCode != ''">#{questionCode},</if>
+				<if test="questionUrl != null and questionUrl != ''">#{questionUrl},</if>
+				<if test="questionModule != null and questionModule != ''">#{questionModule},</if>
+				<if test="questionDesc != null and questionDesc != ''">#{questionDesc},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="contact != null and contact != ''">#{contact},</if>
+				<if test="contactTel != null and contactTel != ''">#{contactTel},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.QuestionFeedback">
+		delete from question_feedback
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from question_feedback
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ID = #{questionId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.QuestionFeedback">
+		update question_feedback 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="questionType != null ">QUESTION_TYPE = #{questionType},</if>
+				<if test="questionCode != null and questionCode != ''">QUESTION_CODE = #{questionCode},</if>
+				<if test="questionUrl != null and questionUrl != ''">QUESTION_URL = #{questionUrl},</if>
+				<if test="questionModule != null and questionModule != ''">QUESTION_MODULE = #{questionModule},</if>
+				<if test="questionDesc != null and questionDesc != ''">QUESTION_DESC = #{questionDesc},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="contact != null and contact != ''">CONTACT = #{contact},</if>
+				<if test="contactTel != null and contactTel != ''">CONTACT_TEL = #{contactTel},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ID = #{questionId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="questionFeedbackResultMap">
+        select <include refid="table_columns" />
+        from question_feedback
+    </select>
+
+    <select id="find" resultMap="questionFeedbackResultMap">
+        select <include refid="table_columns" />
+        from question_feedback
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from question_feedback
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="questionFeedbackResultMap"  >
+		select <include refid="table_columns" />
+		from question_feedback
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ID = #{questionId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

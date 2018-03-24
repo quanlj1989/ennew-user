@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.RoleInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.RoleInfo" id="roleInfoResultMap">
+		<result property="roleId" column="ROLE_ID"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="entId" column="ENT_ID"  />
+		<result property="roleCode" column="ROLE_CODE"  />
+		<result property="roleTitle" column="ROLE_TITLE"  />
+		<result property="roleState" column="ROLE_STATE"  />
+		<result property="roleDesc" column="ROLE_DESC"  />
+		<result property="isDelete" column="IS_DELETE"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="updateTime" column="UPDATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		ROLE_ID,
+		APP_ID,
+		ENT_ID,
+		ROLE_CODE,
+		ROLE_TITLE,
+		ROLE_STATE,
+		ROLE_DESC,
+		IS_DELETE,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{roleId},
+		#{appId},
+		#{entId},
+		#{roleCode},
+		#{roleTitle},
+		#{roleState},
+		#{roleDesc},
+		#{isDelete},
+		#{createTime},
+		#{updateTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="roleId != null ">and ROLE_ID = #{roleId}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="entId != null ">and ENT_ID = #{entId}</if>
+				<if test="roleCode != null and roleCode != ''">and ROLE_CODE = #{roleCode}</if>
+				<if test="roleTitle != null and roleTitle != ''">and ROLE_TITLE = #{roleTitle}</if>
+				<if test="roleState != null ">and ROLE_STATE = #{roleState}</if>
+				<if test="roleDesc != null and roleDesc != ''">and ROLE_DESC = #{roleDesc}</if>
+				<if test="isDelete != null ">and IS_DELETE = #{isDelete}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="updateTime != null ">and UPDATE_TIME = #{updateTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.RoleInfo" >
+		insert into role_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.RoleInfo">
+        insert into role_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="roleId != null ">ROLE_ID,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="entId != null ">ENT_ID,</if>
+				<if test="roleCode != null and roleCode != ''">ROLE_CODE,</if>
+				<if test="roleTitle != null and roleTitle != ''">ROLE_TITLE,</if>
+				<if test="roleState != null ">ROLE_STATE,</if>
+				<if test="roleDesc != null and roleDesc != ''">ROLE_DESC,</if>
+				<if test="isDelete != null ">IS_DELETE,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="updateTime != null ">UPDATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="roleId != null ">#{roleId},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="entId != null ">#{entId},</if>
+				<if test="roleCode != null and roleCode != ''">#{roleCode},</if>
+				<if test="roleTitle != null and roleTitle != ''">#{roleTitle},</if>
+				<if test="roleState != null ">#{roleState},</if>
+				<if test="roleDesc != null and roleDesc != ''">#{roleDesc},</if>
+				<if test="isDelete != null ">#{isDelete},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="updateTime != null ">#{updateTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.RoleInfo">
+		delete from role_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from role_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ROLE_ID = #{roleId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RoleInfo">
+		update role_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="entId != null ">ENT_ID = #{entId},</if>
+				<if test="roleCode != null and roleCode != ''">ROLE_CODE = #{roleCode},</if>
+				<if test="roleTitle != null and roleTitle != ''">ROLE_TITLE = #{roleTitle},</if>
+				<if test="roleState != null ">ROLE_STATE = #{roleState},</if>
+				<if test="roleDesc != null and roleDesc != ''">ROLE_DESC = #{roleDesc},</if>
+				<if test="isDelete != null ">IS_DELETE = #{isDelete},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ROLE_ID = #{roleId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="roleInfoResultMap">
+        select <include refid="table_columns" />
+        from role_info
+    </select>
+
+    <select id="find" resultMap="roleInfoResultMap">
+        select <include refid="table_columns" />
+        from role_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from role_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="roleInfoResultMap"  >
+		select <include refid="table_columns" />
+		from role_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ROLE_ID = #{roleId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

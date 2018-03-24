@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.AppsDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.Apps" id="appsResultMap">
+		<result property="appId" column="APP_ID"  />
+		<result property="appCode" column="APP_CODE"  />
+		<result property="appName" column="APP_NAME"  />
+		<result property="appSource" column="APP_SOURCE"  />
+		<result property="ipAddr" column="IP_ADDR"  />
+		<result property="appDesc" column="APP_DESC"  />
+		<result property="appType" column="APP_TYPE"  />
+		<result property="appStatus" column="APP_STATUS"  />
+		<result property="recordStatus" column="RECORD_STATUS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="updateTime" column="UPDATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		APP_ID,
+		APP_CODE,
+		APP_NAME,
+		APP_SOURCE,
+		IP_ADDR,
+		APP_DESC,
+		APP_TYPE,
+		APP_STATUS,
+		RECORD_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{appId},
+		#{appCode},
+		#{appName},
+		#{appSource},
+		#{ipAddr},
+		#{appDesc},
+		#{appType},
+		#{appStatus},
+		#{recordStatus},
+		#{createTime},
+		#{updateTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="appCode != null and appCode != ''">and APP_CODE = #{appCode}</if>
+				<if test="appName != null and appName != ''">and APP_NAME = #{appName}</if>
+				<if test="appSource != null ">and APP_SOURCE = #{appSource}</if>
+				<if test="ipAddr != null and ipAddr != ''">and IP_ADDR = #{ipAddr}</if>
+				<if test="appDesc != null and appDesc != ''">and APP_DESC = #{appDesc}</if>
+				<if test="appType != null ">and APP_TYPE = #{appType}</if>
+				<if test="appStatus != null ">and APP_STATUS = #{appStatus}</if>
+				<if test="recordStatus != null ">and RECORD_STATUS = #{recordStatus}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="updateTime != null ">and UPDATE_TIME = #{updateTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.Apps" >
+		insert into apps( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.Apps">
+        insert into apps
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="appId != null ">APP_ID,</if>
+				<if test="appCode != null and appCode != ''">APP_CODE,</if>
+				<if test="appName != null and appName != ''">APP_NAME,</if>
+				<if test="appSource != null ">APP_SOURCE,</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR,</if>
+				<if test="appDesc != null and appDesc != ''">APP_DESC,</if>
+				<if test="appType != null ">APP_TYPE,</if>
+				<if test="appStatus != null ">APP_STATUS,</if>
+				<if test="recordStatus != null ">RECORD_STATUS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="updateTime != null ">UPDATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="appId != null ">#{appId},</if>
+				<if test="appCode != null and appCode != ''">#{appCode},</if>
+				<if test="appName != null and appName != ''">#{appName},</if>
+				<if test="appSource != null ">#{appSource},</if>
+				<if test="ipAddr != null and ipAddr != ''">#{ipAddr},</if>
+				<if test="appDesc != null and appDesc != ''">#{appDesc},</if>
+				<if test="appType != null ">#{appType},</if>
+				<if test="appStatus != null ">#{appStatus},</if>
+				<if test="recordStatus != null ">#{recordStatus},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="updateTime != null ">#{updateTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.Apps">
+		delete from apps
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from apps
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APP_ID = #{appId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.Apps">
+		update apps 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="appCode != null and appCode != ''">APP_CODE = #{appCode},</if>
+				<if test="appName != null and appName != ''">APP_NAME = #{appName},</if>
+				<if test="appSource != null ">APP_SOURCE = #{appSource},</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR = #{ipAddr},</if>
+				<if test="appDesc != null and appDesc != ''">APP_DESC = #{appDesc},</if>
+				<if test="appType != null ">APP_TYPE = #{appType},</if>
+				<if test="appStatus != null ">APP_STATUS = #{appStatus},</if>
+				<if test="recordStatus != null ">RECORD_STATUS = #{recordStatus},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APP_ID = #{appId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="appsResultMap">
+        select <include refid="table_columns" />
+        from apps
+    </select>
+
+    <select id="find" resultMap="appsResultMap">
+        select <include refid="table_columns" />
+        from apps
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from apps
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="appsResultMap"  >
+		select <include refid="table_columns" />
+		from apps
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APP_ID = #{appId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

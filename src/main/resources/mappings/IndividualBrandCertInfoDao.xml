@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualBrandCertInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualBrandCertInfo" id="individualBrandCertInfoResultMap">
+		<result property="brandCertId" column="BRAND_CERT_ID"  />
+		<result property="individualBrandId" column="INDIVIDUAL_BRAND_ID"  />
+		<result property="certUrl" column="CERT_URL"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certName" column="CERT_NAME"  />
+		<result property="certNo" column="CERT_NO"  />
+		<result property="certValidDate" column="CERT_VALID_DATE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		BRAND_CERT_ID,
+		INDIVIDUAL_BRAND_ID,
+		CERT_URL,
+		CERT_TYPE,
+		CERT_NAME,
+		CERT_NO,
+		CERT_VALID_DATE
+    </sql>
+	<sql id="entity_properties">
+		#{brandCertId},
+		#{individualBrandId},
+		#{certUrl},
+		#{certType},
+		#{certName},
+		#{certNo},
+		#{certValidDate}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="brandCertId != null ">and BRAND_CERT_ID = #{brandCertId}</if>
+				<if test="individualBrandId != null ">and INDIVIDUAL_BRAND_ID = #{individualBrandId}</if>
+				<if test="certUrl != null and certUrl != ''">and CERT_URL = #{certUrl}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
+				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
+				<if test="certValidDate != null ">and CERT_VALID_DATE = #{certValidDate}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandCertInfo" >
+		insert into individual_brand_cert_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandCertInfo">
+        insert into individual_brand_cert_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="brandCertId != null ">BRAND_CERT_ID,</if>
+				<if test="individualBrandId != null ">INDIVIDUAL_BRAND_ID,</if>
+				<if test="certUrl != null and certUrl != ''">CERT_URL,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certName != null and certName != ''">CERT_NAME,</if>
+				<if test="certNo != null and certNo != ''">CERT_NO,</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="brandCertId != null ">#{brandCertId},</if>
+				<if test="individualBrandId != null ">#{individualBrandId},</if>
+				<if test="certUrl != null and certUrl != ''">#{certUrl},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certName != null and certName != ''">#{certName},</if>
+				<if test="certNo != null and certNo != ''">#{certNo},</if>
+				<if test="certValidDate != null ">#{certValidDate},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandCertInfo">
+		delete from individual_brand_cert_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_brand_cert_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_CERT_ID = #{brandCertId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandCertInfo">
+		update individual_brand_cert_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="individualBrandId != null ">INDIVIDUAL_BRAND_ID = #{individualBrandId},</if>
+				<if test="certUrl != null and certUrl != ''">CERT_URL = #{certUrl},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
+				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE = #{certValidDate},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_CERT_ID = #{brandCertId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualBrandCertInfoResultMap">
+        select <include refid="table_columns" />
+        from individual_brand_cert_info
+    </select>
+
+    <select id="find" resultMap="individualBrandCertInfoResultMap">
+        select <include refid="table_columns" />
+        from individual_brand_cert_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_brand_cert_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualBrandCertInfoResultMap"  >
+		select <include refid="table_columns" />
+		from individual_brand_cert_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_CERT_ID = #{brandCertId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

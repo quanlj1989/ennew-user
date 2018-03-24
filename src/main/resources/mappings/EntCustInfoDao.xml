@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntCustInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntCustInfo" id="entCustInfoResultMap">
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="pareMemberId" column="PARE_MEMBER_ID"  />
+		<result property="entName" column="ENT_NAME"  />
+		<result property="authenType" column="AUTHEN_TYPE"  />
+		<result property="custCode" column="CUST_CODE"  />
+		<result property="entType" column="ENT_TYPE"  />
+		<result property="businessMode" column="BUSINESS_MODE"  />
+		<result property="legalPerson" column="LEGAL_PERSON"  />
+		<result property="legalPersonNationality" column="LEGAL_PERSON_NATIONALITY"  />
+		<result property="businessLicenseAreaId" column="BUSINESS_LICENSE_AREA_ID"  />
+		<result property="businessLicenseAddress" column="BUSINESS_LICENSE_ADDRESS"  />
+		<result property="businessLicenseFullAddress" column="BUSINESS_LICENSE_FULL_ADDRESS"  />
+		<result property="businessLicenseType" column="BUSINESS_LICENSE_TYPE"  />
+		<result property="establishDate" column="ESTABLISH_DATE"  />
+		<result property="certLimitDate" column="CERT_LIMIT_DATE"  />
+		<result property="limitType" column="LIMIT_TYPE"  />
+		<result property="regCapital" column="REG_CAPITAL"  />
+		<result property="regCapitalUnit" column="REG_CAPITAL_UNIT"  />
+		<result property="entTel" column="ENT_TEL"  />
+		<result property="status" column="STATUS"  />
+		<result property="supplierSet" column="SUPPLIER_SET"  />
+		<result property="blackWhiteListSet" column="BLACK_WHITE_LIST_SET"  />
+		<result property="agreementPriceId" column="AGREEMENT_PRICE_ID"  />
+		<result property="cateMateId" column="CATE_MATE_ID"  />
+		<result property="agreementId" column="AGREEMENT_ID"  />
+		<result property="authTime" column="AUTH_TIME"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+		<result property="modTime" column="MOD_TIME"  />
+		<result property="modMemberId" column="MOD_MEMBER_ID"  />
+		<result property="modAcctId" column="MOD_ACCT_ID"  />
+		<result property="modAcctName" column="MOD_ACCT_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		MEMBER_ID,
+		PARE_MEMBER_ID,
+		ENT_NAME,
+		AUTHEN_TYPE,
+		CUST_CODE,
+		ENT_TYPE,
+		BUSINESS_MODE,
+		LEGAL_PERSON,
+		LEGAL_PERSON_NATIONALITY,
+		BUSINESS_LICENSE_AREA_ID,
+		BUSINESS_LICENSE_ADDRESS,
+		BUSINESS_LICENSE_FULL_ADDRESS,
+		BUSINESS_LICENSE_TYPE,
+		ESTABLISH_DATE,
+		CERT_LIMIT_DATE,
+		LIMIT_TYPE,
+		REG_CAPITAL,
+		REG_CAPITAL_UNIT,
+		ENT_TEL,
+		STATUS,
+		SUPPLIER_SET,
+		BLACK_WHITE_LIST_SET,
+		AGREEMENT_PRICE_ID,
+		CATE_MATE_ID,
+		AGREEMENT_ID,
+		AUTH_TIME,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		MOD_TIME,
+		MOD_MEMBER_ID,
+		MOD_ACCT_ID,
+		MOD_ACCT_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{memberId},
+		#{pareMemberId},
+		#{entName},
+		#{authenType},
+		#{custCode},
+		#{entType},
+		#{businessMode},
+		#{legalPerson},
+		#{legalPersonNationality},
+		#{businessLicenseAreaId},
+		#{businessLicenseAddress},
+		#{businessLicenseFullAddress},
+		#{businessLicenseType},
+		#{establishDate},
+		#{certLimitDate},
+		#{limitType},
+		#{regCapital},
+		#{regCapitalUnit},
+		#{entTel},
+		#{status},
+		#{supplierSet},
+		#{blackWhiteListSet},
+		#{agreementPriceId},
+		#{cateMateId},
+		#{agreementId},
+		#{authTime},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{modTime},
+		#{modMemberId},
+		#{modAcctId},
+		#{modAcctName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="pareMemberId != null ">and PARE_MEMBER_ID = #{pareMemberId}</if>
+				<if test="entName != null and entName != ''">and ENT_NAME = #{entName}</if>
+				<if test="authenType != null and authenType != ''">and AUTHEN_TYPE = #{authenType}</if>
+				<if test="custCode != null and custCode != ''">and CUST_CODE = #{custCode}</if>
+				<if test="entType != null ">and ENT_TYPE = #{entType}</if>
+				<if test="businessMode != null and businessMode != ''">and BUSINESS_MODE = #{businessMode}</if>
+				<if test="legalPerson != null and legalPerson != ''">and LEGAL_PERSON = #{legalPerson}</if>
+				<if test="legalPersonNationality != null ">and LEGAL_PERSON_NATIONALITY = #{legalPersonNationality}</if>
+				<if test="businessLicenseAreaId != null ">and BUSINESS_LICENSE_AREA_ID = #{businessLicenseAreaId}</if>
+				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">and BUSINESS_LICENSE_ADDRESS = #{businessLicenseAddress}</if>
+				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">and BUSINESS_LICENSE_FULL_ADDRESS = #{businessLicenseFullAddress}</if>
+				<if test="businessLicenseType != null ">and BUSINESS_LICENSE_TYPE = #{businessLicenseType}</if>
+				<if test="establishDate != null ">and ESTABLISH_DATE = #{establishDate}</if>
+				<if test="certLimitDate != null ">and CERT_LIMIT_DATE = #{certLimitDate}</if>
+				<if test="limitType != null ">and LIMIT_TYPE = #{limitType}</if>
+				<if test="regCapital != null ">and REG_CAPITAL = #{regCapital}</if>
+				<if test="regCapitalUnit != null ">and REG_CAPITAL_UNIT = #{regCapitalUnit}</if>
+				<if test="entTel != null and entTel != ''">and ENT_TEL = #{entTel}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="supplierSet != null ">and SUPPLIER_SET = #{supplierSet}</if>
+				<if test="blackWhiteListSet != null ">and BLACK_WHITE_LIST_SET = #{blackWhiteListSet}</if>
+				<if test="agreementPriceId != null ">and AGREEMENT_PRICE_ID = #{agreementPriceId}</if>
+				<if test="cateMateId != null ">and CATE_MATE_ID = #{cateMateId}</if>
+				<if test="agreementId != null ">and AGREEMENT_ID = #{agreementId}</if>
+				<if test="authTime != null ">and AUTH_TIME = #{authTime}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+				<if test="modTime != null ">and MOD_TIME = #{modTime}</if>
+				<if test="modMemberId != null ">and MOD_MEMBER_ID = #{modMemberId}</if>
+				<if test="modAcctId != null ">and MOD_ACCT_ID = #{modAcctId}</if>
+				<if test="modAcctName != null and modAcctName != ''">and MOD_ACCT_NAME = #{modAcctName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntCustInfo" >
+		insert into ent_cust_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntCustInfo">
+        insert into ent_cust_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="pareMemberId != null ">PARE_MEMBER_ID,</if>
+				<if test="entName != null and entName != ''">ENT_NAME,</if>
+				<if test="authenType != null and authenType != ''">AUTHEN_TYPE,</if>
+				<if test="custCode != null and custCode != ''">CUST_CODE,</if>
+				<if test="entType != null ">ENT_TYPE,</if>
+				<if test="businessMode != null and businessMode != ''">BUSINESS_MODE,</if>
+				<if test="legalPerson != null and legalPerson != ''">LEGAL_PERSON,</if>
+				<if test="legalPersonNationality != null ">LEGAL_PERSON_NATIONALITY,</if>
+				<if test="businessLicenseAreaId != null ">BUSINESS_LICENSE_AREA_ID,</if>
+				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">BUSINESS_LICENSE_ADDRESS,</if>
+				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">BUSINESS_LICENSE_FULL_ADDRESS,</if>
+				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE,</if>
+				<if test="establishDate != null ">ESTABLISH_DATE,</if>
+				<if test="certLimitDate != null ">CERT_LIMIT_DATE,</if>
+				<if test="limitType != null ">LIMIT_TYPE,</if>
+				<if test="regCapital != null ">REG_CAPITAL,</if>
+				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT,</if>
+				<if test="entTel != null and entTel != ''">ENT_TEL,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="supplierSet != null ">SUPPLIER_SET,</if>
+				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET,</if>
+				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID,</if>
+				<if test="cateMateId != null ">CATE_MATE_ID,</if>
+				<if test="agreementId != null ">AGREEMENT_ID,</if>
+				<if test="authTime != null ">AUTH_TIME,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+				<if test="modTime != null ">MOD_TIME,</if>
+				<if test="modMemberId != null ">MOD_MEMBER_ID,</if>
+				<if test="modAcctId != null ">MOD_ACCT_ID,</if>
+				<if test="modAcctName != null and modAcctName != ''">MOD_ACCT_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="pareMemberId != null ">#{pareMemberId},</if>
+				<if test="entName != null and entName != ''">#{entName},</if>
+				<if test="authenType != null and authenType != ''">#{authenType},</if>
+				<if test="custCode != null and custCode != ''">#{custCode},</if>
+				<if test="entType != null ">#{entType},</if>
+				<if test="businessMode != null and businessMode != ''">#{businessMode},</if>
+				<if test="legalPerson != null and legalPerson != ''">#{legalPerson},</if>
+				<if test="legalPersonNationality != null ">#{legalPersonNationality},</if>
+				<if test="businessLicenseAreaId != null ">#{businessLicenseAreaId},</if>
+				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">#{businessLicenseAddress},</if>
+				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">#{businessLicenseFullAddress},</if>
+				<if test="businessLicenseType != null ">#{businessLicenseType},</if>
+				<if test="establishDate != null ">#{establishDate},</if>
+				<if test="certLimitDate != null ">#{certLimitDate},</if>
+				<if test="limitType != null ">#{limitType},</if>
+				<if test="regCapital != null ">#{regCapital},</if>
+				<if test="regCapitalUnit != null ">#{regCapitalUnit},</if>
+				<if test="entTel != null and entTel != ''">#{entTel},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="supplierSet != null ">#{supplierSet},</if>
+				<if test="blackWhiteListSet != null ">#{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null ">#{agreementPriceId},</if>
+				<if test="cateMateId != null ">#{cateMateId},</if>
+				<if test="agreementId != null ">#{agreementId},</if>
+				<if test="authTime != null ">#{authTime},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+				<if test="modTime != null ">#{modTime},</if>
+				<if test="modMemberId != null ">#{modMemberId},</if>
+				<if test="modAcctId != null ">#{modAcctId},</if>
+				<if test="modAcctName != null and modAcctName != ''">#{modAcctName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntCustInfo">
+		delete from ent_cust_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_cust_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntCustInfo">
+		update ent_cust_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="pareMemberId != null ">PARE_MEMBER_ID = #{pareMemberId},</if>
+				<if test="entName != null and entName != ''">ENT_NAME = #{entName},</if>
+				<if test="authenType != null and authenType != ''">AUTHEN_TYPE = #{authenType},</if>
+				<if test="custCode != null and custCode != ''">CUST_CODE = #{custCode},</if>
+				<if test="entType != null ">ENT_TYPE = #{entType},</if>
+				<if test="businessMode != null and businessMode != ''">BUSINESS_MODE = #{businessMode},</if>
+				<if test="legalPerson != null and legalPerson != ''">LEGAL_PERSON = #{legalPerson},</if>
+				<if test="legalPersonNationality != null ">LEGAL_PERSON_NATIONALITY = #{legalPersonNationality},</if>
+				<if test="businessLicenseAreaId != null ">BUSINESS_LICENSE_AREA_ID = #{businessLicenseAreaId},</if>
+				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">BUSINESS_LICENSE_ADDRESS = #{businessLicenseAddress},</if>
+				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">BUSINESS_LICENSE_FULL_ADDRESS = #{businessLicenseFullAddress},</if>
+				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE = #{businessLicenseType},</if>
+				<if test="establishDate != null ">ESTABLISH_DATE = #{establishDate},</if>
+				<if test="certLimitDate != null ">CERT_LIMIT_DATE = #{certLimitDate},</if>
+				<if test="limitType != null ">LIMIT_TYPE = #{limitType},</if>
+				<if test="regCapital != null ">REG_CAPITAL = #{regCapital},</if>
+				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT = #{regCapitalUnit},</if>
+				<if test="entTel != null and entTel != ''">ENT_TEL = #{entTel},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="supplierSet != null ">SUPPLIER_SET = #{supplierSet},</if>
+				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET = #{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID = #{agreementPriceId},</if>
+				<if test="cateMateId != null ">CATE_MATE_ID = #{cateMateId},</if>
+				<if test="agreementId != null ">AGREEMENT_ID = #{agreementId},</if>
+				<if test="authTime != null ">AUTH_TIME = #{authTime},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+				<if test="modTime != null ">MOD_TIME = #{modTime},</if>
+				<if test="modMemberId != null ">MOD_MEMBER_ID = #{modMemberId},</if>
+				<if test="modAcctId != null ">MOD_ACCT_ID = #{modAcctId},</if>
+				<if test="modAcctName != null and modAcctName != ''">MOD_ACCT_NAME = #{modAcctName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entCustInfoResultMap">
+        select <include refid="table_columns" />
+        from ent_cust_info
+    </select>
+
+    <select id="find" resultMap="entCustInfoResultMap">
+        select <include refid="table_columns" />
+        from ent_cust_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_cust_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entCustInfoResultMap"  >
+		select <include refid="table_columns" />
+		from ent_cust_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

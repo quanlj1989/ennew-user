@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntCertApplyDetailDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntCertApplyDetail" id="entCertApplyDetailResultMap">
+		<result property="certApplyDetailId" column="CERT_APPLY_DETAIL_ID"  />
+		<result property="certApplyId" column="CERT_APPLY_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certName" column="CERT_NAME"  />
+		<result property="certNo" column="CERT_NO"  />
+		<result property="certValidDate" column="CERT_VALID_DATE"  />
+		<result property="sortNum" column="SORT_NUM"  />
+		<result property="createTime" column="CREATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_DETAIL_ID,
+		CERT_APPLY_ID,
+		MEMBER_ID,
+		CERT_TYPE,
+		CERT_NAME,
+		CERT_NO,
+		CERT_VALID_DATE,
+		SORT_NUM,
+		CREATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyDetailId},
+		#{certApplyId},
+		#{memberId},
+		#{certType},
+		#{certName},
+		#{certNo},
+		#{certValidDate},
+		#{sortNum},
+		#{createTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyDetailId != null ">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+				<if test="certApplyId != null ">and CERT_APPLY_ID = #{certApplyId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
+				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
+				<if test="certValidDate != null ">and CERT_VALID_DATE = #{certValidDate}</if>
+				<if test="sortNum != null ">and SORT_NUM = #{sortNum}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntCertApplyDetail" >
+		insert into ent_cert_apply_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntCertApplyDetail">
+        insert into ent_cert_apply_detail
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certApplyDetailId != null ">CERT_APPLY_DETAIL_ID,</if>
+				<if test="certApplyId != null ">CERT_APPLY_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certName != null and certName != ''">CERT_NAME,</if>
+				<if test="certNo != null and certNo != ''">CERT_NO,</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE,</if>
+				<if test="sortNum != null ">SORT_NUM,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certApplyDetailId != null ">#{certApplyDetailId},</if>
+				<if test="certApplyId != null ">#{certApplyId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certName != null and certName != ''">#{certName},</if>
+				<if test="certNo != null and certNo != ''">#{certNo},</if>
+				<if test="certValidDate != null ">#{certValidDate},</if>
+				<if test="sortNum != null ">#{sortNum},</if>
+				<if test="createTime != null ">#{createTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntCertApplyDetail">
+		delete from ent_cert_apply_detail
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_cert_apply_detail
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntCertApplyDetail">
+		update ent_cert_apply_detail 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="certApplyId != null ">CERT_APPLY_ID = #{certApplyId},</if>
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
+				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE = #{certValidDate},</if>
+				<if test="sortNum != null ">SORT_NUM = #{sortNum},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entCertApplyDetailResultMap">
+        select <include refid="table_columns" />
+        from ent_cert_apply_detail
+    </select>
+
+    <select id="find" resultMap="entCertApplyDetailResultMap">
+        select <include refid="table_columns" />
+        from ent_cert_apply_detail
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_cert_apply_detail
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entCertApplyDetailResultMap"  >
+		select <include refid="table_columns" />
+		from ent_cert_apply_detail
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

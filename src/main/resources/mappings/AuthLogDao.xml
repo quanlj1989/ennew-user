@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.AuthLogDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.AuthLog" id="authLogResultMap">
+		<result property="logId" column="LOG_ID"  />
+		<result property="logCode" column="LOG_CODE"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="appName" column="APP_NAME"  />
+		<result property="serviceId" column="SERVICE_ID"  />
+		<result property="serviceCode" column="SERVICE_CODE"  />
+		<result property="serviceName" column="SERVICE_NAME"  />
+		<result property="functionId" column="FUNCTION_ID"  />
+		<result property="functionTitle" column="FUNCTION_TITLE"  />
+		<result property="operId" column="OPER_ID"  />
+		<result property="operTitle" column="OPER_TITLE"  />
+		<result property="authType" column="AUTH_TYPE"  />
+		<result property="authenticationResult" column="AUTHENTICATION_RESULT"  />
+		<result property="acctCode" column="ACCT_CODE"  />
+		<result property="operPersonId" column="OPER_PERSON_ID"  />
+		<result property="operPersonName" column="OPER_PERSON_NAME"  />
+		<result property="logContent" column="LOG_CONTENT"  />
+		<result property="createTime" column="CREATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LOG_ID,
+		LOG_CODE,
+		APP_ID,
+		APP_NAME,
+		SERVICE_ID,
+		SERVICE_CODE,
+		SERVICE_NAME,
+		FUNCTION_ID,
+		FUNCTION_TITLE,
+		OPER_ID,
+		OPER_TITLE,
+		AUTH_TYPE,
+		AUTHENTICATION_RESULT,
+		ACCT_CODE,
+		OPER_PERSON_ID,
+		OPER_PERSON_NAME,
+		LOG_CONTENT,
+		CREATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{logId},
+		#{logCode},
+		#{appId},
+		#{appName},
+		#{serviceId},
+		#{serviceCode},
+		#{serviceName},
+		#{functionId},
+		#{functionTitle},
+		#{operId},
+		#{operTitle},
+		#{authType},
+		#{authenticationResult},
+		#{acctCode},
+		#{operPersonId},
+		#{operPersonName},
+		#{logContent},
+		#{createTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="logId != null ">and LOG_ID = #{logId}</if>
+				<if test="logCode != null and logCode != ''">and LOG_CODE = #{logCode}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="appName != null and appName != ''">and APP_NAME = #{appName}</if>
+				<if test="serviceId != null ">and SERVICE_ID = #{serviceId}</if>
+				<if test="serviceCode != null and serviceCode != ''">and SERVICE_CODE = #{serviceCode}</if>
+				<if test="serviceName != null and serviceName != ''">and SERVICE_NAME = #{serviceName}</if>
+				<if test="functionId != null ">and FUNCTION_ID = #{functionId}</if>
+				<if test="functionTitle != null and functionTitle != ''">and FUNCTION_TITLE = #{functionTitle}</if>
+				<if test="operId != null ">and OPER_ID = #{operId}</if>
+				<if test="operTitle != null and operTitle != ''">and OPER_TITLE = #{operTitle}</if>
+				<if test="authType != null ">and AUTH_TYPE = #{authType}</if>
+				<if test="authenticationResult != null ">and AUTHENTICATION_RESULT = #{authenticationResult}</if>
+				<if test="acctCode != null and acctCode != ''">and ACCT_CODE = #{acctCode}</if>
+				<if test="operPersonId != null ">and OPER_PERSON_ID = #{operPersonId}</if>
+				<if test="operPersonName != null and operPersonName != ''">and OPER_PERSON_NAME = #{operPersonName}</if>
+				<if test="logContent != null and logContent != ''">and LOG_CONTENT = #{logContent}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.AuthLog" >
+		insert into auth_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.AuthLog">
+        insert into auth_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">LOG_ID,</if>
+				<if test="logCode != null and logCode != ''">LOG_CODE,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="appName != null and appName != ''">APP_NAME,</if>
+				<if test="serviceId != null ">SERVICE_ID,</if>
+				<if test="serviceCode != null and serviceCode != ''">SERVICE_CODE,</if>
+				<if test="serviceName != null and serviceName != ''">SERVICE_NAME,</if>
+				<if test="functionId != null ">FUNCTION_ID,</if>
+				<if test="functionTitle != null and functionTitle != ''">FUNCTION_TITLE,</if>
+				<if test="operId != null ">OPER_ID,</if>
+				<if test="operTitle != null and operTitle != ''">OPER_TITLE,</if>
+				<if test="authType != null ">AUTH_TYPE,</if>
+				<if test="authenticationResult != null ">AUTHENTICATION_RESULT,</if>
+				<if test="acctCode != null and acctCode != ''">ACCT_CODE,</if>
+				<if test="operPersonId != null ">OPER_PERSON_ID,</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME,</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">#{logId},</if>
+				<if test="logCode != null and logCode != ''">#{logCode},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="appName != null and appName != ''">#{appName},</if>
+				<if test="serviceId != null ">#{serviceId},</if>
+				<if test="serviceCode != null and serviceCode != ''">#{serviceCode},</if>
+				<if test="serviceName != null and serviceName != ''">#{serviceName},</if>
+				<if test="functionId != null ">#{functionId},</if>
+				<if test="functionTitle != null and functionTitle != ''">#{functionTitle},</if>
+				<if test="operId != null ">#{operId},</if>
+				<if test="operTitle != null and operTitle != ''">#{operTitle},</if>
+				<if test="authType != null ">#{authType},</if>
+				<if test="authenticationResult != null ">#{authenticationResult},</if>
+				<if test="acctCode != null and acctCode != ''">#{acctCode},</if>
+				<if test="operPersonId != null ">#{operPersonId},</if>
+				<if test="operPersonName != null and operPersonName != ''">#{operPersonName},</if>
+				<if test="logContent != null and logContent != ''">#{logContent},</if>
+				<if test="createTime != null ">#{createTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.AuthLog">
+		delete from auth_log
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from auth_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.AuthLog">
+		update auth_log 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="logCode != null and logCode != ''">LOG_CODE = #{logCode},</if>
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="appName != null and appName != ''">APP_NAME = #{appName},</if>
+				<if test="serviceId != null ">SERVICE_ID = #{serviceId},</if>
+				<if test="serviceCode != null and serviceCode != ''">SERVICE_CODE = #{serviceCode},</if>
+				<if test="serviceName != null and serviceName != ''">SERVICE_NAME = #{serviceName},</if>
+				<if test="functionId != null ">FUNCTION_ID = #{functionId},</if>
+				<if test="functionTitle != null and functionTitle != ''">FUNCTION_TITLE = #{functionTitle},</if>
+				<if test="operId != null ">OPER_ID = #{operId},</if>
+				<if test="operTitle != null and operTitle != ''">OPER_TITLE = #{operTitle},</if>
+				<if test="authType != null ">AUTH_TYPE = #{authType},</if>
+				<if test="authenticationResult != null ">AUTHENTICATION_RESULT = #{authenticationResult},</if>
+				<if test="acctCode != null and acctCode != ''">ACCT_CODE = #{acctCode},</if>
+				<if test="operPersonId != null ">OPER_PERSON_ID = #{operPersonId},</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME = #{operPersonName},</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT = #{logContent},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="authLogResultMap">
+        select <include refid="table_columns" />
+        from auth_log
+    </select>
+
+    <select id="find" resultMap="authLogResultMap">
+        select <include refid="table_columns" />
+        from auth_log
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from auth_log
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="authLogResultMap"  >
+		select <include refid="table_columns" />
+		from auth_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

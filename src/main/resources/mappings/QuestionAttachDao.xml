@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.QuestionAttachDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.QuestionAttach" id="questionAttachResultMap">
+		<result property="questionAttachId" column="QUESTION_ATTACH_ID"  />
+		<result property="questionId" column="QUESTION_ID"  />
+		<result property="fileSize" column="FILE_SIZE"  />
+		<result property="fileUrl" column="FILE_URL"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		QUESTION_ATTACH_ID,
+		QUESTION_ID,
+		FILE_SIZE,
+		FILE_URL
+    </sql>
+	<sql id="entity_properties">
+		#{questionAttachId},
+		#{questionId},
+		#{fileSize},
+		#{fileUrl}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="questionAttachId != null ">and QUESTION_ATTACH_ID = #{questionAttachId}</if>
+				<if test="questionId != null ">and QUESTION_ID = #{questionId}</if>
+				<if test="fileSize != null ">and FILE_SIZE = #{fileSize}</if>
+				<if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.QuestionAttach" >
+		insert into question_attach( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.QuestionAttach">
+        insert into question_attach
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="questionAttachId != null ">QUESTION_ATTACH_ID,</if>
+				<if test="questionId != null ">QUESTION_ID,</if>
+				<if test="fileSize != null ">FILE_SIZE,</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="questionAttachId != null ">#{questionAttachId},</if>
+				<if test="questionId != null ">#{questionId},</if>
+				<if test="fileSize != null ">#{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.QuestionAttach">
+		delete from question_attach
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from question_attach
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ATTACH_ID = #{questionAttachId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.QuestionAttach">
+		update question_attach 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="questionId != null ">QUESTION_ID = #{questionId},</if>
+				<if test="fileSize != null ">FILE_SIZE = #{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ATTACH_ID = #{questionAttachId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="questionAttachResultMap">
+        select <include refid="table_columns" />
+        from question_attach
+    </select>
+
+    <select id="find" resultMap="questionAttachResultMap">
+        select <include refid="table_columns" />
+        from question_attach
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from question_attach
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="questionAttachResultMap"  >
+		select <include refid="table_columns" />
+		from question_attach
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ATTACH_ID = #{questionAttachId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

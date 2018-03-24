@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MaterialBlackListDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.MaterialBlackList" id="materialBlackListResultMap">
+		<result property="listId" column="LIST_ID"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH"  />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH"  />
+		<result property="materialId" column="MATERIAL_ID"  />
+		<result property="materialName" column="MATERIAL_NAME"  />
+		<result property="attrIdSerial" column="ATTR_ID_SERIAL"  />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL"  />
+		<result property="listStatus" column="LIST_STATUS"  />
+		<result property="buyerMemberId" column="BUYER_MEMBER_ID"  />
+		<result property="buyerName" column="BUYER_NAME"  />
+		<result property="buyerSettlementType" column="BUYER_SETTLEMENT_TYPE"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LIST_ID,
+		CATEGORY_ID,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		MATERIAL_ID,
+		MATERIAL_NAME,
+		ATTR_ID_SERIAL,
+		ATTR_NAME_SERIAL,
+		LIST_STATUS,
+		BUYER_MEMBER_ID,
+		BUYER_NAME,
+		BUYER_SETTLEMENT_TYPE,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{listId},
+		#{categoryId},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{materialId},
+		#{materialName},
+		#{attrIdSerial},
+		#{attrNameSerial},
+		#{listStatus},
+		#{buyerMemberId},
+		#{buyerName},
+		#{buyerSettlementType},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="listId != null ">and LIST_ID = #{listId}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+				<if test="materialId != null ">and MATERIAL_ID = #{materialId}</if>
+				<if test="materialName != null and materialName != ''">and MATERIAL_NAME = #{materialName}</if>
+				<if test="attrIdSerial != null and attrIdSerial != ''">and ATTR_ID_SERIAL = #{attrIdSerial}</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+				<if test="listStatus != null ">and LIST_STATUS = #{listStatus}</if>
+				<if test="buyerMemberId != null ">and BUYER_MEMBER_ID = #{buyerMemberId}</if>
+				<if test="buyerName != null and buyerName != ''">and BUYER_NAME = #{buyerName}</if>
+				<if test="buyerSettlementType != null ">and BUYER_SETTLEMENT_TYPE = #{buyerSettlementType}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MaterialBlackList" >
+		insert into material_black_list( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MaterialBlackList">
+        insert into material_black_list
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="listId != null ">LIST_ID,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+				<if test="materialId != null ">MATERIAL_ID,</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME,</if>
+				<if test="attrIdSerial != null and attrIdSerial != ''">ATTR_ID_SERIAL,</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+				<if test="listStatus != null ">LIST_STATUS,</if>
+				<if test="buyerMemberId != null ">BUYER_MEMBER_ID,</if>
+				<if test="buyerName != null and buyerName != ''">BUYER_NAME,</if>
+				<if test="buyerSettlementType != null ">BUYER_SETTLEMENT_TYPE,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="listId != null ">#{listId},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+				<if test="materialId != null ">#{materialId},</if>
+				<if test="materialName != null and materialName != ''">#{materialName},</if>
+				<if test="attrIdSerial != null and attrIdSerial != ''">#{attrIdSerial},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+				<if test="listStatus != null ">#{listStatus},</if>
+				<if test="buyerMemberId != null ">#{buyerMemberId},</if>
+				<if test="buyerName != null and buyerName != ''">#{buyerName},</if>
+				<if test="buyerSettlementType != null ">#{buyerSettlementType},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MaterialBlackList">
+		delete from material_black_list
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from material_black_list
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LIST_ID = #{listId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.MaterialBlackList">
+		update material_black_list 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+				<if test="materialId != null ">MATERIAL_ID = #{materialId},</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME = #{materialName},</if>
+				<if test="attrIdSerial != null and attrIdSerial != ''">ATTR_ID_SERIAL = #{attrIdSerial},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+				<if test="listStatus != null ">LIST_STATUS = #{listStatus},</if>
+				<if test="buyerMemberId != null ">BUYER_MEMBER_ID = #{buyerMemberId},</if>
+				<if test="buyerName != null and buyerName != ''">BUYER_NAME = #{buyerName},</if>
+				<if test="buyerSettlementType != null ">BUYER_SETTLEMENT_TYPE = #{buyerSettlementType},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LIST_ID = #{listId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="materialBlackListResultMap">
+        select <include refid="table_columns" />
+        from material_black_list
+    </select>
+
+    <select id="find" resultMap="materialBlackListResultMap">
+        select <include refid="table_columns" />
+        from material_black_list
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from material_black_list
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="materialBlackListResultMap"  >
+		select <include refid="table_columns" />
+		from material_black_list
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LIST_ID = #{listId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

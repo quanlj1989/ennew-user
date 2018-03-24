@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.SysLogDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.SysLog" id="sysLogResultMap">
+		<result property="logId" column="LOG_ID"  />
+		<result property="logCode" column="LOG_CODE"  />
+		<result property="recordType" column="RECORD_TYPE"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="appName" column="APP_NAME"  />
+		<result property="affiModule" column="AFFI_MODULE"  />
+		<result property="logContent" column="LOG_CONTENT"  />
+		<result property="recordTime" column="RECORD_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LOG_ID,
+		LOG_CODE,
+		RECORD_TYPE,
+		APP_ID,
+		APP_NAME,
+		AFFI_MODULE,
+		LOG_CONTENT,
+		RECORD_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{logId},
+		#{logCode},
+		#{recordType},
+		#{appId},
+		#{appName},
+		#{affiModule},
+		#{logContent},
+		#{recordTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="logId != null ">and LOG_ID = #{logId}</if>
+				<if test="logCode != null and logCode != ''">and LOG_CODE = #{logCode}</if>
+				<if test="recordType != null ">and RECORD_TYPE = #{recordType}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="appName != null and appName != ''">and APP_NAME = #{appName}</if>
+				<if test="affiModule != null and affiModule != ''">and AFFI_MODULE = #{affiModule}</if>
+				<if test="logContent != null and logContent != ''">and LOG_CONTENT = #{logContent}</if>
+				<if test="recordTime != null ">and RECORD_TIME = #{recordTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.SysLog" >
+		insert into sys_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.SysLog">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">LOG_ID,</if>
+				<if test="logCode != null and logCode != ''">LOG_CODE,</if>
+				<if test="recordType != null ">RECORD_TYPE,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="appName != null and appName != ''">APP_NAME,</if>
+				<if test="affiModule != null and affiModule != ''">AFFI_MODULE,</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT,</if>
+				<if test="recordTime != null ">RECORD_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">#{logId},</if>
+				<if test="logCode != null and logCode != ''">#{logCode},</if>
+				<if test="recordType != null ">#{recordType},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="appName != null and appName != ''">#{appName},</if>
+				<if test="affiModule != null and affiModule != ''">#{affiModule},</if>
+				<if test="logContent != null and logContent != ''">#{logContent},</if>
+				<if test="recordTime != null ">#{recordTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.SysLog">
+		delete from sys_log
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from sys_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.SysLog">
+		update sys_log 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="logCode != null and logCode != ''">LOG_CODE = #{logCode},</if>
+				<if test="recordType != null ">RECORD_TYPE = #{recordType},</if>
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="appName != null and appName != ''">APP_NAME = #{appName},</if>
+				<if test="affiModule != null and affiModule != ''">AFFI_MODULE = #{affiModule},</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT = #{logContent},</if>
+				<if test="recordTime != null ">RECORD_TIME = #{recordTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="sysLogResultMap">
+        select <include refid="table_columns" />
+        from sys_log
+    </select>
+
+    <select id="find" resultMap="sysLogResultMap">
+        select <include refid="table_columns" />
+        from sys_log
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from sys_log
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="sysLogResultMap"  >
+		select <include refid="table_columns" />
+		from sys_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.UserInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.UserInfo" id="userInfoResultMap">
+		<result property="userId" column="USER_ID"  />
+		<result property="acctId" column="ACCT_ID"  />
+		<result property="userTitle" column="USER_TITLE"  />
+		<result property="userType" column="USER_TYPE"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="isDelete" column="IS_DELETE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		USER_ID,
+		ACCT_ID,
+		USER_TITLE,
+		USER_TYPE,
+		CREATE_TIME,
+		IS_DELETE
+    </sql>
+	<sql id="entity_properties">
+		#{userId},
+		#{acctId},
+		#{userTitle},
+		#{userType},
+		#{createTime},
+		#{isDelete}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="userId != null ">and USER_ID = #{userId}</if>
+				<if test="acctId != null ">and ACCT_ID = #{acctId}</if>
+				<if test="userTitle != null and userTitle != ''">and USER_TITLE = #{userTitle}</if>
+				<if test="userType != null ">and USER_TYPE = #{userType}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="isDelete != null ">and IS_DELETE = #{isDelete}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.UserInfo" >
+		insert into user_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.UserInfo">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="userId != null ">USER_ID,</if>
+				<if test="acctId != null ">ACCT_ID,</if>
+				<if test="userTitle != null and userTitle != ''">USER_TITLE,</if>
+				<if test="userType != null ">USER_TYPE,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="isDelete != null ">IS_DELETE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="userId != null ">#{userId},</if>
+				<if test="acctId != null ">#{acctId},</if>
+				<if test="userTitle != null and userTitle != ''">#{userTitle},</if>
+				<if test="userType != null ">#{userType},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="isDelete != null ">#{isDelete},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.UserInfo">
+		delete from user_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from user_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and USER_ID = #{userId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.UserInfo">
+		update user_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="acctId != null ">ACCT_ID = #{acctId},</if>
+				<if test="userTitle != null and userTitle != ''">USER_TITLE = #{userTitle},</if>
+				<if test="userType != null ">USER_TYPE = #{userType},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="isDelete != null ">IS_DELETE = #{isDelete},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and USER_ID = #{userId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="userInfoResultMap">
+        select <include refid="table_columns" />
+        from user_info
+    </select>
+
+    <select id="find" resultMap="userInfoResultMap">
+        select <include refid="table_columns" />
+        from user_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from user_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="userInfoResultMap"  >
+		select <include refid="table_columns" />
+		from user_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and USER_ID = #{userId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

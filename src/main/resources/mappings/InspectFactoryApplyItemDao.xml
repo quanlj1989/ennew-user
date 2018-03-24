@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.InspectFactoryApplyItemDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem" id="inspectFactoryApplyItemResultMap">
+		<result property="applyItemId" column="APPLY_ITEM_ID"  />
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="itemId" column="ITEM_ID"  />
+		<result property="itemName" column="ITEM_NAME"  />
+		<result property="certNum" column="CERT_NUM"  />
+		<result property="parentItmeId" column="PARENT_ITME_ID"  />
+		<result property="parentItemName" column="PARENT_ITEM_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		APPLY_ITEM_ID,
+		APPLY_ID,
+		ITEM_ID,
+		ITEM_NAME,
+		CERT_NUM,
+		PARENT_ITME_ID,
+		PARENT_ITEM_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{applyItemId},
+		#{applyId},
+		#{itemId},
+		#{itemName},
+		#{certNum},
+		#{parentItmeId},
+		#{parentItemName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="applyItemId != null ">and APPLY_ITEM_ID = #{applyItemId}</if>
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="itemId != null ">and ITEM_ID = #{itemId}</if>
+				<if test="itemName != null and itemName != ''">and ITEM_NAME = #{itemName}</if>
+				<if test="certNum != null and certNum != ''">and CERT_NUM = #{certNum}</if>
+				<if test="parentItmeId != null ">and PARENT_ITME_ID = #{parentItmeId}</if>
+				<if test="parentItemName != null and parentItemName != ''">and PARENT_ITEM_NAME = #{parentItemName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem" >
+		insert into inspect_factory_apply_item( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem">
+        insert into inspect_factory_apply_item
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="applyItemId != null ">APPLY_ITEM_ID,</if>
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="itemId != null ">ITEM_ID,</if>
+				<if test="itemName != null and itemName != ''">ITEM_NAME,</if>
+				<if test="certNum != null and certNum != ''">CERT_NUM,</if>
+				<if test="parentItmeId != null ">PARENT_ITME_ID,</if>
+				<if test="parentItemName != null and parentItemName != ''">PARENT_ITEM_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="applyItemId != null ">#{applyItemId},</if>
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="itemId != null ">#{itemId},</if>
+				<if test="itemName != null and itemName != ''">#{itemName},</if>
+				<if test="certNum != null and certNum != ''">#{certNum},</if>
+				<if test="parentItmeId != null ">#{parentItmeId},</if>
+				<if test="parentItemName != null and parentItemName != ''">#{parentItemName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem">
+		delete from inspect_factory_apply_item
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from inspect_factory_apply_item
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ITEM_ID = #{applyItemId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem">
+		update inspect_factory_apply_item 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
+				<if test="itemId != null ">ITEM_ID = #{itemId},</if>
+				<if test="itemName != null and itemName != ''">ITEM_NAME = #{itemName},</if>
+				<if test="certNum != null and certNum != ''">CERT_NUM = #{certNum},</if>
+				<if test="parentItmeId != null ">PARENT_ITME_ID = #{parentItmeId},</if>
+				<if test="parentItemName != null and parentItemName != ''">PARENT_ITEM_NAME = #{parentItemName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ITEM_ID = #{applyItemId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="inspectFactoryApplyItemResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_item
+    </select>
+
+    <select id="find" resultMap="inspectFactoryApplyItemResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_apply_item
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from inspect_factory_apply_item
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="inspectFactoryApplyItemResultMap"  >
+		select <include refid="table_columns" />
+		from inspect_factory_apply_item
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ITEM_ID = #{applyItemId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

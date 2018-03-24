@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualBrandApplyDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualBrandApply" id="individualBrandApplyResultMap">
+		<result property="brandApplyId" column="BRAND_APPLY_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH"  />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH"  />
+		<result property="brandName" column="BRAND_NAME"  />
+		<result property="brandDesc" column="BRAND_DESC"  />
+		<result property="status" column="STATUS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+		<result property="auditTime" column="AUDIT_TIME"  />
+		<result property="approveDesc" column="APPROVE_DESC"  />
+		<result property="approveAcctId" column="APPROVE_ACCT_ID"  />
+		<result property="approveMemberId" column="APPROVE_MEMBER_ID"  />
+		<result property="approveName" column="APPROVE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		BRAND_APPLY_ID,
+		MEMBER_ID,
+		CATEGORY_ID,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		BRAND_NAME,
+		BRAND_DESC,
+		STATUS,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		AUDIT_TIME,
+		APPROVE_DESC,
+		APPROVE_ACCT_ID,
+		APPROVE_MEMBER_ID,
+		APPROVE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{brandApplyId},
+		#{memberId},
+		#{categoryId},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{brandName},
+		#{brandDesc},
+		#{status},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{auditTime},
+		#{approveDesc},
+		#{approveAcctId},
+		#{approveMemberId},
+		#{approveName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="brandApplyId != null ">and BRAND_APPLY_ID = #{brandApplyId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+				<if test="brandName != null and brandName != ''">and BRAND_NAME = #{brandName}</if>
+				<if test="brandDesc != null and brandDesc != ''">and BRAND_DESC = #{brandDesc}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+				<if test="auditTime != null ">and AUDIT_TIME = #{auditTime}</if>
+				<if test="approveDesc != null and approveDesc != ''">and APPROVE_DESC = #{approveDesc}</if>
+				<if test="approveAcctId != null ">and APPROVE_ACCT_ID = #{approveAcctId}</if>
+				<if test="approveMemberId != null ">and APPROVE_MEMBER_ID = #{approveMemberId}</if>
+				<if test="approveName != null and approveName != ''">and APPROVE_NAME = #{approveName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandApply" >
+		insert into individual_brand_apply( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandApply">
+        insert into individual_brand_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="brandApplyId != null ">BRAND_APPLY_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+				<if test="brandName != null and brandName != ''">BRAND_NAME,</if>
+				<if test="brandDesc != null and brandDesc != ''">BRAND_DESC,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+				<if test="auditTime != null ">AUDIT_TIME,</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC,</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID,</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID,</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="brandApplyId != null ">#{brandApplyId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+				<if test="brandName != null and brandName != ''">#{brandName},</if>
+				<if test="brandDesc != null and brandDesc != ''">#{brandDesc},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createMemberId != null ">#{createMemberId},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+				<if test="auditTime != null ">#{auditTime},</if>
+				<if test="approveDesc != null and approveDesc != ''">#{approveDesc},</if>
+				<if test="approveAcctId != null ">#{approveAcctId},</if>
+				<if test="approveMemberId != null ">#{approveMemberId},</if>
+				<if test="approveName != null and approveName != ''">#{approveName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandApply">
+		delete from individual_brand_apply
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_brand_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_APPLY_ID = #{brandApplyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualBrandApply">
+		update individual_brand_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+				<if test="brandName != null and brandName != ''">BRAND_NAME = #{brandName},</if>
+				<if test="brandDesc != null and brandDesc != ''">BRAND_DESC = #{brandDesc},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+				<if test="auditTime != null ">AUDIT_TIME = #{auditTime},</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC = #{approveDesc},</if>
+				<if test="approveAcctId != null ">APPROVE_ACCT_ID = #{approveAcctId},</if>
+				<if test="approveMemberId != null ">APPROVE_MEMBER_ID = #{approveMemberId},</if>
+				<if test="approveName != null and approveName != ''">APPROVE_NAME = #{approveName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_APPLY_ID = #{brandApplyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualBrandApplyResultMap">
+        select <include refid="table_columns" />
+        from individual_brand_apply
+    </select>
+
+    <select id="find" resultMap="individualBrandApplyResultMap">
+        select <include refid="table_columns" />
+        from individual_brand_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_brand_apply
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualBrandApplyResultMap"  >
+		select <include refid="table_columns" />
+		from individual_brand_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and BRAND_APPLY_ID = #{brandApplyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

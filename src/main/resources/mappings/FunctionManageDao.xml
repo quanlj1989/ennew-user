@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.FunctionManageDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.FunctionManage" id="functionManageResultMap">
+		<result property="functionId" column="FUNCTION_ID"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="functionCode" column="FUNCTION_CODE"  />
+		<result property="functionTitle" column="FUNCTION_TITLE"  />
+		<result property="functionState" column="FUNCTION_STATE"  />
+		<result property="functionDesc" column="FUNCTION_DESC"  />
+		<result property="operStatistics" column="OPER_STATISTICS"  />
+		<result property="idFullPath" column="ID_FULL_PATH"  />
+		<result property="titleFullPath" column="TITLE_FULL_PATH"  />
+		<result property="isLastLevel" column="IS_LAST_LEVEL"  />
+		<result property="parentApplicationId" column="PARENT_APPLICATION_ID"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="updateTime" column="UPDATE_TIME"  />
+		<result property="isDelete" column="IS_DELETE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		FUNCTION_ID,
+		APP_ID,
+		FUNCTION_CODE,
+		FUNCTION_TITLE,
+		FUNCTION_STATE,
+		FUNCTION_DESC,
+		OPER_STATISTICS,
+		ID_FULL_PATH,
+		TITLE_FULL_PATH,
+		IS_LAST_LEVEL,
+		PARENT_APPLICATION_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		IS_DELETE
+    </sql>
+	<sql id="entity_properties">
+		#{functionId},
+		#{appId},
+		#{functionCode},
+		#{functionTitle},
+		#{functionState},
+		#{functionDesc},
+		#{operStatistics},
+		#{idFullPath},
+		#{titleFullPath},
+		#{isLastLevel},
+		#{parentApplicationId},
+		#{createTime},
+		#{updateTime},
+		#{isDelete}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="functionId != null ">and FUNCTION_ID = #{functionId}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="functionCode != null and functionCode != ''">and FUNCTION_CODE = #{functionCode}</if>
+				<if test="functionTitle != null and functionTitle != ''">and FUNCTION_TITLE = #{functionTitle}</if>
+				<if test="functionState != null ">and FUNCTION_STATE = #{functionState}</if>
+				<if test="functionDesc != null and functionDesc != ''">and FUNCTION_DESC = #{functionDesc}</if>
+				<if test="operStatistics != null ">and OPER_STATISTICS = #{operStatistics}</if>
+				<if test="idFullPath != null and idFullPath != ''">and ID_FULL_PATH = #{idFullPath}</if>
+				<if test="titleFullPath != null and titleFullPath != ''">and TITLE_FULL_PATH = #{titleFullPath}</if>
+				<if test="isLastLevel != null ">and IS_LAST_LEVEL = #{isLastLevel}</if>
+				<if test="parentApplicationId != null ">and PARENT_APPLICATION_ID = #{parentApplicationId}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="updateTime != null ">and UPDATE_TIME = #{updateTime}</if>
+				<if test="isDelete != null ">and IS_DELETE = #{isDelete}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.FunctionManage" >
+		insert into function_manage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.FunctionManage">
+        insert into function_manage
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="functionId != null ">FUNCTION_ID,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="functionCode != null and functionCode != ''">FUNCTION_CODE,</if>
+				<if test="functionTitle != null and functionTitle != ''">FUNCTION_TITLE,</if>
+				<if test="functionState != null ">FUNCTION_STATE,</if>
+				<if test="functionDesc != null and functionDesc != ''">FUNCTION_DESC,</if>
+				<if test="operStatistics != null ">OPER_STATISTICS,</if>
+				<if test="idFullPath != null and idFullPath != ''">ID_FULL_PATH,</if>
+				<if test="titleFullPath != null and titleFullPath != ''">TITLE_FULL_PATH,</if>
+				<if test="isLastLevel != null ">IS_LAST_LEVEL,</if>
+				<if test="parentApplicationId != null ">PARENT_APPLICATION_ID,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="updateTime != null ">UPDATE_TIME,</if>
+				<if test="isDelete != null ">IS_DELETE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="functionId != null ">#{functionId},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="functionCode != null and functionCode != ''">#{functionCode},</if>
+				<if test="functionTitle != null and functionTitle != ''">#{functionTitle},</if>
+				<if test="functionState != null ">#{functionState},</if>
+				<if test="functionDesc != null and functionDesc != ''">#{functionDesc},</if>
+				<if test="operStatistics != null ">#{operStatistics},</if>
+				<if test="idFullPath != null and idFullPath != ''">#{idFullPath},</if>
+				<if test="titleFullPath != null and titleFullPath != ''">#{titleFullPath},</if>
+				<if test="isLastLevel != null ">#{isLastLevel},</if>
+				<if test="parentApplicationId != null ">#{parentApplicationId},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="updateTime != null ">#{updateTime},</if>
+				<if test="isDelete != null ">#{isDelete},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.FunctionManage">
+		delete from function_manage
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from function_manage
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and FUNCTION_ID = #{functionId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.FunctionManage">
+		update function_manage 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="functionCode != null and functionCode != ''">FUNCTION_CODE = #{functionCode},</if>
+				<if test="functionTitle != null and functionTitle != ''">FUNCTION_TITLE = #{functionTitle},</if>
+				<if test="functionState != null ">FUNCTION_STATE = #{functionState},</if>
+				<if test="functionDesc != null and functionDesc != ''">FUNCTION_DESC = #{functionDesc},</if>
+				<if test="operStatistics != null ">OPER_STATISTICS = #{operStatistics},</if>
+				<if test="idFullPath != null and idFullPath != ''">ID_FULL_PATH = #{idFullPath},</if>
+				<if test="titleFullPath != null and titleFullPath != ''">TITLE_FULL_PATH = #{titleFullPath},</if>
+				<if test="isLastLevel != null ">IS_LAST_LEVEL = #{isLastLevel},</if>
+				<if test="parentApplicationId != null ">PARENT_APPLICATION_ID = #{parentApplicationId},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+				<if test="isDelete != null ">IS_DELETE = #{isDelete},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and FUNCTION_ID = #{functionId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="functionManageResultMap">
+        select <include refid="table_columns" />
+        from function_manage
+    </select>
+
+    <select id="find" resultMap="functionManageResultMap">
+        select <include refid="table_columns" />
+        from function_manage
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from function_manage
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="functionManageResultMap"  >
+		select <include refid="table_columns" />
+		from function_manage
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and FUNCTION_ID = #{functionId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

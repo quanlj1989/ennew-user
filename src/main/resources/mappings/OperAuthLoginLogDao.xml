@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.OperAuthLoginLogDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.OperAuthLoginLog" id="operAuthLoginLogResultMap">
+		<result property="logId" column="LOG_ID"  />
+		<result property="logCode" column="LOG_CODE"  />
+		<result property="logType" column="LOG_TYPE"  />
+		<result property="operPersonId" column="OPER_PERSON_ID"  />
+		<result property="operPersonName" column="OPER_PERSON_NAME"  />
+		<result property="appId" column="APP_ID"  />
+		<result property="appName" column="APP_NAME"  />
+		<result property="operId" column="OPER_ID"  />
+		<result property="operTitle" column="OPER_TITLE"  />
+		<result property="ipAddr" column="IP_ADDR"  />
+		<result property="operResult" column="OPER_RESULT"  />
+		<result property="logContent" column="LOG_CONTENT"  />
+		<result property="recordTime" column="RECORD_TIME"  />
+		<result property="loginType" column="LOGIN_TYPE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LOG_ID,
+		LOG_CODE,
+		LOG_TYPE,
+		OPER_PERSON_ID,
+		OPER_PERSON_NAME,
+		APP_ID,
+		APP_NAME,
+		OPER_ID,
+		OPER_TITLE,
+		IP_ADDR,
+		OPER_RESULT,
+		LOG_CONTENT,
+		RECORD_TIME,
+		LOGIN_TYPE
+    </sql>
+	<sql id="entity_properties">
+		#{logId},
+		#{logCode},
+		#{logType},
+		#{operPersonId},
+		#{operPersonName},
+		#{appId},
+		#{appName},
+		#{operId},
+		#{operTitle},
+		#{ipAddr},
+		#{operResult},
+		#{logContent},
+		#{recordTime},
+		#{loginType}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="logId != null ">and LOG_ID = #{logId}</if>
+				<if test="logCode != null and logCode != ''">and LOG_CODE = #{logCode}</if>
+				<if test="logType != null ">and LOG_TYPE = #{logType}</if>
+				<if test="operPersonId != null ">and OPER_PERSON_ID = #{operPersonId}</if>
+				<if test="operPersonName != null and operPersonName != ''">and OPER_PERSON_NAME = #{operPersonName}</if>
+				<if test="appId != null ">and APP_ID = #{appId}</if>
+				<if test="appName != null and appName != ''">and APP_NAME = #{appName}</if>
+				<if test="operId != null ">and OPER_ID = #{operId}</if>
+				<if test="operTitle != null and operTitle != ''">and OPER_TITLE = #{operTitle}</if>
+				<if test="ipAddr != null and ipAddr != ''">and IP_ADDR = #{ipAddr}</if>
+				<if test="operResult != null ">and OPER_RESULT = #{operResult}</if>
+				<if test="logContent != null and logContent != ''">and LOG_CONTENT = #{logContent}</if>
+				<if test="recordTime != null ">and RECORD_TIME = #{recordTime}</if>
+				<if test="loginType != null ">and LOGIN_TYPE = #{loginType}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.OperAuthLoginLog" >
+		insert into oper_auth_login_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.OperAuthLoginLog">
+        insert into oper_auth_login_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">LOG_ID,</if>
+				<if test="logCode != null and logCode != ''">LOG_CODE,</if>
+				<if test="logType != null ">LOG_TYPE,</if>
+				<if test="operPersonId != null ">OPER_PERSON_ID,</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME,</if>
+				<if test="appId != null ">APP_ID,</if>
+				<if test="appName != null and appName != ''">APP_NAME,</if>
+				<if test="operId != null ">OPER_ID,</if>
+				<if test="operTitle != null and operTitle != ''">OPER_TITLE,</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR,</if>
+				<if test="operResult != null ">OPER_RESULT,</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT,</if>
+				<if test="recordTime != null ">RECORD_TIME,</if>
+				<if test="loginType != null ">LOGIN_TYPE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">#{logId},</if>
+				<if test="logCode != null and logCode != ''">#{logCode},</if>
+				<if test="logType != null ">#{logType},</if>
+				<if test="operPersonId != null ">#{operPersonId},</if>
+				<if test="operPersonName != null and operPersonName != ''">#{operPersonName},</if>
+				<if test="appId != null ">#{appId},</if>
+				<if test="appName != null and appName != ''">#{appName},</if>
+				<if test="operId != null ">#{operId},</if>
+				<if test="operTitle != null and operTitle != ''">#{operTitle},</if>
+				<if test="ipAddr != null and ipAddr != ''">#{ipAddr},</if>
+				<if test="operResult != null ">#{operResult},</if>
+				<if test="logContent != null and logContent != ''">#{logContent},</if>
+				<if test="recordTime != null ">#{recordTime},</if>
+				<if test="loginType != null ">#{loginType},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.OperAuthLoginLog">
+		delete from oper_auth_login_log
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from oper_auth_login_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.OperAuthLoginLog">
+		update oper_auth_login_log 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="logCode != null and logCode != ''">LOG_CODE = #{logCode},</if>
+				<if test="logType != null ">LOG_TYPE = #{logType},</if>
+				<if test="operPersonId != null ">OPER_PERSON_ID = #{operPersonId},</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME = #{operPersonName},</if>
+				<if test="appId != null ">APP_ID = #{appId},</if>
+				<if test="appName != null and appName != ''">APP_NAME = #{appName},</if>
+				<if test="operId != null ">OPER_ID = #{operId},</if>
+				<if test="operTitle != null and operTitle != ''">OPER_TITLE = #{operTitle},</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR = #{ipAddr},</if>
+				<if test="operResult != null ">OPER_RESULT = #{operResult},</if>
+				<if test="logContent != null and logContent != ''">LOG_CONTENT = #{logContent},</if>
+				<if test="recordTime != null ">RECORD_TIME = #{recordTime},</if>
+				<if test="loginType != null ">LOGIN_TYPE = #{loginType},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="operAuthLoginLogResultMap">
+        select <include refid="table_columns" />
+        from oper_auth_login_log
+    </select>
+
+    <select id="find" resultMap="operAuthLoginLogResultMap">
+        select <include refid="table_columns" />
+        from oper_auth_login_log
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from oper_auth_login_log
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="operAuthLoginLogResultMap"  >
+		select <include refid="table_columns" />
+		from oper_auth_login_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

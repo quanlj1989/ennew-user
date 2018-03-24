@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.IndividualCertInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.IndividualCertInfo" id="individualCertInfoResultMap">
+		<result property="certInfoId" column="CERT_INFO_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="status" column="STATUS"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certNo" column="CERT_NO"  />
+		<result property="certName" column="CERT_NAME"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="modTime" column="MOD_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_INFO_ID,
+		MEMBER_ID,
+		STATUS,
+		CERT_TYPE,
+		CERT_NO,
+		CERT_NAME,
+		CREATE_TIME,
+		MOD_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{certInfoId},
+		#{memberId},
+		#{status},
+		#{certType},
+		#{certNo},
+		#{certName},
+		#{createTime},
+		#{modTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certInfoId != null ">and CERT_INFO_ID = #{certInfoId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
+				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="modTime != null ">and MOD_TIME = #{modTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertInfo" >
+		insert into individual_cert_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="certInfoId" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertInfo">
+        insert into individual_cert_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<!-- <if test="certInfoId != null ">CERT_INFO_ID,</if> -->
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certNo != null and certNo != ''">CERT_NO,</if>
+				<if test="certName != null and certName != ''">CERT_NAME,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="modTime != null ">MOD_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<!-- <if test="certInfoId != null ">#{certInfoId},</if> -->
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certNo != null and certNo != ''">#{certNo},</if>
+				<if test="certName != null and certName != ''">#{certName},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="modTime != null ">#{modTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertInfo">
+		delete from individual_cert_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from individual_cert_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_INFO_ID = #{certInfoId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertInfo">
+		update individual_cert_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
+				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="modTime != null ">MOD_TIME = #{modTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_INFO_ID = #{certInfoId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="individualCertInfoResultMap">
+        select <include refid="table_columns" />
+        from individual_cert_info
+    </select>
+
+    <select id="find" resultMap="individualCertInfoResultMap">
+        select <include refid="table_columns" />
+        from individual_cert_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from individual_cert_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="individualCertInfoResultMap"  >
+		select <include refid="table_columns" />
+		from individual_cert_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_INFO_ID = #{certInfoId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>
