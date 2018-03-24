@@ -22,6 +22,8 @@ public interface IndividualCertApplyService {
 
     public IndividualCertApply getIndividualCertApplyByPrimaryKey(Long certApplyId);
 
+    public IndividualCertApply getIndividualCertApplyByMemberId(Long memberId);
+    
     public Integer createIndividualCertApply(IndividualCertApply record);
 
     public Integer removeIndividualCertApply(IndividualCertApply record);

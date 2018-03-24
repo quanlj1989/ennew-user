@@ -65,6 +65,11 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
     public IndividualCertApply getIndividualCertApplyByPrimaryKey(Long certApplyId){
         return individualCertApplyDao.getByPrimaryKey(certApplyId);
     }
+    
+    @Override
+    public IndividualCertApply getIndividualCertApplyByMemberId(Long memberId){
+        return individualCertApplyDao.getByMemberId(memberId);
+    }
 
     @Override
     public Integer createIndividualCertApply(IndividualCertApply record){

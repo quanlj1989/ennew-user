@@ -14,7 +14,7 @@ public class RelaMemberToAcctApplyDTO implements Serializable {
 	private static final long serialVersionUID = -9121719803930691779L;
 	
 	private Long	relaId; /* 关系ID */
-	private Long	memberId; /* 会员ID */
+	private Long	memberId; /* 企业会员ID */
 	private Long	acctId; /* 账户ID */
 	private Integer	memberType; /* 会员类型 */
 	private Integer	status; /* 状态 */

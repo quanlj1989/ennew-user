@@ -32,6 +32,8 @@ public interface IndividualCertApplyDao {
 
     IndividualCertApply getByPrimaryKey(@Param("certApplyId") Long certApplyId);
     
+    IndividualCertApply getByMemberId(@Param("memberId") Long memberId);
+    
     /***
      * 查询人员审批列表总条数
      * @Description TODO
