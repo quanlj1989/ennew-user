@@ -27,6 +27,7 @@ public interface RelaMemberToAcctApplyService {
 
     public Integer modifyRelaMemberToAcctApplyByPrimaryKey(RelaMemberToAcctApply record);
     
+    public Integer modifyRelaAllByPrimaryKey(RelaMemberToAcctApply record);
     /**
      * 查看员工企业申请总数
      * @param query

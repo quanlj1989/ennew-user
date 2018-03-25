@@ -7,16 +7,13 @@ import cn.enn.ygego.sunny.user.dto.ReceiveAddressDTO;
 import cn.enn.ygego.sunny.user.dto.vo.BaseQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
-import cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
 import cn.enn.ygego.sunny.user.model.DeliverAddress;
-import cn.enn.ygego.sunny.user.model.IndividualCertApply;
 import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.ReceiveAddress;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply;
 import cn.enn.ygego.sunny.user.service.DeliverAddressService;
-import cn.enn.ygego.sunny.user.service.IndividualCertApplyService;
 import cn.enn.ygego.sunny.user.service.IndividualCustService;
 import cn.enn.ygego.sunny.user.service.MemberInfoService;
 import cn.enn.ygego.sunny.user.service.ReceiveAddressService;
@@ -64,8 +61,6 @@ public class PersonManagerController {
     private DeliverAddressService deliverAddressService;
     @Autowired
     private IndividualCustService individualCustService;  /* 客户个人信息服务 */
-    @Autowired
-    private IndividualCertApplyService individualCertApplyService;  /* 个人认证申请  */ 
     @Autowired
     private RelaMemberToAcctService relaMemberToAcctService; /* 账户会员关系表 */
     @Autowired
@@ -244,23 +239,20 @@ public class PersonManagerController {
         /*
          *  账号未申请个人认证不能申请企业
          */
-    	EmployeeVO empolyee = request.getReqBody();
-    	// 验证账号是否申请个人认证
-    	IndividualCertApply personApply = individualCertApplyService.getIndividualCertApplyByMemberId(empolyee.getMemberId());
-    	if(personApply == null){
-    		result = new JsonResponse<>("502","请先申请个人资质认证，再选择加入企业");
-    		return result;
-    	}
+    	EmployeeVO employee = request.getReqBody();
+    	// 验证账号是否申请个人认证   TODO 在账户表冗余 申请状态字段，通过账号表验证是否申请
+    	
+    	
     	// 验证是否为企业
-    	MemberInfo member = memberInfoService.getMemberInfoByPrimaryKey(empolyee.getMemberId());
+    	MemberInfo member = memberInfoService.getMemberInfoByPrimaryKey(employee.getMemberId());
     	if(member == null || member.getMemberType() != 4){
     		result = new JsonResponse<>("502","请选择正确的企业");
     		return result;
     	}
     	// 验证账户关系
     	RelaMemberToAcct relaCheck = new RelaMemberToAcct();
-    	relaCheck.setAcctId(empolyee.getAcctId());      // 账户ID
-    	relaCheck.setMemberId(empolyee.getMemberId());  // 企业会员ID
+    	relaCheck.setAcctId(employee.getAcctId());      // 账户ID
+    	relaCheck.setMemberId(employee.getMemberId());  // 企业会员ID
     	List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaCheck);
     	if(relaList == null || relaList.size() == 0 ){
     		result = new JsonResponse<>("502", "已经加入企业，不能重复申请");
@@ -268,22 +260,21 @@ public class PersonManagerController {
     	}
     	// 验证是否申请企业
     	RelaMemberToAcctApply applyCheck = new RelaMemberToAcctApply();
-    	applyCheck.setAcctId(empolyee.getAcctId());      // 账户ID
-    	applyCheck.setMemberId(empolyee.getMemberId());  // 企业会员ID
+    	applyCheck.setAcctId(employee.getAcctId());      // 账户ID
+    	applyCheck.setMemberId(employee.getMemberId());  // 企业会员ID
     	List<RelaMemberToAcctApply> applyList = relaMemberToAcctApplyService.findRelaMemberToAcctApplys(applyCheck);
     	if(applyList != null && applyList.size() > 0 ){
     		result = new JsonResponse<>("502", "不能重复申请企业");
     		return result;
     	}
     	// 保存数据
-    	empolyee.setMemberType(4); // 会员类型：企业
-    	empolyee.setStatus(2);     // 状态：提交申请
-    	empolyee.setAuditTime(new Date());  // 创建时间
+    	employee.setMemberType(4); // 会员类型：企业
+    	employee.setStatus(2);     // 状态：提交申请
     	RelaMemberToAcctApply addApply = new RelaMemberToAcctApply();
-    	BeanUtils.copyProperties(empolyee, addApply);
+    	BeanUtils.copyProperties(employee, addApply);
     	Integer operation = relaMemberToAcctApplyService.createRelaMemberToAcctApply(addApply);
         if(operation > 0){
-        	result = new JsonResponse<>(empolyee);
+        	result = new JsonResponse<>(employee);
         }else{
         	result = new JsonResponse<>("502","申请提交失败");
         }
@@ -291,7 +282,7 @@ public class PersonManagerController {
     }
     
     /**
-     * @Description TODO
+     * @Description 企业审批员工加入
      * @author "quanlinjie"
      * @date 2018年3月19日 下午8:00:22 
      * @param request
@@ -300,10 +291,40 @@ public class PersonManagerController {
     @RequestMapping(value="/examineJoinEnt", method = { RequestMethod.POST})
     @ApiOperation("企业审批员工加入")
     @ResponseBody
-    public JsonResponse<EmployeeVO> examineJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
+    public JsonResponse<RelaMemberToAcctApply> examineJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
+    	logger.info("PersonManagerController.examineJoinEnt request= {}",request);
+        JsonResponse<RelaMemberToAcctApply> result = null;
+        EmployeeVO employee = request.getReqBody();
+        RelaMemberToAcctApply relaApply = relaMemberToAcctApplyService.getRelaMemberToAcctApplyByPrimaryKey(employee.getRelaId());
+        if(relaApply == null || relaApply.getStatus() != 2){
+        	result = new JsonResponse<>("502","申请信息不存再，或已被驳回。");
+        	return result;
+        }
+        // TODO 通过账户表验证人员是否个人认证通过
         
-        JsonResponse<EmployeeVO> result = new JsonResponse<>();
-        
+        // 验证账户关系
+    	RelaMemberToAcct relaCheck = new RelaMemberToAcct();
+    	relaCheck.setAcctId(relaApply.getAcctId());      // 账户ID
+    	relaCheck.setMemberId(relaApply.getMemberId());  // 企业会员ID
+    	List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaCheck);
+    	if(relaList == null || relaList.size() == 0 ){
+    		result = new JsonResponse<>("502", "已经加入企业，不能重复申请");
+    		return result;
+    	}
+    	// 更新数据
+    	relaApply.setAuditTime(new Date());  // 审批时间
+    	relaApply.setApproveAcctId(employee.getApproveAcctId()); // 审核人账户ID
+    	relaApply.setApproveName(employee.getApproveName());  // 审核人姓名 
+    	relaApply.setStatus(employee.getStatus());  // 状态
+    	Integer operation = relaMemberToAcctApplyService.modifyRelaMemberToAcctApplyByPrimaryKey(relaApply);
+    	// 跟新正式表数据
+        if(operation > 0 && relaApply.getStatus() == 1){ // 通过
+        	RelaMemberToAcct real = new RelaMemberToAcct();
+        	relaApply.setRelaId(null);
+        	BeanUtils.copyProperties(relaApply, real);
+        	relaMemberToAcctService.createRelaMemberToAcct(real);  //添加关系到正式表
+        }
+        result = new JsonResponse<>(relaApply);
         return result;
     }
 
@@ -317,10 +338,25 @@ public class PersonManagerController {
     @RequestMapping(value="/reapplicationJoinEnt", method = { RequestMethod.POST})
     @ApiOperation("重新申请加入企业")
     @ResponseBody
-    public JsonResponse<EmployeeVO> reapplicationJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
-        
-        JsonResponse<EmployeeVO> result = new JsonResponse<>();
-        
+    public JsonResponse<RelaMemberToAcctApply> reapplicationJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
+    	logger.info("PersonManagerController.reapplicationJoinEnt request= {}",request);
+        JsonResponse<RelaMemberToAcctApply> result = null;
+        EmployeeVO employee = request.getReqBody();
+        // 获取申请信息
+        RelaMemberToAcctApply relaApply = relaMemberToAcctApplyService.getRelaMemberToAcctApplyByPrimaryKey(employee.getRelaId());
+        if(relaApply == null){
+        	result = new JsonResponse<>("502","申请信息不存再");
+        	return result;
+        }
+        // 修改申请数据
+        relaApply.setApplySpec(employee.getApplySpec());  // 申请意见
+        relaApply.setAuditTime(null);  // 审批时间
+    	relaApply.setApproveAcctId(null); // 审核人账户ID
+    	relaApply.setApproveName(null);  // 审核人姓名 
+    	relaApply.setStatus(2);  // 状态
+    	relaMemberToAcctApplyService.modifyRelaAllByPrimaryKey(relaApply);
+    	
+    	result = new JsonResponse<>(relaApply);
         return result;
     }
     

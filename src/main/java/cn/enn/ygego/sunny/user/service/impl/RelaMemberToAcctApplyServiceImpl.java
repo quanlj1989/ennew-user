@@ -51,6 +51,10 @@ public class RelaMemberToAcctApplyServiceImpl implements RelaMemberToAcctApplySe
         return relaMemberToAcctApplyDao.updateByPrimaryKey(record);
     }
 
+    public Integer modifyRelaAllByPrimaryKey(RelaMemberToAcctApply record){
+        return relaMemberToAcctApplyDao.updateAllByPrimaryKey(record);
+    }
+    
     @Override
     public Integer getEmployeeApplyCount(EmployeeQueryVO query){
     	return relaMemberToAcctApplyDao.getEmployeeApplyCount(query);

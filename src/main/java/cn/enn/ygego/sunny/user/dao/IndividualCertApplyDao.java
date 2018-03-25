@@ -23,6 +23,8 @@ public interface IndividualCertApplyDao {
     Integer deleteByPrimaryKey(@Param("certApplyId") Long certApplyId);
     
     Integer updateByPrimaryKey(IndividualCertApply record);
+    
+    Integer updateByIdResetApprove(IndividualCertApply record);
 
     List<IndividualCertApply> findAll();
 

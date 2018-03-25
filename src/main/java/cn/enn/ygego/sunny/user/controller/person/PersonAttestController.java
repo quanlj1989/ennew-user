@@ -21,6 +21,7 @@ import cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonVO;
 import cn.enn.ygego.sunny.user.model.IndividualCertApply;
+import cn.enn.ygego.sunny.user.service.BusiAcctInfoService;
 import cn.enn.ygego.sunny.user.service.IndividualCertApplyService;
 import cn.enn.ygego.sunny.user.service.IndividualCustService;
 import io.swagger.annotations.Api;
@@ -47,6 +48,8 @@ public class PersonAttestController {
     private IndividualCertApplyService individualCertApplyService;  /* 个人认证申请  */ 
     @Autowired
     private IndividualCustService individualCustService;  /* 客户个人信息服务 */
+    @Autowired
+    private BusiAcctInfoService busiAcctInfoService;
     
     /**
      * 查询个人认证数据列表
@@ -137,6 +140,8 @@ public class PersonAttestController {
         // 新增认证信息
         try{
             applyData.setStatus(ExamineStatusEnum.APPLY_STATUS_SUBMIT.getCode());  // 申请个人认证
+            applyData.setCreateTime(new Date());
+            applyData.setApplyTime(new Date());
             
             individualCertApplyService.addIndividualCertApply(applyData);
         }catch (Exception e) {
@@ -177,14 +182,12 @@ public class PersonAttestController {
             result = new JsonResponse<>("502", "资质审核信息不能重复审批");
             return result;
         }
-        
         record.setStatus(applyData.getStatus()); // 设置状态
         record.setApproveAcctId(applyData.getApproveAcctId());  /* 审核人账户ID */ 
         record.setApproveName(applyData.getApproveName());   /* 审核人姓名 */ 
         record.setApproveMemberId(applyData.getApproveMemberId());  /* 审核人会员ID */ 
         record.setApproveDesc(applyData.getApproveDesc());  /* 审核结果描述 */ 
         record.setAuditTime(new Date());  /* 审核时间 */ 
-        
         if(record.getStatus() == ExamineStatusEnum.APPLY_STATUS_AGREE.getCode()){ 
             try{
                 // 审批通过，更新审批表信息
@@ -192,7 +195,7 @@ public class PersonAttestController {
                 // 复制数据 添加到正式表
                 individualCertApplyService.copyApplyToIndividualCust(record);
                 
-                // TODO 更新账户表用户信息
+                // TODO 更新账户表用户信息  （姓名及状态） 
                 
             }catch (Exception e) {
                 e.printStackTrace();
@@ -203,9 +206,7 @@ public class PersonAttestController {
             // 审批不通过，更新数据
             individualCertApplyService.modifyIndividualCertApplyByPrimaryKey(record);
         }
-        
         result = new JsonResponse<>(record);
-        
         return result;
     }
     
@@ -221,11 +222,8 @@ public class PersonAttestController {
     @ResponseBody
     public JsonResponse<IndividualCertApplyDTO> reapplication(@RequestBody JsonRequest<IndividualCertApplyDTO> request){
         logger.info("PersonAttestController.reapplication request= {}",request);
-        
         JsonResponse<IndividualCertApplyDTO> result = null;
-        
         IndividualCertApplyDTO applyData = request.getReqBody();
-        
         // 获取资质信息
         IndividualCertApply apply = individualCertApplyService.getIndividualCertApplyByPrimaryKey(applyData.getCertApplyId());
         if(apply == null){
@@ -244,13 +242,20 @@ public class PersonAttestController {
         }
         // 更新申请数据
         try {
+        	applyData.setMemberId(apply.getMemberId());
             applyData.setStatus(ExamineStatusEnum.APPLY_STATUS_SUBMIT.getCode());  // 设置待审批状态
+            applyData.setCreateTime(new Date());
+            applyData.setApplyTime(new Date());
+            applyData.setApproveAcctId(null);
+            applyData.setApproveDesc(null);
+            applyData.setApproveMemberId(null);
+            applyData.setApproveName(null);
             individualCertApplyService.updateIndividualCertApply(applyData);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (Exception ex) {
+        	logger.error("delReceiveAddress: 删除收货地址接口报错!" + ex.getMessage(), ex);
+            result = new JsonResponse<>("0100000",ex.getMessage());
+            return result;
         } 
-        
         result = new JsonResponse<>(applyData);
         return result;
         

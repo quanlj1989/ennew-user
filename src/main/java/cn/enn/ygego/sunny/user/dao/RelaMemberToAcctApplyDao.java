@@ -23,6 +23,8 @@ public interface RelaMemberToAcctApplyDao {
     
     Integer updateByPrimaryKey(RelaMemberToAcctApply record);
 
+    Integer updateAllByPrimaryKey(RelaMemberToAcctApply record);
+    
     List<RelaMemberToAcctApply> findAll();
 
     List<RelaMemberToAcctApply> find(RelaMemberToAcctApply record);

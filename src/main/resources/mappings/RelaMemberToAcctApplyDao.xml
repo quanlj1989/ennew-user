@@ -97,7 +97,7 @@
 	</delete>
 
 
-	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
+	<update id="updateAllByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
 		update rela_member_to_acct_apply 
 		<trim prefix="set" suffixOverrides=",">
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
@@ -108,6 +108,23 @@
 				<if test="approveAcctId != null ">APPROVE_ACCT_ID = #{approveAcctId},</if>
 				<if test="approveName != null and approveName != ''">APPROVE_NAME = #{approveName},</if>
 				<if test="auditTime != null ">AUDIT_TIME = #{auditTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and RELA_ID = #{relaId}</if>
+        </trim>
+	</update>
+	
+	<update id="updateAllById" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
+		update rela_member_to_acct_apply 
+		<trim prefix="set" suffixOverrides=",">
+			MEMBER_ID = #{memberId},
+			ACCT_ID = #{acctId},
+			MEMBER_TYPE = #{memberType},
+			STATUS = #{status},
+			APPLY_SPEC = #{applySpec},
+			APPROVE_ACCT_ID = #{approveAcctId},
+			APPROVE_NAME = #{approveName},
+			AUDIT_TIME = #{auditTime},
 		</trim>
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="1==1">and RELA_ID = #{relaId}</if>
@@ -153,7 +170,7 @@
         </trim>
     </sql>
 	
-	<select id="getEmployeeApplyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
+	<select id="getEmployeeApplyCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
 		resultType="java.lang.Integer" >
 		SELECT COUNT(DISTINCT aly.RELA_ID , ent.ENT_NAME)
 		FROM rela_member_to_acct_apply aly 

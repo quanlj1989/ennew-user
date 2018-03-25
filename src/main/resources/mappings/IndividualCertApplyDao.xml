@@ -169,6 +169,31 @@
 			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
         </trim>
 	</update>
+	
+	<update id="updateByIdResetApprove" parameterType="cn.enn.ygego.sunny.user.model.IndividualCertApply">
+		update individual_cert_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="applyType != null ">APPLY_TYPE = #{applyType},</if>
+				<if test="name != null and name != ''">NAME = #{name},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certCode != null and certCode != ''">CERT_CODE = #{certCode},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="applyTime != null ">APPLY_TIME = #{applyTime},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+				<if test="createName != null and createName != ''">AUDIT_TIME = #{auditTime},</if>
+				APPROVE_ACCT_ID = #{approveAcctId},
+				APPROVE_NAME = #{approveName},
+				APPROVE_MEMBER_ID = #{approveMemberId},
+				APPROVE_DESC = #{approveDesc},
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</update>
 
     <select id="findAll" resultMap="individualCertApplyResultMap">
         select <include refid="table_columns" />

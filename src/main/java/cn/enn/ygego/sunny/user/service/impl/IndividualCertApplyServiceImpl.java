@@ -2,6 +2,7 @@ package cn.enn.ygego.sunny.user.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import cn.enn.ygego.sunny.user.service.IndividualCertApplyService;
 import cn.enn.ygego.sunny.user.dao.IndividualCertApplyDao;
@@ -136,7 +137,6 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         if(applyF <= 0){
             return null;
         }
-        
         applyData.setCertApplyId(apply.getCertApplyId()); // 配置资质申请主键
         
         // 保存资质申请详情信息
@@ -147,7 +147,6 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         if(detailF <= 0){
             return null;
         }
-        
         applyData.setCertApplyDetailId(applyDetail.getCertApplyDetailId()); // 配置资质申请详情主键
         
         // 保存资质申请文件列表
@@ -155,9 +154,9 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         for(IndividualCertApplyFile file : applyData.getIndividualCertApplyFileList()){
             // 关联资质申请详情
             file.setCertApplyDetailId(applyDetail.getCertApplyDetailId());
+            file.setCreateTime(new Date());
             fileList.add(file);
         }
-        
         individualCertApplyFileDao.insertList(fileList); // 批量保存文件数据
         
         return applyData;
@@ -169,12 +168,11 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         // 修改资质申请信息
         IndividualCertApply apply = new IndividualCertApply();
         BeanUtils.copyProperties(apply, applyData);
-        individualCertApplyDao.updateByPrimaryKey(apply);
+        individualCertApplyDao.updateByIdResetApprove(apply); // 重置审批意见
         // 修改资质申请详情信息
         IndividualCertApplyDetail applyDetail = individualCertApplyDetailDao.getByCertApplyId(applyData.getCertApplyId());
-        applyDetail.setCertNo(applyData.getCertCode());    // 身份证号
-        applyDetail.setCertType(applyData.getCertType());  // 证件类型
-        applyDetail.setCertName(applyData.getName());      // 证件名称
+        BeanUtils.copyProperties(applyDetail, apply);
+        applyDetail.setCertNo(apply.getCertCode());  // 身份证号转换
         individualCertApplyDetailDao.updateByPrimaryKey(applyDetail);
         
         // 更新文件信息 （全删全增）
@@ -188,6 +186,7 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         for(IndividualCertApplyFile file : applyData.getIndividualCertApplyFileList()){
             // 关联资质申请详情
             file.setCertApplyDetailId(applyDetail.getCertApplyDetailId());
+            file.setCreateTime(new Date());
             fileList.add(file);
         }
         
