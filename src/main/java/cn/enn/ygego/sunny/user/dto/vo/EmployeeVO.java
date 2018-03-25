@@ -4,10 +4,11 @@ import java.util.Date;
 
 import cn.enn.ygego.sunny.user.dto.RelaMemberToAcctApplyDTO;
 
-public class EmpolyeeVO extends RelaMemberToAcctApplyDTO {
+public class EmployeeVO extends RelaMemberToAcctApplyDTO {
 
     private static final long serialVersionUID = -8833426004818814262L;
     
+    private String entName;  /* 企业名称 */
     private String  acctName; /* 账户名称 */
     private String  acctCode; /* 账户编码 */
     private String  name; /* 姓名 */
@@ -16,7 +17,14 @@ public class EmpolyeeVO extends RelaMemberToAcctApplyDTO {
     private String  email; /* 电子邮件 */
     private Date    registerTime; /* 注册时间 */
     
-    public String getAcctName() {
+    
+    public String getEntName() {
+		return entName;
+	}
+	public void setEntName(String entName) {
+		this.entName = entName;
+	}
+	public String getAcctName() {
         return acctName;
     }
     public void setAcctName(String acctName) {

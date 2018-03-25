@@ -6,7 +6,7 @@ import cn.enn.ygego.sunny.user.dto.IndividualCustDTO;
 import cn.enn.ygego.sunny.user.dto.ReceiveAddressDTO;
 import cn.enn.ygego.sunny.user.dto.vo.BaseQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
-import cn.enn.ygego.sunny.user.dto.vo.EmpolyeeVO;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
 import cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
 import cn.enn.ygego.sunny.user.model.DeliverAddress;
@@ -112,7 +112,7 @@ public class PersonManagerController {
     @ApiOperation("查看个人用户详情接口")
     @ResponseBody
     public JsonResponse<PersonVO> getDetail(@RequestBody JsonRequest<PersonQueryVO> request){
-
+    	logger.info("PersonManagerController.getDetail request= {}",request);
         JsonResponse<PersonVO> result = null;
         // 获取参数，验证传入查询ID
         PersonQueryVO personQuery = request.getReqBody();
@@ -178,7 +178,6 @@ public class PersonManagerController {
     }
     
     /**
-     * TODO
      * @Description 查看企业员工列表
      * @author "quanlinjie"
      * @date 2018年3月19日 下午7:48:58 
@@ -188,29 +187,44 @@ public class PersonManagerController {
     @RequestMapping(value="/getEntEmployeeList", method = { RequestMethod.POST})
     @ApiOperation("查看企业员工列表")
     @ResponseBody
-    public JsonResponse<PageDTO<EmpolyeeVO>> getEntEmployeeList(@RequestBody JsonRequest<EmployeeQueryVO> request){
-        
+    public JsonResponse<PageDTO<EmployeeVO>> getEmployeeApplyList(@RequestBody JsonRequest<EmployeeQueryVO> request){
+    	logger.info("PersonManagerController.getEmployeeApplyList request= {}",request);
+    	// memberId, 必填 （ TODO 账户表中添加一个，认证是否通过的状态）
         /* 1.查看用户申请列表，关联用户个人审批表，未审批通过的（不能审批）不能显示
          * */
-        JsonResponse<PageDTO<EmpolyeeVO>> result = new JsonResponse<PageDTO<EmpolyeeVO>>();
-        
+        JsonResponse<PageDTO<EmployeeVO>> result = new JsonResponse<PageDTO<EmployeeVO>>();
+        EmployeeQueryVO query = request.getReqBody();
+        Integer totalNum = relaMemberToAcctApplyService.getEmployeeApplyCount(query);
+        PageDTO<EmployeeVO> page = new PageDTO<>(query.getPageNum(), query.getPageSize());
+        page.setTotal(totalNum);
+        query.setStartRow(page.getStartRow());
+        // 查询列表
+        List<EmployeeVO> queryList = relaMemberToAcctApplyService.getEmployeeApplyList(query);
+        page.setResultData(queryList);
+        result = new JsonResponse<>(page);
         return result;
     }
     
     /**
-     * 
-     * @Description TODO
+     * @Description 查看个人申请企业申请详情
      * @author puanl
      * @date 2018年3月24日 下午3:51:22 
      * @param request
      * @return
      */
     @RequestMapping(value="/getEntEmployeeDetail", method = { RequestMethod.POST})
-    @ApiOperation("查看企业员详情")
+    @ApiOperation("查看个人申请企业申请详情")
     @ResponseBody
-    public JsonResponse<EmpolyeeVO> getEntEmployeeDetail(@RequestBody JsonRequest<EmployeeQueryVO> request){
-        JsonResponse<EmpolyeeVO> result = new JsonResponse<EmpolyeeVO>();
-        
+    public JsonResponse<EmployeeVO> getEmployeeApplyDetail(@RequestBody JsonRequest<EmployeeQueryVO> request){
+    	logger.info("PersonManagerController.getEmployeeApplyDetail request= {}",request);
+        JsonResponse<EmployeeVO> result = null;
+        EmployeeQueryVO query = request.getReqBody();
+        if(query == null || query.getRelaId() == null){
+        	result = new JsonResponse<>("502","企业申请ID不能为空");
+            return result;
+        }
+        EmployeeVO employee = relaMemberToAcctApplyService.getEmployeeApplyDetail(query.getRelaId());
+        result = new JsonResponse<>(employee);
         return result;
     }
     
@@ -224,14 +238,13 @@ public class PersonManagerController {
     @RequestMapping(value="/applyJoinEnt", method = { RequestMethod.POST})
     @ApiOperation("个人申请加入企业员工接口")
     @ResponseBody
-    public JsonResponse<EmpolyeeVO> applyJoinEnt(@RequestBody JsonRequest<EmpolyeeVO> request){
-        
+    public JsonResponse<EmployeeVO> applyJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
     	logger.info("PersonManagerController.applyJoinEnt request= {}",request);
-    	JsonResponse<EmpolyeeVO> result = new JsonResponse<>();
+    	JsonResponse<EmployeeVO> result = new JsonResponse<>();
         /*
          *  账号未申请个人认证不能申请企业
          */
-    	EmpolyeeVO empolyee = request.getReqBody();
+    	EmployeeVO empolyee = request.getReqBody();
     	// 验证账号是否申请个人认证
     	IndividualCertApply personApply = individualCertApplyService.getIndividualCertApplyByMemberId(empolyee.getMemberId());
     	if(personApply == null){
@@ -262,15 +275,14 @@ public class PersonManagerController {
     		result = new JsonResponse<>("502", "不能重复申请企业");
     		return result;
     	}
-    	
     	// 保存数据
     	empolyee.setMemberType(4); // 会员类型：企业
     	empolyee.setStatus(2);     // 状态：提交申请
     	empolyee.setAuditTime(new Date());  // 创建时间
     	RelaMemberToAcctApply addApply = new RelaMemberToAcctApply();
     	BeanUtils.copyProperties(empolyee, addApply);
-    	Integer res = relaMemberToAcctApplyService.createRelaMemberToAcctApply(addApply);
-        if(res > 0){
+    	Integer operation = relaMemberToAcctApplyService.createRelaMemberToAcctApply(addApply);
+        if(operation > 0){
         	result = new JsonResponse<>(empolyee);
         }else{
         	result = new JsonResponse<>("502","申请提交失败");
@@ -288,9 +300,9 @@ public class PersonManagerController {
     @RequestMapping(value="/examineJoinEnt", method = { RequestMethod.POST})
     @ApiOperation("企业审批员工加入")
     @ResponseBody
-    public JsonResponse<EmpolyeeVO> examineJoinEnt(@RequestBody JsonRequest<EmpolyeeVO> request){
+    public JsonResponse<EmployeeVO> examineJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
         
-        JsonResponse<EmpolyeeVO> result = new JsonResponse<>();
+        JsonResponse<EmployeeVO> result = new JsonResponse<>();
         
         return result;
     }
@@ -305,9 +317,9 @@ public class PersonManagerController {
     @RequestMapping(value="/reapplicationJoinEnt", method = { RequestMethod.POST})
     @ApiOperation("重新申请加入企业")
     @ResponseBody
-    public JsonResponse<EmpolyeeVO> reapplicationJoinEnt(@RequestBody JsonRequest<EmpolyeeVO> request){
+    public JsonResponse<EmployeeVO> reapplicationJoinEnt(@RequestBody JsonRequest<EmployeeVO> request){
         
-        JsonResponse<EmpolyeeVO> result = new JsonResponse<>();
+        JsonResponse<EmployeeVO> result = new JsonResponse<>();
         
         return result;
     }

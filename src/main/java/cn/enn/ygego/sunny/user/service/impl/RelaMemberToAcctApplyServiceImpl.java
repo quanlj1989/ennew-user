@@ -3,6 +3,8 @@ package cn.enn.ygego.sunny.user.service.impl;
 import java.util.List;
 import cn.enn.ygego.sunny.user.service.RelaMemberToAcctApplyService;
 import cn.enn.ygego.sunny.user.dao.RelaMemberToAcctApplyDao;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply;
 
 import org.springframework.stereotype.Service;
@@ -49,11 +51,20 @@ public class RelaMemberToAcctApplyServiceImpl implements RelaMemberToAcctApplySe
         return relaMemberToAcctApplyDao.updateByPrimaryKey(record);
     }
 
+    @Override
+    public Integer getEmployeeApplyCount(EmployeeQueryVO query){
+    	return relaMemberToAcctApplyDao.getEmployeeApplyCount(query);
+    }
+    
+	@Override
+	public List<EmployeeVO> getEmployeeApplyList(EmployeeQueryVO query) {
+		return relaMemberToAcctApplyDao.getEmployeeApplyList(query);
+	}
 
-
-
-
-
+	@Override
+	public EmployeeVO getEmployeeApplyDetail(Long relaId) {
+		return relaMemberToAcctApplyDao.getEmployeeApplyDetail(relaId);
+	}
 
 
 

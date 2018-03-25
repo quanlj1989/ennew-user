@@ -2,6 +2,9 @@ package cn.enn.ygego.sunny.user.dao;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply;
 
 /**
@@ -28,7 +31,10 @@ public interface RelaMemberToAcctApplyDao {
 
     RelaMemberToAcctApply getByPrimaryKey(@Param("relaId") Long relaId);
 
+    Integer getEmployeeApplyCount(EmployeeQueryVO query);
+    
+	List<EmployeeVO> getEmployeeApplyList(EmployeeQueryVO query);
 	
-
+	EmployeeVO getEmployeeApplyDetail(@Param("relaId") Long relaId);
 
 }
