@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.enn.ygego.sunny.core.page.PageDTO;
 import cn.enn.ygego.sunny.core.web.json.JsonRequest;
 import cn.enn.ygego.sunny.core.web.json.JsonResponse;
-import cn.enn.ygego.sunny.user.constant.ExamineStatusEnum;
+import cn.enn.ygego.sunny.user.constant.PersonConstant;
 import cn.enn.ygego.sunny.user.dto.IndividualCertApplyDTO;
 import cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonVO;
+import cn.enn.ygego.sunny.user.model.BusiAcctInfo;
 import cn.enn.ygego.sunny.user.model.IndividualCertApply;
 import cn.enn.ygego.sunny.user.service.BusiAcctInfoService;
 import cn.enn.ygego.sunny.user.service.IndividualCertApplyService;
@@ -69,7 +70,8 @@ public class PersonAttestController {
         PersonQueryVO query = request.getReqBody();
         // 处理查询条件，计算分页
         Integer totalNum = individualCertApplyService.getAcctCertApplyCount(query);
-        PageDTO<IndividualCertApplyVO> page = new PageDTO<>(query.getPageNum(), query.getPageSize());
+        PageDTO<IndividualCertApplyVO> page = new PageDTO<>(query.getPageNum()==null?1:query.getPageNum(), 
+                query.getPageSize()==null?10:query.getPageSize());
         page.setTotal(totalNum);
         query.setStartRow(page.getStartRow());
         // 查询列表
@@ -115,7 +117,7 @@ public class PersonAttestController {
         IndividualCertApplyDTO applyData = request.getReqBody();
         // 判断会员ID与账户ID是否一致，且会员ID为
         PersonVO person = individualCustService.getPersonDetail(applyData.getMemberId(), null);
-        if(person == null || person.getMemberType() != 3 ){
+        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
             result = new JsonResponse<>("502", "会员信息不正确！");
             return result;
         }
@@ -131,7 +133,7 @@ public class PersonAttestController {
         record.setMemberId(null);
         record.setCertType(applyData.getCertType()); // 证件类型
         record.setCertCode(applyData.getCertCode()); // 证件号码
-        record.setStatus(ExamineStatusEnum.APPLY_STATUS_AGREE.getCode());                         // 审批通过的
+        record.setStatus(PersonConstant.AUTH_STATUS_AGREE);                         // 审批通过的
         List<IndividualCertApply> recordCodeList = individualCertApplyService.findIndividualCertApplys(record);
         if(recordCodeList.size() > 0){
             result = new JsonResponse<>("502", "身份证件号重复已经申请认证，不能重复。");
@@ -139,11 +141,18 @@ public class PersonAttestController {
         }
         // 新增认证信息
         try{
-            applyData.setStatus(ExamineStatusEnum.APPLY_STATUS_SUBMIT.getCode());  // 申请个人认证
+            applyData.setStatus(PersonConstant.AUTH_STATUS_SUBMIT);  // 申请个人认证
             applyData.setCreateTime(new Date());
             applyData.setApplyTime(new Date());
             
             individualCertApplyService.addIndividualCertApply(applyData);
+            
+            // 更新账户表审批状态
+            BusiAcctInfo acct = new BusiAcctInfo();
+            acct.setAcctId(person.getAcctId());    // 账户ID
+            acct.setAuthState(applyData.getStatus()); // 认证状态
+            busiAcctInfoService.modifyBusiAcctInfoByPrimaryKey(acct);
+            
         }catch (Exception e) {
             e.printStackTrace();
             result = new JsonResponse<>("502", "提交异常，个人资质申请失败。");
@@ -169,7 +178,6 @@ public class PersonAttestController {
         JsonResponse<IndividualCertApply> result = null;
         
         IndividualCertApplyDTO applyData = request.getReqBody();
-        
         // 获取个人资质申请信息
         IndividualCertApply record = individualCertApplyService.getIndividualCertApplyByPrimaryKey(applyData.getCertApplyId());
         // 验证个人资质申请信息是否存在
@@ -177,34 +185,64 @@ public class PersonAttestController {
             result = new JsonResponse<>("502", "资质审核信息不存在。");
             return result;
         }
+        // 获取用户信息
+        PersonVO person = individualCustService.getPersonDetail(record.getMemberId(), null);
+        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
+            result = new JsonResponse<>("502", "会员信息不正确！");
+            return result;
+        }
         // 验证个人资质申请信息状态 
-        if(record.getStatus() != ExamineStatusEnum.APPLY_STATUS_SUBMIT.getCode() ){
+        if(record.getStatus() != PersonConstant.AUTH_STATUS_SUBMIT ){
             result = new JsonResponse<>("502", "资质审核信息不能重复审批");
             return result;
         }
+        // 根据身份证号 验证是否重复
+        if(applyData.getStatus() == PersonConstant.AUTH_STATUS_AGREE){
+            IndividualCertApply query = new IndividualCertApply();
+            query.setMemberId(null);
+            query.setCertType(record.getCertType()); // 证件类型
+            query.setCertCode(record.getCertCode()); // 证件号码
+            query.setStatus(PersonConstant.AUTH_STATUS_AGREE);                         // 审批通过的
+            List<IndividualCertApply> recordCodeList = individualCertApplyService.findIndividualCertApplys(query);
+            if(recordCodeList.size() > 0){
+                result = new JsonResponse<>("502", "身份证件号重复已经申请认证，不能重复。");
+                return result;
+            }
+        }
+        
         record.setStatus(applyData.getStatus()); // 设置状态
         record.setApproveAcctId(applyData.getApproveAcctId());  /* 审核人账户ID */ 
         record.setApproveName(applyData.getApproveName());   /* 审核人姓名 */ 
         record.setApproveMemberId(applyData.getApproveMemberId());  /* 审核人会员ID */ 
         record.setApproveDesc(applyData.getApproveDesc());  /* 审核结果描述 */ 
         record.setAuditTime(new Date());  /* 审核时间 */ 
-        if(record.getStatus() == ExamineStatusEnum.APPLY_STATUS_AGREE.getCode()){ 
+        if(record.getStatus() == PersonConstant.AUTH_STATUS_AGREE){ 
             try{
                 // 审批通过，更新审批表信息
                 individualCertApplyService.modifyIndividualCertApplyByPrimaryKey(record);
                 // 复制数据 添加到正式表
                 individualCertApplyService.copyApplyToIndividualCust(record);
                 
-                // TODO 更新账户表用户信息  （姓名及状态） 
+                // 更新账户表用户信息  （姓名及状态） 
+                BusiAcctInfo acct = new BusiAcctInfo();
+                acct.setAcctId(person.getAcctId());    // 账户ID
+                acct.setAuthState(record.getStatus()); // 认证状态
+                acct.setName(record.getName());        // 用户姓名
+                busiAcctInfoService.modifyBusiAcctInfoByPrimaryKey(acct);
                 
             }catch (Exception e) {
                 e.printStackTrace();
                 result = new JsonResponse<>("502", "保存失败");
                 return result;
             }
-        }else if(record.getStatus() == ExamineStatusEnum.APPLY_STATUS_REFUSE.getCode()){ 
+        }else if(record.getStatus() == PersonConstant.AUTH_STATUS_REFUSE){ 
             // 审批不通过，更新数据
             individualCertApplyService.modifyIndividualCertApplyByPrimaryKey(record);
+            // 更新账户表审批状态
+            BusiAcctInfo acct = new BusiAcctInfo();
+            acct.setAcctId(person.getAcctId());    // 账户ID
+            acct.setAuthState(record.getStatus()); // 认证状态
+            busiAcctInfoService.modifyBusiAcctInfoByPrimaryKey(acct);
         }
         result = new JsonResponse<>(record);
         return result;
@@ -226,15 +264,21 @@ public class PersonAttestController {
         IndividualCertApplyDTO applyData = request.getReqBody();
         // 获取资质信息
         IndividualCertApply apply = individualCertApplyService.getIndividualCertApplyByPrimaryKey(applyData.getCertApplyId());
-        if(apply == null){
-            result = new JsonResponse<>("502","资质申请不存在。");
+        if(apply == null || apply.getStatus() != PersonConstant.AUTH_STATUS_REFUSE){
+            result = new JsonResponse<>("502","资质申请不存在，或在申请中");
+            return result;
+        }
+        // 获取用户信息
+        PersonVO person = individualCustService.getPersonDetail(apply.getMemberId(), null);
+        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
+            result = new JsonResponse<>("502", "会员信息不正确！");
             return result;
         }
         // 根据身份证号 验证是否重复
         IndividualCertApply record = new IndividualCertApply();
         record.setCertType(applyData.getCertType()); // 证件类型
         record.setCertCode(applyData.getCertCode()); // 证件号码
-        record.setStatus(ExamineStatusEnum.APPLY_STATUS_AGREE.getCode()); // 审批通过的
+        record.setStatus(PersonConstant.AUTH_STATUS_AGREE); // 审批通过的
         List<IndividualCertApply> recordCodeList = individualCertApplyService.findIndividualCertApplys(record);
         if(recordCodeList.size() > 0){
             result = new JsonResponse<>("502", "身份证件号重复已经申请认证，不能重复。");
@@ -243,7 +287,7 @@ public class PersonAttestController {
         // 更新申请数据
         try {
         	applyData.setMemberId(apply.getMemberId());
-            applyData.setStatus(ExamineStatusEnum.APPLY_STATUS_SUBMIT.getCode());  // 设置待审批状态
+            applyData.setStatus(PersonConstant.AUTH_STATUS_SUBMIT);  // 设置待审批状态
             applyData.setCreateTime(new Date());
             applyData.setApplyTime(new Date());
             applyData.setApproveAcctId(null);
@@ -251,8 +295,14 @@ public class PersonAttestController {
             applyData.setApproveMemberId(null);
             applyData.setApproveName(null);
             individualCertApplyService.updateIndividualCertApply(applyData);
+            // 更新账户表审批状态
+            BusiAcctInfo acct = new BusiAcctInfo();
+            acct.setAcctId(person.getAcctId());    // 账户ID
+            acct.setAuthState(record.getStatus()); // 认证状态
+            busiAcctInfoService.modifyBusiAcctInfoByPrimaryKey(acct);
+            
         } catch (Exception ex) {
-        	logger.error("delReceiveAddress: 删除收货地址接口报错!" + ex.getMessage(), ex);
+        	logger.error("reapplication: 重新申请个人认证接口报错!" + ex.getMessage(), ex);
             result = new JsonResponse<>("0100000",ex.getMessage());
             return result;
         } 

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketAuthApplyInfoDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketAuthApplyInfo" id="marketAuthApplyInfoResultMap">
+		<result property="authApplyId" column="AUTH_APPLY_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="marketApplyId" column="MARKET_APPLY_ID" />
+		<result property="authFileNo" column="AUTH_FILE_NO" />
+		<result property="producerMemberId" column="PRODUCER_MEMBER_ID" />
+		<result property="producerName" column="PRODUCER_NAME" />
+		<result property="limitType" column="LIMIT_TYPE" />
+		<result property="certValidStartDate" column="CERT_VALID_START_DATE" />
+		<result property="certValidEndDate" column="CERT_VALID_END_DATE" />
+		<result property="status" column="STATUS" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		AUTH_APPLY_ID,
+		MEMBER_ID,
+		MARKET_APPLY_ID,
+		AUTH_FILE_NO,
+		PRODUCER_MEMBER_ID,
+		PRODUCER_NAME,
+		LIMIT_TYPE,
+		CERT_VALID_START_DATE,
+		CERT_VALID_END_DATE,
+		STATUS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{authApplyId},
+		#{memberId},
+		#{marketApplyId},
+		#{authFileNo},
+		#{producerMemberId},
+		#{producerName},
+		#{limitType},
+		#{certValidStartDate},
+		#{certValidEndDate},
+		#{status},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="authApplyId != null and authApplyId != ''">and AUTH_APPLY_ID = #{authApplyId}</if>
+            <if test="memberId != null and memberId != ''">and MEMBER_ID = #{memberId}</if>
+            <if test="marketApplyId != null and marketApplyId != ''">and MARKET_APPLY_ID = #{marketApplyId}</if>
+            <if test="authFileNo != null and authFileNo != ''">and AUTH_FILE_NO = #{authFileNo}</if>
+            <if test="producerMemberId != null and producerMemberId != ''">and PRODUCER_MEMBER_ID = #{producerMemberId}</if>
+            <if test="producerName != null and producerName != ''">and PRODUCER_NAME = #{producerName}</if>
+            <if test="limitType != null and limitType != ''">and LIMIT_TYPE = #{limitType}</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">and CERT_VALID_START_DATE = #{certValidStartDate}</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">and CERT_VALID_END_DATE = #{certValidEndDate}</if>
+            <if test="status != null and status != ''">and STATUS = #{status}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthApplyInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into market_auth_apply_info( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthApplyInfo">
+            <selectKey resultType="long" keyProperty="authApplyId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_auth_apply_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="memberId != null and memberId != ''">MEMBER_ID,</if>
+            <if test="marketApplyId != null and marketApplyId != ''">MARKET_APPLY_ID,</if>
+            <if test="authFileNo != null and authFileNo != ''">AUTH_FILE_NO,</if>
+            <if test="producerMemberId != null and producerMemberId != ''">PRODUCER_MEMBER_ID,</if>
+            <if test="producerName != null and producerName != ''">PRODUCER_NAME,</if>
+            <if test="limitType != null and limitType != ''">LIMIT_TYPE,</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">CERT_VALID_START_DATE,</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">CERT_VALID_END_DATE,</if>
+            <if test="status != null and status != ''">STATUS,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="marketApplyId != null and marketApplyId != ''">#{marketApplyId},</if>
+            <if test="authFileNo != null and authFileNo != ''">#{authFileNo},</if>
+            <if test="producerMemberId != null and producerMemberId != ''">#{producerMemberId},</if>
+            <if test="producerName != null and producerName != ''">#{producerName},</if>
+            <if test="limitType != null and limitType != ''">#{limitType},</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">#{certValidStartDate},</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">#{certValidEndDate},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthApplyInfo">
+		delete from market_auth_apply_info
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_auth_apply_info
+        <where>
+                AUTH_APPLY_ID = #{authApplyId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthApplyInfo">
+		update market_auth_apply_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="memberId != null and memberId != ''">MEMBER_ID = #{memberId},</if>
+			<if test="marketApplyId != null and marketApplyId != ''">MARKET_APPLY_ID = #{marketApplyId},</if>
+			<if test="authFileNo != null and authFileNo != ''">AUTH_FILE_NO = #{authFileNo},</if>
+			<if test="producerMemberId != null and producerMemberId != ''">PRODUCER_MEMBER_ID = #{producerMemberId},</if>
+			<if test="producerName != null and producerName != ''">PRODUCER_NAME = #{producerName},</if>
+			<if test="limitType != null and limitType != ''">LIMIT_TYPE = #{limitType},</if>
+			<if test="certValidStartDate != null and certValidStartDate != ''">CERT_VALID_START_DATE = #{certValidStartDate},</if>
+			<if test="certValidEndDate != null and certValidEndDate != ''">CERT_VALID_END_DATE = #{certValidEndDate},</if>
+			<if test="status != null and status != ''">STATUS = #{status},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            AUTH_APPLY_ID = #{authApplyId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketAuthApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from market_auth_apply_info
+    </select>
+
+    <select id="select" resultMap="marketAuthApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from market_auth_apply_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_auth_apply_info
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketAuthApplyInfoResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_auth_apply_info
+        <where>
+                AUTH_APPLY_ID = #{authApplyId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

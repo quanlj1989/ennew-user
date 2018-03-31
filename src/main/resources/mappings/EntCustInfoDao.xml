@@ -5,6 +5,7 @@
     <resultMap type="cn.enn.ygego.sunny.user.model.EntCustInfo" id="entCustInfoResultMap">
 		<result property="memberId" column="MEMBER_ID"  />
 		<result property="pareMemberId" column="PARE_MEMBER_ID"  />
+		<result property="adminAcctId" column="ADMIN_ACCT_ID"  />
 		<result property="entName" column="ENT_NAME"  />
 		<result property="authenType" column="AUTHEN_TYPE"  />
 		<result property="custCode" column="CUST_CODE"  />
@@ -17,8 +18,10 @@
 		<result property="businessLicenseFullAddress" column="BUSINESS_LICENSE_FULL_ADDRESS"  />
 		<result property="businessLicenseType" column="BUSINESS_LICENSE_TYPE"  />
 		<result property="establishDate" column="ESTABLISH_DATE"  />
+		<result property="certStartDate" column="CERT_START_DATE"  />
 		<result property="certLimitDate" column="CERT_LIMIT_DATE"  />
 		<result property="limitType" column="LIMIT_TYPE"  />
+		<result property="entCertType" column="ENT_CERT_TYPE"  />
 		<result property="regCapital" column="REG_CAPITAL"  />
 		<result property="regCapitalUnit" column="REG_CAPITAL_UNIT"  />
 		<result property="entTel" column="ENT_TEL"  />
@@ -28,6 +31,8 @@
 		<result property="agreementPriceId" column="AGREEMENT_PRICE_ID"  />
 		<result property="cateMateId" column="CATE_MATE_ID"  />
 		<result property="agreementId" column="AGREEMENT_ID"  />
+		<result property="clearingMemberId" column="CLEARING_MEMBER_ID"  />
+		<result property="clearingCustName" column="CLEARING_CUST_NAME"  />
 		<result property="authTime" column="AUTH_TIME"  />
 		<result property="createTime" column="CREATE_TIME"  />
 		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
@@ -42,6 +47,7 @@
 	<sql id="table_columns">
 		MEMBER_ID,
 		PARE_MEMBER_ID,
+		ADMIN_ACCT_ID,
 		ENT_NAME,
 		AUTHEN_TYPE,
 		CUST_CODE,
@@ -54,8 +60,10 @@
 		BUSINESS_LICENSE_FULL_ADDRESS,
 		BUSINESS_LICENSE_TYPE,
 		ESTABLISH_DATE,
+		CERT_START_DATE,
 		CERT_LIMIT_DATE,
 		LIMIT_TYPE,
+		ENT_CERT_TYPE,
 		REG_CAPITAL,
 		REG_CAPITAL_UNIT,
 		ENT_TEL,
@@ -65,6 +73,8 @@
 		AGREEMENT_PRICE_ID,
 		CATE_MATE_ID,
 		AGREEMENT_ID,
+		CLEARING_MEMBER_ID,
+		CLEARING_CUST_NAME,
 		AUTH_TIME,
 		CREATE_TIME,
 		CREATE_MEMBER_ID,
@@ -78,6 +88,7 @@
 	<sql id="entity_properties">
 		#{memberId},
 		#{pareMemberId},
+		#{adminAcctId},
 		#{entName},
 		#{authenType},
 		#{custCode},
@@ -90,8 +101,10 @@
 		#{businessLicenseFullAddress},
 		#{businessLicenseType},
 		#{establishDate},
+		#{certStartDate},
 		#{certLimitDate},
 		#{limitType},
+		#{entCertType},
 		#{regCapital},
 		#{regCapitalUnit},
 		#{entTel},
@@ -101,6 +114,8 @@
 		#{agreementPriceId},
 		#{cateMateId},
 		#{agreementId},
+		#{clearingMemberId},
+		#{clearingCustName},
 		#{authTime},
 		#{createTime},
 		#{createMemberId},
@@ -117,6 +132,7 @@
         <trim prefix="where" prefixOverrides="and | or ">
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
 				<if test="pareMemberId != null ">and PARE_MEMBER_ID = #{pareMemberId}</if>
+				<if test="adminAcctId != null ">and ADMIN_ACCT_ID = #{adminAcctId}</if>
 				<if test="entName != null and entName != ''">and ENT_NAME = #{entName}</if>
 				<if test="authenType != null and authenType != ''">and AUTHEN_TYPE = #{authenType}</if>
 				<if test="custCode != null and custCode != ''">and CUST_CODE = #{custCode}</if>
@@ -129,17 +145,21 @@
 				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">and BUSINESS_LICENSE_FULL_ADDRESS = #{businessLicenseFullAddress}</if>
 				<if test="businessLicenseType != null ">and BUSINESS_LICENSE_TYPE = #{businessLicenseType}</if>
 				<if test="establishDate != null ">and ESTABLISH_DATE = #{establishDate}</if>
+				<if test="certStartDate != null ">and CERT_START_DATE = #{certStartDate}</if>
 				<if test="certLimitDate != null ">and CERT_LIMIT_DATE = #{certLimitDate}</if>
 				<if test="limitType != null ">and LIMIT_TYPE = #{limitType}</if>
+				<if test="entCertType != null ">and ENT_CERT_TYPE = #{entCertType}</if>
 				<if test="regCapital != null ">and REG_CAPITAL = #{regCapital}</if>
 				<if test="regCapitalUnit != null ">and REG_CAPITAL_UNIT = #{regCapitalUnit}</if>
 				<if test="entTel != null and entTel != ''">and ENT_TEL = #{entTel}</if>
 				<if test="status != null ">and STATUS = #{status}</if>
 				<if test="supplierSet != null ">and SUPPLIER_SET = #{supplierSet}</if>
-				<if test="blackWhiteListSet != null ">and BLACK_WHITE_LIST_SET = #{blackWhiteListSet}</if>
-				<if test="agreementPriceId != null ">and AGREEMENT_PRICE_ID = #{agreementPriceId}</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">and BLACK_WHITE_LIST_SET = #{blackWhiteListSet}</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">and AGREEMENT_PRICE_ID = #{agreementPriceId}</if>
 				<if test="cateMateId != null ">and CATE_MATE_ID = #{cateMateId}</if>
 				<if test="agreementId != null ">and AGREEMENT_ID = #{agreementId}</if>
+				<if test="clearingMemberId != null ">and CLEARING_MEMBER_ID = #{clearingMemberId}</if>
+				<if test="clearingCustName != null and clearingCustName != ''">and CLEARING_CUST_NAME = #{clearingCustName}</if>
 				<if test="authTime != null ">and AUTH_TIME = #{authTime}</if>
 				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
 				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
@@ -162,6 +182,7 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
 				<if test="memberId != null ">MEMBER_ID,</if>
 				<if test="pareMemberId != null ">PARE_MEMBER_ID,</if>
+				<if test="adminAcctId != null ">ADMIN_ACCT_ID,</if>
 				<if test="entName != null and entName != ''">ENT_NAME,</if>
 				<if test="authenType != null and authenType != ''">AUTHEN_TYPE,</if>
 				<if test="custCode != null and custCode != ''">CUST_CODE,</if>
@@ -174,17 +195,21 @@
 				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">BUSINESS_LICENSE_FULL_ADDRESS,</if>
 				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE,</if>
 				<if test="establishDate != null ">ESTABLISH_DATE,</if>
+				<if test="certStartDate != null ">CERT_START_DATE,</if>
 				<if test="certLimitDate != null ">CERT_LIMIT_DATE,</if>
 				<if test="limitType != null ">LIMIT_TYPE,</if>
+				<if test="entCertType != null ">ENT_CERT_TYPE,</if>
 				<if test="regCapital != null ">REG_CAPITAL,</if>
 				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT,</if>
 				<if test="entTel != null and entTel != ''">ENT_TEL,</if>
 				<if test="status != null ">STATUS,</if>
 				<if test="supplierSet != null ">SUPPLIER_SET,</if>
-				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET,</if>
-				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID,</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">BLACK_WHITE_LIST_SET,</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">AGREEMENT_PRICE_ID,</if>
 				<if test="cateMateId != null ">CATE_MATE_ID,</if>
 				<if test="agreementId != null ">AGREEMENT_ID,</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID,</if>
+				<if test="clearingCustName != null and clearingCustName != ''">CLEARING_CUST_NAME,</if>
 				<if test="authTime != null ">AUTH_TIME,</if>
 				<if test="createTime != null ">CREATE_TIME,</if>
 				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
@@ -198,6 +223,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides="," >
 				<if test="memberId != null ">#{memberId},</if>
 				<if test="pareMemberId != null ">#{pareMemberId},</if>
+				<if test="adminAcctId != null ">#{adminAcctId},</if>
 				<if test="entName != null and entName != ''">#{entName},</if>
 				<if test="authenType != null and authenType != ''">#{authenType},</if>
 				<if test="custCode != null and custCode != ''">#{custCode},</if>
@@ -210,17 +236,21 @@
 				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">#{businessLicenseFullAddress},</if>
 				<if test="businessLicenseType != null ">#{businessLicenseType},</if>
 				<if test="establishDate != null ">#{establishDate},</if>
+				<if test="certStartDate != null ">#{certStartDate},</if>
 				<if test="certLimitDate != null ">#{certLimitDate},</if>
 				<if test="limitType != null ">#{limitType},</if>
+				<if test="entCertType != null ">#{entCertType},</if>
 				<if test="regCapital != null ">#{regCapital},</if>
 				<if test="regCapitalUnit != null ">#{regCapitalUnit},</if>
 				<if test="entTel != null and entTel != ''">#{entTel},</if>
 				<if test="status != null ">#{status},</if>
 				<if test="supplierSet != null ">#{supplierSet},</if>
-				<if test="blackWhiteListSet != null ">#{blackWhiteListSet},</if>
-				<if test="agreementPriceId != null ">#{agreementPriceId},</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">#{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">#{agreementPriceId},</if>
 				<if test="cateMateId != null ">#{cateMateId},</if>
 				<if test="agreementId != null ">#{agreementId},</if>
+				<if test="clearingMemberId != null ">#{clearingMemberId},</if>
+				<if test="clearingCustName != null and clearingCustName != ''">#{clearingCustName},</if>
 				<if test="authTime != null ">#{authTime},</if>
 				<if test="createTime != null ">#{createTime},</if>
 				<if test="createMemberId != null ">#{createMemberId},</if>
@@ -251,6 +281,7 @@
 		update ent_cust_info 
 		<trim prefix="set" suffixOverrides=",">
 				<if test="pareMemberId != null ">PARE_MEMBER_ID = #{pareMemberId},</if>
+				<if test="adminAcctId != null ">ADMIN_ACCT_ID = #{adminAcctId},</if>
 				<if test="entName != null and entName != ''">ENT_NAME = #{entName},</if>
 				<if test="authenType != null and authenType != ''">AUTHEN_TYPE = #{authenType},</if>
 				<if test="custCode != null and custCode != ''">CUST_CODE = #{custCode},</if>
@@ -263,17 +294,21 @@
 				<if test="businessLicenseFullAddress != null and businessLicenseFullAddress != ''">BUSINESS_LICENSE_FULL_ADDRESS = #{businessLicenseFullAddress},</if>
 				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE = #{businessLicenseType},</if>
 				<if test="establishDate != null ">ESTABLISH_DATE = #{establishDate},</if>
+				<if test="certStartDate != null ">CERT_START_DATE = #{certStartDate},</if>
 				<if test="certLimitDate != null ">CERT_LIMIT_DATE = #{certLimitDate},</if>
 				<if test="limitType != null ">LIMIT_TYPE = #{limitType},</if>
+				<if test="entCertType != null ">ENT_CERT_TYPE = #{entCertType},</if>
 				<if test="regCapital != null ">REG_CAPITAL = #{regCapital},</if>
 				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT = #{regCapitalUnit},</if>
 				<if test="entTel != null and entTel != ''">ENT_TEL = #{entTel},</if>
 				<if test="status != null ">STATUS = #{status},</if>
 				<if test="supplierSet != null ">SUPPLIER_SET = #{supplierSet},</if>
-				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET = #{blackWhiteListSet},</if>
-				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID = #{agreementPriceId},</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">BLACK_WHITE_LIST_SET = #{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">AGREEMENT_PRICE_ID = #{agreementPriceId},</if>
 				<if test="cateMateId != null ">CATE_MATE_ID = #{cateMateId},</if>
 				<if test="agreementId != null ">AGREEMENT_ID = #{agreementId},</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID = #{clearingMemberId},</if>
+				<if test="clearingCustName != null and clearingCustName != ''">CLEARING_CUST_NAME = #{clearingCustName},</if>
 				<if test="authTime != null ">AUTH_TIME = #{authTime},</if>
 				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
 				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>

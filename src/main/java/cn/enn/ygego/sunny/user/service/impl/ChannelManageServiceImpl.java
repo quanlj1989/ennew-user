@@ -1,6 +1,8 @@
 package cn.enn.ygego.sunny.user.service.impl;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.dto.vo.ChannelRquestVO;
 import cn.enn.ygego.sunny.user.service.ChannelManageService;
 import cn.enn.ygego.sunny.user.dao.ChannelManageDao;
 import cn.enn.ygego.sunny.user.model.ChannelManage;
@@ -49,12 +51,13 @@ public class ChannelManageServiceImpl implements ChannelManageService{
         return channelManageDao.updateByPrimaryKey(record);
     }
 
+    @Override
+    public List<ChannelManage> findChannelManagesPage(ChannelRquestVO record) {
+        return channelManageDao.findChannelManagesPage(record);
+    }
 
-
-
-
-
-
-
-
+    @Override
+    public Integer getCount(ChannelManage record) {
+        return channelManageDao.getCount(record);
+    }
 }

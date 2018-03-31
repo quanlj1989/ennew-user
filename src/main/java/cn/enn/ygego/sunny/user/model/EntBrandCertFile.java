@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class EntBrandCertFile implements Serializable {
 	
-	private static final long serialVersionUID = 8805696134460500475L;
+	private static final long serialVersionUID = -7640628938374767733L;
 	
 	private Long	certApplyFileId;		 /* 资质文件ID */ 
 	private Long	brandCertId;		 /* 品牌资质ID */ 

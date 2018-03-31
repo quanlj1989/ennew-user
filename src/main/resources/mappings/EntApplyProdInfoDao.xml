@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntApplyProdInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntApplyProdInfo" id="entApplyProdInfoResultMap">
+		<result property="applyProdId" column="APPLY_PROD_ID"  />
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="producerMemberId" column="PRODUCER_MEMBER_ID"  />
+		<result property="producerName" column="PRODUCER_NAME"  />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL"  />
+		<result property="materialId" column="MATERIAL_ID"  />
+		<result property="brandId" column="BRAND_ID"  />
+		<result property="brandName" column="BRAND_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		APPLY_PROD_ID,
+		APPLY_ID,
+		CATEGORY_ID,
+		PRODUCER_MEMBER_ID,
+		PRODUCER_NAME,
+		ATTR_NAME_SERIAL,
+		MATERIAL_ID,
+		BRAND_ID,
+		BRAND_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{applyProdId},
+		#{applyId},
+		#{categoryId},
+		#{producerMemberId},
+		#{producerName},
+		#{attrNameSerial},
+		#{materialId},
+		#{brandId},
+		#{brandName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="applyProdId != null ">and APPLY_PROD_ID = #{applyProdId}</if>
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="producerMemberId != null ">and PRODUCER_MEMBER_ID = #{producerMemberId}</if>
+				<if test="producerName != null and producerName != ''">and PRODUCER_NAME = #{producerName}</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+				<if test="materialId != null ">and MATERIAL_ID = #{materialId}</if>
+				<if test="brandId != null ">and BRAND_ID = #{brandId}</if>
+				<if test="brandName != null and brandName != ''">and BRAND_NAME = #{brandName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProdInfo" >
+		insert into ent_apply_prod_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProdInfo">
+        insert into ent_apply_prod_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="applyProdId != null ">APPLY_PROD_ID,</if>
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="producerMemberId != null ">PRODUCER_MEMBER_ID,</if>
+				<if test="producerName != null and producerName != ''">PRODUCER_NAME,</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+				<if test="materialId != null ">MATERIAL_ID,</if>
+				<if test="brandId != null ">BRAND_ID,</if>
+				<if test="brandName != null and brandName != ''">BRAND_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="applyProdId != null ">#{applyProdId},</if>
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="producerMemberId != null ">#{producerMemberId},</if>
+				<if test="producerName != null and producerName != ''">#{producerName},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+				<if test="materialId != null ">#{materialId},</if>
+				<if test="brandId != null ">#{brandId},</if>
+				<if test="brandName != null and brandName != ''">#{brandName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProdInfo">
+		delete from ent_apply_prod_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_apply_prod_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_PROD_ID = #{applyProdId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProdInfo">
+		update ent_apply_prod_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="producerMemberId != null ">PRODUCER_MEMBER_ID = #{producerMemberId},</if>
+				<if test="producerName != null and producerName != ''">PRODUCER_NAME = #{producerName},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+				<if test="materialId != null ">MATERIAL_ID = #{materialId},</if>
+				<if test="brandId != null ">BRAND_ID = #{brandId},</if>
+				<if test="brandName != null and brandName != ''">BRAND_NAME = #{brandName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_PROD_ID = #{applyProdId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entApplyProdInfoResultMap">
+        select <include refid="table_columns" />
+        from ent_apply_prod_info
+    </select>
+
+    <select id="find" resultMap="entApplyProdInfoResultMap">
+        select <include refid="table_columns" />
+        from ent_apply_prod_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_apply_prod_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entApplyProdInfoResultMap"  >
+		select <include refid="table_columns" />
+		from ent_apply_prod_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_PROD_ID = #{applyProdId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

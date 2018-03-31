@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class EntPaySet implements Serializable {
 	
-	private static final long serialVersionUID = -6665168173758962709L;
+	private static final long serialVersionUID = -7931567239007936052L;
 	
 	private Long	paySetId;		 /* 付款设置标识 */ 
 	private Long	memberId;		 /* 会员ID */ 

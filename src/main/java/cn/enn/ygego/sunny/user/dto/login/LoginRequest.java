@@ -1,10 +1,12 @@
 package cn.enn.ygego.sunny.user.dto.login;
 
+import java.io.Serializable;
+
 /**
  * 登陆请求
  * Created by dongbb on 2018/3/20.
  */
-public class LoginRequest {
+public class LoginRequest implements Serializable {
 
     private String username; //用户名
     private String password; //密码

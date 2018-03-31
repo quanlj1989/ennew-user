@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.ThirdLoginInfoDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.ThirdLoginInfo" id="thirdLoginInfoResultMap">
+		<result property="loginId" column="LOGIN_ID"  />
+		<result property="acctId" column="ACCT_ID"  />
+		<result property="configId" column="CONFIG_ID"  />
+		<result property="name" column="NAME"  />
+		<result property="mobileNum" column="MOBILE_NUM"  />
+		<result property="email" column="EMAIL"  />
+		<result property="createTime" column="CREATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LOGIN_ID,
+		ACCT_ID,
+		CONFIG_ID,
+		NAME,
+		MOBILE_NUM,
+		EMAIL,
+		CREATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{loginId},
+		#{acctId},
+		#{configId},
+		#{name},
+		#{mobileNum},
+		#{email},
+		#{createTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="loginId != null and loginId != ''">and LOGIN_ID = #{loginId}</if>
+				<if test="acctId != null ">and ACCT_ID = #{acctId}</if>
+				<if test="configId != null ">and CONFIG_ID = #{configId}</if>
+				<if test="name != null and name != ''">and NAME = #{name}</if>
+				<if test="mobileNum != null and mobileNum != ''">and MOBILE_NUM = #{mobileNum}</if>
+				<if test="email != null and email != ''">and EMAIL = #{email}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.ThirdLoginInfo" >
+		insert into third_login_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.ThirdLoginInfo">
+        insert into third_login_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="loginId != null and loginId != ''">LOGIN_ID,</if>
+				<if test="acctId != null ">ACCT_ID,</if>
+				<if test="configId != null ">CONFIG_ID,</if>
+				<if test="name != null and name != ''">NAME,</if>
+				<if test="mobileNum != null and mobileNum != ''">MOBILE_NUM,</if>
+				<if test="email != null and email != ''">EMAIL,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="loginId != null and loginId != ''">#{loginId},</if>
+				<if test="acctId != null ">#{acctId},</if>
+				<if test="configId != null ">#{configId},</if>
+				<if test="name != null and name != ''">#{name},</if>
+				<if test="mobileNum != null and mobileNum != ''">#{mobileNum},</if>
+				<if test="email != null and email != ''">#{email},</if>
+				<if test="createTime != null ">#{createTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.ThirdLoginInfo">
+		delete from third_login_info
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from third_login_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOGIN_ID = #{loginId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.ThirdLoginInfo">
+		update third_login_info 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="acctId != null ">ACCT_ID = #{acctId},</if>
+				<if test="configId != null ">CONFIG_ID = #{configId},</if>
+				<if test="name != null and name != ''">NAME = #{name},</if>
+				<if test="mobileNum != null and mobileNum != ''">MOBILE_NUM = #{mobileNum},</if>
+				<if test="email != null and email != ''">EMAIL = #{email},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOGIN_ID = #{loginId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="thirdLoginInfoResultMap">
+        select <include refid="table_columns" />
+        from third_login_info
+    </select>
+
+    <select id="find" resultMap="thirdLoginInfoResultMap">
+        select <include refid="table_columns" />
+        from third_login_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from third_login_info
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="thirdLoginInfoResultMap"  >
+		select <include refid="table_columns" />
+		from third_login_info
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOGIN_ID = #{loginId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

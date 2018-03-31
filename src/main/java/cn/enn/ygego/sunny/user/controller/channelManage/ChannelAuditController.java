@@ -18,7 +18,13 @@ import cn.enn.ygego.sunny.core.page.PageDTO;
 import cn.enn.ygego.sunny.core.web.JsonResult;
 import cn.enn.ygego.sunny.core.web.json.JsonRequest;
 import cn.enn.ygego.sunny.core.web.json.JsonResponse;
+import cn.enn.ygego.sunny.user.constant.ChannelAuthStatusEnum;
+import cn.enn.ygego.sunny.user.constant.StatusConstant;
 import cn.enn.ygego.sunny.user.dto.EntChannelPermitApplyDTO;
+import cn.enn.ygego.sunny.user.dto.EntChannelPermitDTO;
+import cn.enn.ygego.sunny.user.dto.vo.EntChannelPermitApplyVO;
+import cn.enn.ygego.sunny.user.dto.vo.EntChannelPermitVO;
+import cn.enn.ygego.sunny.user.model.EntChannelPermit;
 import cn.enn.ygego.sunny.user.model.EntChannelPermitApply;
 import cn.enn.ygego.sunny.user.service.EntChannelPermitApplyService;
 import com.github.jsonzou.jmockdata.JMockData;
@@ -57,14 +63,26 @@ public class ChannelAuditController {
     @ResponseBody
     public JsonResponse addDeliverAddress(@RequestBody JsonRequest<EntChannelPermitApplyDTO> request){
         EntChannelPermitApplyDTO entChannelPermitApplyDTO = request.getReqBody();
+        JsonResponse jsonResponse = new JsonResponse();
+        EntChannelPermitApply result = new EntChannelPermitApply();
+        //设置状态为待审批
+        entChannelPermitApplyDTO.setStatus(ChannelAuthStatusEnum.APPLY_STATUS_SUBMIT.getCode());
+        //查询如果已经有待审批或，不准许再提交
+        EntChannelPermitApply temp = new EntChannelPermitApply();
+        temp.setChannelId(entChannelPermitApplyDTO.getChannelId());
+        temp.setMemberId(entChannelPermitApplyDTO.getMemberId());
+        temp.setStatus(ChannelAuthStatusEnum.APPLY_STATUS_SUBMIT.getCode());
+        List list = entChannelPermitApplyService.findEntChannelPermitApplys(temp);
+        if(list != null && list.size() > 0){
+            jsonResponse.setRetCode("0100000");
+            jsonResponse.setRetDesc("该渠道申请正在审核中...");
+            jsonResponse.setRspBody(result);
+            return jsonResponse;
+        }
         Date date = new Date();
         entChannelPermitApplyDTO.setCreateTime(date);
-        //设置状态为有效
-        entChannelPermitApplyDTO.setStatus(1);
-        JsonResponse jsonResponse = new JsonResponse();
         EntChannelPermitApply entChannelPermitApply = new EntChannelPermitApply();
         BeanUtils.copyProperties(entChannelPermitApplyDTO,entChannelPermitApply);
-        EntChannelPermitApply result = new EntChannelPermitApply();
         try {
             int operation = entChannelPermitApplyService.createEntChannelPermitApply(entChannelPermitApply);
             if(operation == 1){
@@ -90,21 +108,30 @@ public class ChannelAuditController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @ApiOperation("个人准入渠道列表")
     @RequestMapping(value = "/channelList", method = { RequestMethod.POST})
-    public JsonResponse channelList(@RequestBody JsonRequest jsonRequest) {
+    public JsonResponse<List<EntChannelPermitApply>> channelList(@RequestBody JsonRequest<EntChannelPermitApply> jsonRequest) {
         JsonResponse jsonResponse = new JsonResponse(); // 返回的对象
-        PageDTO pageDTO = new PageDTO(); // 返回的PageDTO对象
-        List<EntChannelPermitApplyDTO> list = new ArrayList<EntChannelPermitApplyDTO>();
-        // JMockData模拟生成随机数据
-        EntChannelPermitApplyDTO entCertApplyDTO = JMockData.mock(EntChannelPermitApplyDTO.class);
-        list.add(entCertApplyDTO); // 将对象保存到list中
-        pageDTO.setResultData(list);// 将结果保存到page对象中
-        pageDTO.setPageNum(0); // 第0页
-        pageDTO.setPageSize(10); // 每页显示10条
-        pageDTO.setTotal(1); //共1条
-        jsonResponse.setRetCode("0103001"); // 操作码：操作成功
-        jsonResponse.setRspBody(pageDTO); // 将查询到的对象返回去
-        jsonResponse.setRetDesc("成功"); // 返回值信息
-        jsonResponse.setTimestamp(new Date()); // 接口响应的时间
+        EntChannelPermitApply entChannelPermitApply = jsonRequest.getReqBody();
+        try {
+            EntChannelPermitApplyVO entChannelPermitApplyVO = JMockData.mock(EntChannelPermitApplyVO.class);
+            List<EntChannelPermitApplyVO> list = new ArrayList<EntChannelPermitApplyVO>();
+            list.add(entChannelPermitApplyVO);
+            //entChannelPermitApplyService.findEntChannelPermitApplys(entChannelPermitApply);
+            if(list != null && list.size() > 0){
+                jsonResponse.setRetCode("0000000");
+                jsonResponse.setRetDesc("个人准入渠道列表成功");
+                jsonResponse.setRspBody(list);
+            }else{
+                jsonResponse.setRetCode("0100000");
+                jsonResponse.setRetDesc("个人准入渠道列表失败");
+                jsonResponse.setRspBody(new ArrayList());
+            }
+        } catch (RuntimeException ex) {
+            logger.error("findReceiveAddressInfo: 个人准入渠道列表报错!" + ex.getMessage(), ex);
+            jsonResponse.setRetCode("0100000");
+            jsonResponse.setRetDesc(ex.getMessage());
+            jsonResponse.setRspBody(new ArrayList());
+            return jsonResponse;
+        }
         return jsonResponse;
     }
 
@@ -168,8 +195,29 @@ public class ChannelAuditController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @ApiOperation("审核准入接口")
     @RequestMapping(value = "/audit", method = { RequestMethod.POST})
-    public JsonResponse audit(@RequestBody JsonRequest jsonRequest) {
-        JsonResponse jsonResponse = new JsonResponse(); // 返回的对象
+    public JsonResponse audit(@RequestBody JsonRequest<EntChannelPermitVO> request) {
+        EntChannelPermitVO entChannelPermitVO =  request.getReqBody();
+        entChannelPermitVO.setCreateTime(new Date());
+        List<EntChannelPermitApply> result = new ArrayList<EntChannelPermitApply>();
+        JsonResponse jsonResponse = new JsonResponse();
+        try {
+            int operation = entChannelPermitApplyService.modifyEntChannelPermitApplyByPrimaryKey(entChannelPermitVO);
+            if(operation == StatusConstant.VALID){
+                jsonResponse.setRetCode("0000000");
+                jsonResponse.setRetDesc("审核准入接口成功");
+                result = entChannelPermitVO.getEntChannelPermitApplyList();
+            }else{
+                jsonResponse.setRetCode("0100000");
+                jsonResponse.setRetDesc("审核准入接口失败");
+            }
+            jsonResponse.setRspBody(result);
+        } catch (RuntimeException ex) {
+            logger.error("addDeliverAddress: 审核准入接口接口报错!" + ex.getMessage(), ex);
+            jsonResponse.setRetCode("0100000");
+            jsonResponse.setRetDesc(ex.getMessage());
+            jsonResponse.setRspBody(result);
+            return jsonResponse;
+        }
         return jsonResponse;
     }
 

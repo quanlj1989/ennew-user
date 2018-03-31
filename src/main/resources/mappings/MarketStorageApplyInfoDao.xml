@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketStorageApplyInfoDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketStorageApplyInfo" id="marketStorageApplyInfoResultMap">
+		<result property="storageApplyId" column="STORAGE_APPLY_ID" />
+		<result property="marketApplyId" column="MARKET_APPLY_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="marketId" column="MARKET_ID" />
+		<result property="storageCode" column="STORAGE_CODE" />
+		<result property="storageName" column="STORAGE_NAME" />
+		<result property="contact" column="CONTACT" />
+		<result property="contactTel" column="CONTACT_TEL" />
+		<result property="email" column="EMAIL" />
+		<result property="status" column="STATUS" />
+		<result property="areaId" column="AREA_ID" />
+		<result property="areaIdFullPath" column="AREA_ID_FULL_PATH" />
+		<result property="areaNameFullPath" column="AREA_NAME_FULL_PATH" />
+		<result property="addressDetail" column="ADDRESS_DETAIL" />
+		<result property="insideArea" column="INSIDE_AREA" />
+		<result property="outsideArea" column="OUTSIDE_AREA" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		STORAGE_APPLY_ID,
+		MARKET_APPLY_ID,
+		MEMBER_ID,
+		MARKET_ID,
+		STORAGE_CODE,
+		STORAGE_NAME,
+		CONTACT,
+		CONTACT_TEL,
+		EMAIL,
+		STATUS,
+		AREA_ID,
+		AREA_ID_FULL_PATH,
+		AREA_NAME_FULL_PATH,
+		ADDRESS_DETAIL,
+		INSIDE_AREA,
+		OUTSIDE_AREA,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{storageApplyId},
+		#{marketApplyId},
+		#{memberId},
+		#{marketId},
+		#{storageCode},
+		#{storageName},
+		#{contact},
+		#{contactTel},
+		#{email},
+		#{status},
+		#{areaId},
+		#{areaIdFullPath},
+		#{areaNameFullPath},
+		#{addressDetail},
+		#{insideArea},
+		#{outsideArea},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="storageApplyId != null and storageApplyId != ''">and STORAGE_APPLY_ID = #{storageApplyId}</if>
+            <if test="marketApplyId != null and marketApplyId != ''">and MARKET_APPLY_ID = #{marketApplyId}</if>
+            <if test="memberId != null and memberId != ''">and MEMBER_ID = #{memberId}</if>
+            <if test="marketId != null and marketId != ''">and MARKET_ID = #{marketId}</if>
+            <if test="storageCode != null and storageCode != ''">and STORAGE_CODE = #{storageCode}</if>
+            <if test="storageName != null and storageName != ''">and STORAGE_NAME = #{storageName}</if>
+            <if test="contact != null and contact != ''">and CONTACT = #{contact}</if>
+            <if test="contactTel != null and contactTel != ''">and CONTACT_TEL = #{contactTel}</if>
+            <if test="email != null and email != ''">and EMAIL = #{email}</if>
+            <if test="status != null and status != ''">and STATUS = #{status}</if>
+            <if test="areaId != null and areaId != ''">and AREA_ID = #{areaId}</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">and AREA_ID_FULL_PATH = #{areaIdFullPath}</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">and AREA_NAME_FULL_PATH = #{areaNameFullPath}</if>
+            <if test="addressDetail != null and addressDetail != ''">and ADDRESS_DETAIL = #{addressDetail}</if>
+            <if test="insideArea != null and insideArea != ''">and INSIDE_AREA = #{insideArea}</if>
+            <if test="outsideArea != null and outsideArea != ''">and OUTSIDE_AREA = #{outsideArea}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketStorageApplyInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into market_storage_apply_info( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketStorageApplyInfo">
+            <selectKey resultType="long" keyProperty="storageApplyId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_storage_apply_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="marketApplyId != null and marketApplyId != ''">MARKET_APPLY_ID,</if>
+            <if test="memberId != null and memberId != ''">MEMBER_ID,</if>
+            <if test="marketId != null and marketId != ''">MARKET_ID,</if>
+            <if test="storageCode != null and storageCode != ''">STORAGE_CODE,</if>
+            <if test="storageName != null and storageName != ''">STORAGE_NAME,</if>
+            <if test="contact != null and contact != ''">CONTACT,</if>
+            <if test="contactTel != null and contactTel != ''">CONTACT_TEL,</if>
+            <if test="email != null and email != ''">EMAIL,</if>
+            <if test="status != null and status != ''">STATUS,</if>
+            <if test="areaId != null and areaId != ''">AREA_ID,</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH,</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH,</if>
+            <if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL,</if>
+            <if test="insideArea != null and insideArea != ''">INSIDE_AREA,</if>
+            <if test="outsideArea != null and outsideArea != ''">OUTSIDE_AREA,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="marketApplyId != null and marketApplyId != ''">#{marketApplyId},</if>
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="marketId != null and marketId != ''">#{marketId},</if>
+            <if test="storageCode != null and storageCode != ''">#{storageCode},</if>
+            <if test="storageName != null and storageName != ''">#{storageName},</if>
+            <if test="contact != null and contact != ''">#{contact},</if>
+            <if test="contactTel != null and contactTel != ''">#{contactTel},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="areaId != null and areaId != ''">#{areaId},</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">#{areaIdFullPath},</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">#{areaNameFullPath},</if>
+            <if test="addressDetail != null and addressDetail != ''">#{addressDetail},</if>
+            <if test="insideArea != null and insideArea != ''">#{insideArea},</if>
+            <if test="outsideArea != null and outsideArea != ''">#{outsideArea},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketStorageApplyInfo">
+		delete from market_storage_apply_info
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_storage_apply_info
+        <where>
+                STORAGE_APPLY_ID = #{storageApplyId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketStorageApplyInfo">
+		update market_storage_apply_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="marketApplyId != null and marketApplyId != ''">MARKET_APPLY_ID = #{marketApplyId},</if>
+			<if test="memberId != null and memberId != ''">MEMBER_ID = #{memberId},</if>
+			<if test="marketId != null and marketId != ''">MARKET_ID = #{marketId},</if>
+			<if test="storageCode != null and storageCode != ''">STORAGE_CODE = #{storageCode},</if>
+			<if test="storageName != null and storageName != ''">STORAGE_NAME = #{storageName},</if>
+			<if test="contact != null and contact != ''">CONTACT = #{contact},</if>
+			<if test="contactTel != null and contactTel != ''">CONTACT_TEL = #{contactTel},</if>
+			<if test="email != null and email != ''">EMAIL = #{email},</if>
+			<if test="status != null and status != ''">STATUS = #{status},</if>
+			<if test="areaId != null and areaId != ''">AREA_ID = #{areaId},</if>
+			<if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH = #{areaIdFullPath},</if>
+			<if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH = #{areaNameFullPath},</if>
+			<if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL = #{addressDetail},</if>
+			<if test="insideArea != null and insideArea != ''">INSIDE_AREA = #{insideArea},</if>
+			<if test="outsideArea != null and outsideArea != ''">OUTSIDE_AREA = #{outsideArea},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            STORAGE_APPLY_ID = #{storageApplyId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketStorageApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from market_storage_apply_info
+    </select>
+
+    <select id="select" resultMap="marketStorageApplyInfoResultMap">
+        select <include refid="table_columns" />
+        from market_storage_apply_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_storage_apply_info
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketStorageApplyInfoResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_storage_apply_info
+        <where>
+                STORAGE_APPLY_ID = #{storageApplyId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

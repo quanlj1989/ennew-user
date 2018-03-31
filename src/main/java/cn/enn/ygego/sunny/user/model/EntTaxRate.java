@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class EntTaxRate implements Serializable {
 	
-	private static final long serialVersionUID = 1729046615746325279L;
+	private static final long serialVersionUID = -1161378521888159015L;
 	
 	private Long	taxRateId;		 /* 发票税率ID */ 
 	private Long	memberId;		 /* 会员ID */ 

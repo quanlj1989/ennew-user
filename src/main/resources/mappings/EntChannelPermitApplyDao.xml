@@ -7,6 +7,7 @@
 		<result property="certApplyId" column="CERT_APPLY_ID"  />
 		<result property="memberId" column="MEMBER_ID"  />
 		<result property="channelId" column="CHANNEL_ID"  />
+		<result property="clearingMemberId" column="CLEARING_MEMBER_ID"  />
 		<result property="status" column="STATUS"  />
 		<result property="createTime" column="CREATE_TIME"  />
 		<result property="createAcctId" column="CREATE_ACCT_ID"  />
@@ -18,6 +19,7 @@
 		CERT_APPLY_ID,
 		MEMBER_ID,
 		CHANNEL_ID,
+		CLEARING_MEMBER_ID,
 		STATUS,
 		CREATE_TIME,
 		CREATE_ACCT_ID,
@@ -28,6 +30,7 @@
 		#{certApplyId},
 		#{memberId},
 		#{channelId},
+		#{clearingMemberId},
 		#{status},
 		#{createTime},
 		#{createAcctId},
@@ -41,6 +44,7 @@
 				<if test="certApplyId != null ">and CERT_APPLY_ID = #{certApplyId}</if>
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
 				<if test="channelId != null ">and CHANNEL_ID = #{channelId}</if>
+				<if test="clearingMemberId != null ">and CLEARING_MEMBER_ID = #{clearingMemberId}</if>
 				<if test="status != null ">and STATUS = #{status}</if>
 				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
 				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
@@ -48,7 +52,7 @@
         </trim>
     </sql>
 
-	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntChannelPermitApply" useGeneratedKeys="true" keyProperty="channelApplyId">
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntChannelPermitApply" >
 		insert into ent_channel_permit_apply( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
 	</insert>
@@ -60,6 +64,7 @@
 				<if test="certApplyId != null ">CERT_APPLY_ID,</if>
 				<if test="memberId != null ">MEMBER_ID,</if>
 				<if test="channelId != null ">CHANNEL_ID,</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID,</if>
 				<if test="status != null ">STATUS,</if>
 				<if test="createTime != null ">CREATE_TIME,</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
@@ -70,6 +75,7 @@
 				<if test="certApplyId != null ">#{certApplyId},</if>
 				<if test="memberId != null ">#{memberId},</if>
 				<if test="channelId != null ">#{channelId},</if>
+				<if test="clearingMemberId != null ">#{clearingMemberId},</if>
 				<if test="status != null ">#{status},</if>
 				<if test="createTime != null ">#{createTime},</if>
 				<if test="createAcctId != null ">#{createAcctId},</if>
@@ -97,6 +103,7 @@
 				<if test="certApplyId != null ">CERT_APPLY_ID = #{certApplyId},</if>
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
 				<if test="channelId != null ">CHANNEL_ID = #{channelId},</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID = #{clearingMemberId},</if>
 				<if test="status != null ">STATUS = #{status},</if>
 				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>

@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class EntStore implements Serializable {
 	
-	private static final long serialVersionUID = -2385552864548162997L;
+	private static final long serialVersionUID = 1614603172835057915L;
 	
 	private Long	storeId;		 /* 店铺ID */ 
 	private Long	memberId;		 /* 会员ID */ 

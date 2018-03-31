@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * dal Interface:EntBrandCert
  * @author gencode
- * @date 2018-3-22
+ * @date 2018-3-28
  */
 @Service
 public class EntBrandCertServiceImpl implements EntBrandCertService{

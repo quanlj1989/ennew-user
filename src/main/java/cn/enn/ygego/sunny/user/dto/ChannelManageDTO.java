@@ -7,19 +7,21 @@ import java.io.Serializable;
  * DTO:ChannelManage
  * 
  * @author gencode
- * @date 2018-3-20
+ * @date 2018-3-30
  */
 public class ChannelManageDTO implements Serializable {
 	
-	private static final long serialVersionUID = 2289851811610368268L;
+	private static final long serialVersionUID = 4284499914158558362L;
 	
 	private Long	channelId; /* 渠道ID */
-	private Long	appId; /* 应用标识 */
-	private String	channelCode; /* 渠道号 */
 	private String	channelName; /* 渠道名称 */
-	private Integer	isIndepDomain; /* 是否独立域名 */
-	private String	channelDomain; /* 渠道域名 */
-	private Integer	permitOutsideEnt; /* 采购是否需要准入 */
+	private String	channelLogoUrl; /* 渠道Logo地址 */
+	private String	channelColour; /* 渠道色调 */
+	private Long	channelOperMemberId; /* 渠道运营会员ID */
+	private Long	channelOperAcctId; /* 渠道运营账号ID */
+	private String	channelOperAcctName; /* 渠道运营账户名称 */
+	private Long	roleId; /* 角色ID */
+	private Integer	openMarketChannel; /* 是否开通超市渠道 */
 	private Date	createTime; /* 创建时间 */
 	private Long	createMemberId; /* 创建人会员ID */
 	private Long	createAcctId; /* 创建人账户ID */
@@ -32,14 +34,16 @@ public class ChannelManageDTO implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public ChannelManageDTO(Long channelId, Long appId, String channelCode, String channelName, Integer isIndepDomain, String channelDomain, Integer permitOutsideEnt, Date createTime, Long createMemberId, Long createAcctId, String createName) {
+	public ChannelManageDTO(Long channelId, String channelName, String channelLogoUrl, String channelColour, Long channelOperMemberId, Long channelOperAcctId, String channelOperAcctName, Long roleId, Integer openMarketChannel, Date createTime, Long createMemberId, Long createAcctId, String createName) {
 		this.channelId = channelId;
-		this.appId = appId;
-		this.channelCode = channelCode;
 		this.channelName = channelName;
-		this.isIndepDomain = isIndepDomain;
-		this.channelDomain = channelDomain;
-		this.permitOutsideEnt = permitOutsideEnt;
+		this.channelLogoUrl = channelLogoUrl;
+		this.channelColour = channelColour;
+		this.channelOperMemberId = channelOperMemberId;
+		this.channelOperAcctId = channelOperAcctId;
+		this.channelOperAcctName = channelOperAcctName;
+		this.roleId = roleId;
+		this.openMarketChannel = openMarketChannel;
 		this.createTime = createTime;
 		this.createMemberId = createMemberId;
 		this.createAcctId = createAcctId;
@@ -53,20 +57,6 @@ public class ChannelManageDTO implements Serializable {
 	public void setChannelId(Long channelId) {
 		this.channelId = channelId;
 	}
-	public Long getAppId() {
-		return appId;
-	}
-
-	public void setAppId(Long appId) {
-		this.appId = appId;
-	}
-	public String getChannelCode() {
-		return channelCode;
-	}
-
-	public void setChannelCode(String channelCode) {
-		this.channelCode = channelCode;
-	}
 	public String getChannelName() {
 		return channelName;
 	}
@@ -74,26 +64,54 @@ public class ChannelManageDTO implements Serializable {
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
 	}
-	public Integer getIsIndepDomain() {
-		return isIndepDomain;
+	public String getChannelLogoUrl() {
+		return channelLogoUrl;
 	}
 
-	public void setIsIndepDomain(Integer isIndepDomain) {
-		this.isIndepDomain = isIndepDomain;
+	public void setChannelLogoUrl(String channelLogoUrl) {
+		this.channelLogoUrl = channelLogoUrl;
 	}
-	public String getChannelDomain() {
-		return channelDomain;
-	}
-
-	public void setChannelDomain(String channelDomain) {
-		this.channelDomain = channelDomain;
-	}
-	public Integer getPermitOutsideEnt() {
-		return permitOutsideEnt;
+	public String getChannelColour() {
+		return channelColour;
 	}
 
-	public void setPermitOutsideEnt(Integer permitOutsideEnt) {
-		this.permitOutsideEnt = permitOutsideEnt;
+	public void setChannelColour(String channelColour) {
+		this.channelColour = channelColour;
+	}
+	public Long getChannelOperMemberId() {
+		return channelOperMemberId;
+	}
+
+	public void setChannelOperMemberId(Long channelOperMemberId) {
+		this.channelOperMemberId = channelOperMemberId;
+	}
+	public Long getChannelOperAcctId() {
+		return channelOperAcctId;
+	}
+
+	public void setChannelOperAcctId(Long channelOperAcctId) {
+		this.channelOperAcctId = channelOperAcctId;
+	}
+	public String getChannelOperAcctName() {
+		return channelOperAcctName;
+	}
+
+	public void setChannelOperAcctName(String channelOperAcctName) {
+		this.channelOperAcctName = channelOperAcctName;
+	}
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	public Integer getOpenMarketChannel() {
+		return openMarketChannel;
+	}
+
+	public void setOpenMarketChannel(Integer openMarketChannel) {
+		this.openMarketChannel = openMarketChannel;
 	}
 	public Date getCreateTime() {
 		return createTime;
@@ -125,6 +143,6 @@ public class ChannelManageDTO implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "ChannelManageDTO [" + "channelId=" + channelId + ", appId=" + appId + ", channelCode=" + channelCode + ", channelName=" + channelName + ", isIndepDomain=" + isIndepDomain + ", channelDomain=" + channelDomain + ", permitOutsideEnt=" + permitOutsideEnt + ", createTime=" + createTime + ", createMemberId=" + createMemberId + ", createAcctId=" + createAcctId + ", createName=" + createName +  "]";
+		return "ChannelManageDTO [" + "channelId=" + channelId + ", channelName=" + channelName + ", channelLogoUrl=" + channelLogoUrl + ", channelColour=" + channelColour + ", channelOperMemberId=" + channelOperMemberId + ", channelOperAcctId=" + channelOperAcctId + ", channelOperAcctName=" + channelOperAcctName + ", roleId=" + roleId + ", openMarketChannel=" + openMarketChannel + ", createTime=" + createTime + ", createMemberId=" + createMemberId + ", createAcctId=" + createAcctId + ", createName=" + createName +  "]";
 	}
 }

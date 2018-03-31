@@ -1,6 +1,8 @@
 package cn.enn.ygego.sunny.user.service;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.dto.vo.ChannelRquestVO;
 import cn.enn.ygego.sunny.user.model.ChannelManage;
 
 /**
@@ -24,6 +26,7 @@ public interface ChannelManageService {
 
     public Integer modifyChannelManageByPrimaryKey(ChannelManage record);
 
+    public List<ChannelManage> findChannelManagesPage(ChannelRquestVO record);
 
-
+    public Integer getCount(ChannelManage record);
 }

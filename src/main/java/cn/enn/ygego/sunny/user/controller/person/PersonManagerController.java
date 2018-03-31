@@ -1,6 +1,7 @@
 package cn.enn.ygego.sunny.user.controller.person;
 
 import cn.enn.ygego.sunny.core.log.SearchableLoggerFactory;
+import cn.enn.ygego.sunny.user.constant.PersonConstant;
 import cn.enn.ygego.sunny.user.dto.DeliverAddressDTO;
 import cn.enn.ygego.sunny.user.dto.IndividualCustDTO;
 import cn.enn.ygego.sunny.user.dto.ReceiveAddressDTO;
@@ -8,11 +9,13 @@ import cn.enn.ygego.sunny.user.dto.vo.BaseQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
+import cn.enn.ygego.sunny.user.model.BusiAcctInfo;
 import cn.enn.ygego.sunny.user.model.DeliverAddress;
 import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.ReceiveAddress;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply;
+import cn.enn.ygego.sunny.user.service.BusiAcctInfoService;
 import cn.enn.ygego.sunny.user.service.DeliverAddressService;
 import cn.enn.ygego.sunny.user.service.IndividualCustService;
 import cn.enn.ygego.sunny.user.service.MemberInfoService;
@@ -67,6 +70,12 @@ public class PersonManagerController {
     private RelaMemberToAcctApplyService relaMemberToAcctApplyService;  /* 账户申请会员审批表 */
     @Autowired
     private MemberInfoService memberInfoService;  /* 会员数据表 */
+    @Autowired
+    private BusiAcctInfoService busiAcctInfoService;  /* 业务账户表 */
+
+    private int defaultPageNum = 1;
+
+    private int defaultPageSize = 10;
     
     /**
      * @Description 查看个人用户列表接口
@@ -85,13 +94,13 @@ public class PersonManagerController {
         PersonQueryVO query = request.getReqBody();
         // 处理查询条件，计算分页
         Integer totalNum = individualCustService.getPersonCount(query);
-        PageDTO<PersonVO> page = new PageDTO<>(query.getPageNum(), query.getPageSize());
+        PageDTO<PersonVO> page = new PageDTO<>(query.getPageNum()==null?1:query.getPageNum(), 
+                query.getPageSize()==null?10:query.getPageSize());
         page.setTotal(totalNum);
         query.setStartRow(page.getStartRow());
         // 查询列表
         List<PersonVO> queryList = individualCustService.getPersonList(query);
         page.setResultData(queryList);
-        
         result = new JsonResponse<>(page);
         return result;
     }
@@ -113,24 +122,24 @@ public class PersonManagerController {
         PersonQueryVO personQuery = request.getReqBody();
         if(personQuery == null || (personQuery.getMemberId() == null && personQuery.getAcctId() == null) ){
             result = new JsonResponse<>("502","查询账号不能为空");
+            return result;
         }
         // 根据会员ID与账户ID 查询数据
         PersonVO person = individualCustService.getPersonDetail(personQuery.getMemberId(), personQuery.getAcctId());
         if(person == null){
-            result = new JsonResponse<>("502","未查询到相关数据");
+            result = new JsonResponse<>("502","未查询到个人相关数据");
+            return result;
         }
-        
-        if(person.getMemberType() == 3){
-            // 查询个人用户审批数据   
+        if(person.getMemberType() == PersonConstant.MEMBER_TYPE_PERSON){    // 查询个人用户审批数据   
             IndividualCustDTO individualCust = individualCustService.getIndividualCustById(person.getMemberId(),true);
             if(individualCust != null){
                 person.setCertCode(individualCust.getCertCode()); // 添加身份证号
                 person.setCertType(individualCust.getCertType()); // 添加证件类型
                 person.setIndividualCust(individualCust);  // 添加附件
             }
-        }else if(person.getMemberType() == 2){
-            // 查询企业详情
+        }else if(person.getMemberType() == PersonConstant.MEMBER_TYPE_COMPANY){  // 查询企业详情
             // TODO
+            
         }
         result = new JsonResponse<>(person);
         return result;
@@ -165,10 +174,40 @@ public class PersonManagerController {
     @RequestMapping(value="/attornAdmin", method = { RequestMethod.POST})
     @ApiOperation("企业管理员转让接口")
     @ResponseBody
-    public JsonResponse<Boolean> attornAdmin(@RequestBody JsonRequest request){
+    public JsonResponse<Boolean> attornAdmin(@RequestBody JsonRequest<PersonQueryVO> request){
         
-        JsonResponse<Boolean> result = new JsonResponse<Boolean>();
+        JsonResponse<Boolean> result = null;
+        /* 入参：
+         *  entMemberId;        企业会员id 
+         *  newAdminMemberId;   转让的 个人会员id 
+         *  acctId;             账户ID 
+         *  memberId;           会员ID 
+         */
+        PersonQueryVO query = request.getReqBody();
         
+        // 验证个人用户与企业是否有关联
+        RelaMemberToAcct relaQuery = new RelaMemberToAcct();
+        relaQuery.setAcctId(query.getAcctId());
+        relaQuery.setMemberId(query.getEntMemberId());
+        relaQuery.setMemberType(PersonConstant.MEMBER_TYPE_COMPANY);
+        List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaQuery);
+        if(relaList == null || relaList.size() <= 0){
+            result = new JsonResponse<>("502","当前操作账户与企业没有关联！");
+            return result;
+        }
+        
+        // TODO 基于上面的关系 验证当前人是否为企业管理员；
+        
+        // TODO 验证转让是否为个人 （ 被传让人只能为企业下的员工 ）
+        MemberInfo newAdminMember = memberInfoService.getMemberInfoByPrimaryKey(query.getNewAdminMemberId());
+        if(newAdminMember == null || newAdminMember.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON){
+            result = new JsonResponse<>("502","转让会员不存在，或不为个人会员ID");
+            return result;
+        }
+        
+        // TODO 转让管理员身份
+        Boolean success = relaMemberToAcctService.modifyEntAdminRela(newAdminMember, relaList.get(0));
+        result = new JsonResponse<>(success);
         return result;
     }
     
@@ -179,18 +218,18 @@ public class PersonManagerController {
      * @param request
      * @return
      */
-    @RequestMapping(value="/getEntEmployeeList", method = { RequestMethod.POST})
-    @ApiOperation("查看企业员工列表")
+    @RequestMapping(value="/getEntEmployeeApplyList", method = { RequestMethod.POST})
+    @ApiOperation("获取企业员工申请列表")
     @ResponseBody
-    public JsonResponse<PageDTO<EmployeeVO>> getEmployeeApplyList(@RequestBody JsonRequest<EmployeeQueryVO> request){
+    public JsonResponse<PageDTO<EmployeeVO>> getEntEmployeeApplyList(@RequestBody JsonRequest<EmployeeQueryVO> request){
     	logger.info("PersonManagerController.getEmployeeApplyList request= {}",request);
-    	// memberId, 必填 （ TODO 账户表中添加一个，认证是否通过的状态）
         /* 1.查看用户申请列表，关联用户个人审批表，未审批通过的（不能审批）不能显示
          * */
         JsonResponse<PageDTO<EmployeeVO>> result = new JsonResponse<PageDTO<EmployeeVO>>();
         EmployeeQueryVO query = request.getReqBody();
         Integer totalNum = relaMemberToAcctApplyService.getEmployeeApplyCount(query);
-        PageDTO<EmployeeVO> page = new PageDTO<>(query.getPageNum(), query.getPageSize());
+        PageDTO<EmployeeVO> page = new PageDTO<>(query.getPageNum()==null?1:query.getPageNum(), 
+                query.getPageSize()==null?10:query.getPageSize());
         page.setTotal(totalNum);
         query.setStartRow(page.getStartRow());
         // 查询列表
@@ -207,19 +246,67 @@ public class PersonManagerController {
      * @param request
      * @return
      */
-    @RequestMapping(value="/getEntEmployeeDetail", method = { RequestMethod.POST})
-    @ApiOperation("查看个人申请企业申请详情")
+    @RequestMapping(value="/getEmployeeApplyDetail", method = { RequestMethod.POST})
+    @ApiOperation("获取企业员工申请详情")
     @ResponseBody
-    public JsonResponse<EmployeeVO> getEmployeeApplyDetail(@RequestBody JsonRequest<EmployeeQueryVO> request){
+    public JsonResponse<EmployeeVO> getEntEmployeeApplyDetail(@RequestBody JsonRequest<EmployeeQueryVO> request){
     	logger.info("PersonManagerController.getEmployeeApplyDetail request= {}",request);
         JsonResponse<EmployeeVO> result = null;
         EmployeeQueryVO query = request.getReqBody();
-        if(query == null || query.getRelaId() == null){
-        	result = new JsonResponse<>("502","企业申请ID不能为空");
+        if(query == null ){
+        	result = new JsonResponse<>("502","查询ID不能为空");
             return result;
         }
-        EmployeeVO employee = relaMemberToAcctApplyService.getEmployeeApplyDetail(query.getRelaId());
+        EmployeeVO employee = relaMemberToAcctApplyService.getEmployeeApplyDetail(query);
         result = new JsonResponse<>(employee);
+        return result;
+    }
+    
+    /**
+     * 
+     * @Description TODO
+     * @author puanl
+     * @date 2018年3月28日 下午6:58:32 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getApplyJoinEntDetail", method = { RequestMethod.POST})
+    @ApiOperation("查询个人申请加入企业详情")
+    @ResponseBody
+    public JsonResponse<EmployeeVO> getApplyJoinEntDetail(@RequestBody JsonRequest<EmployeeVO> request){
+        JsonResponse<EmployeeVO> result = new JsonResponse<EmployeeVO>();
+        return result;
+    }
+    
+    /**
+     * 
+     * @Description TODO
+     * @author puanl
+     * @date 2018年3月28日 下午6:58:36 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getApplyJoinEntList", method = { RequestMethod.POST})
+    @ApiOperation("查询个人申请加入企业列表")
+    @ResponseBody
+    public JsonResponse<PageDTO<EmployeeVO>> getApplyJoinEntList(@RequestBody JsonRequest<EmployeeQueryVO> request){
+        JsonResponse<PageDTO<EmployeeVO>> result = new JsonResponse<PageDTO<EmployeeVO>>();
+        return result;
+    }
+    
+    /**
+     * 
+     * @Description TODO
+     * @author puanl
+     * @date 2018年3月28日 下午6:58:39 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getJoinEntList", method = { RequestMethod.POST})
+    @ApiOperation("查询个人加入企业列表")
+    @ResponseBody
+    public JsonResponse<PageDTO<EmployeeVO>> getJoinEntList(@RequestBody JsonRequest<EmployeeQueryVO> request){
+        JsonResponse<PageDTO<EmployeeVO>> result = new JsonResponse<PageDTO<EmployeeVO>>();
         return result;
     }
     
@@ -240,12 +327,15 @@ public class PersonManagerController {
          *  账号未申请个人认证不能申请企业
          */
     	EmployeeVO employee = request.getReqBody();
-    	// 验证账号是否申请个人认证   TODO 在账户表冗余 申请状态字段，通过账号表验证是否申请
-    	
-    	
+    	// 验证账号是否申请个人认证   
+    	BusiAcctInfo acct = busiAcctInfoService.getBusiAcctInfoByPrimaryKey(employee.getAcctId());
+    	if(acct == null || acct.getAuthState() == null || acct.getAuthState() == PersonConstant.AUTH_STATUS_UNSUBMIT){
+    	    result = new JsonResponse<>("502","尚未申请个人认证");
+            return result;
+    	}
     	// 验证是否为企业
     	MemberInfo member = memberInfoService.getMemberInfoByPrimaryKey(employee.getMemberId());
-    	if(member == null || member.getMemberType() != 4){
+    	if(member == null || member.getMemberType() != PersonConstant.MEMBER_TYPE_COMPANY){  // 2，企业   3，个人
     		result = new JsonResponse<>("502","请选择正确的企业");
     		return result;
     	}
@@ -254,7 +344,7 @@ public class PersonManagerController {
     	relaCheck.setAcctId(employee.getAcctId());      // 账户ID
     	relaCheck.setMemberId(employee.getMemberId());  // 企业会员ID
     	List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaCheck);
-    	if(relaList == null || relaList.size() == 0 ){
+    	if(relaList != null && relaList.size() > 0 ){
     		result = new JsonResponse<>("502", "已经加入企业，不能重复申请");
     		return result;
     	}
@@ -265,11 +355,13 @@ public class PersonManagerController {
     	List<RelaMemberToAcctApply> applyList = relaMemberToAcctApplyService.findRelaMemberToAcctApplys(applyCheck);
     	if(applyList != null && applyList.size() > 0 ){
     		result = new JsonResponse<>("502", "不能重复申请企业");
+    		BeanUtils.copyProperties(applyList.get(0), employee);
+    		result.setRspBody(employee);
     		return result;
     	}
     	// 保存数据
-    	employee.setMemberType(4); // 会员类型：企业
-    	employee.setStatus(2);     // 状态：提交申请
+    	employee.setMemberType(PersonConstant.MEMBER_TYPE_COMPANY); // 会员类型：企业
+    	employee.setStatus(PersonConstant.EMPLOYEE_STATUS_SUBMIT);     // 状态：提交申请
     	RelaMemberToAcctApply addApply = new RelaMemberToAcctApply();
     	BeanUtils.copyProperties(employee, addApply);
     	Integer operation = relaMemberToAcctApplyService.createRelaMemberToAcctApply(addApply);
@@ -296,18 +388,22 @@ public class PersonManagerController {
         JsonResponse<RelaMemberToAcctApply> result = null;
         EmployeeVO employee = request.getReqBody();
         RelaMemberToAcctApply relaApply = relaMemberToAcctApplyService.getRelaMemberToAcctApplyByPrimaryKey(employee.getRelaId());
-        if(relaApply == null || relaApply.getStatus() != 2){
-        	result = new JsonResponse<>("502","申请信息不存再，或已被驳回。");
+        if(relaApply == null || relaApply.getStatus() != PersonConstant.EMPLOYEE_STATUS_SUBMIT){
+        	result = new JsonResponse<>("502","申请信息不存再，已经通过或已被驳回。");
         	return result;
         }
-        // TODO 通过账户表验证人员是否个人认证通过
-        
+        // 验证账号是否申请个人认证   ( 个人未认证不能审批 )
+        BusiAcctInfo acct = busiAcctInfoService.getBusiAcctInfoByPrimaryKey(relaApply.getAcctId());
+        if(acct.getAuthState() == null || acct.getAuthState() != PersonConstant.AUTH_STATUS_AGREE){
+            result = new JsonResponse<>("502","尚未申请个人认证，或认证尚未通过");
+            return result;
+        }
         // 验证账户关系
     	RelaMemberToAcct relaCheck = new RelaMemberToAcct();
     	relaCheck.setAcctId(relaApply.getAcctId());      // 账户ID
     	relaCheck.setMemberId(relaApply.getMemberId());  // 企业会员ID
     	List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaCheck);
-    	if(relaList == null || relaList.size() == 0 ){
+    	if(relaList != null && relaList.size() > 0 ){
     		result = new JsonResponse<>("502", "已经加入企业，不能重复申请");
     		return result;
     	}
@@ -318,7 +414,7 @@ public class PersonManagerController {
     	relaApply.setStatus(employee.getStatus());  // 状态
     	Integer operation = relaMemberToAcctApplyService.modifyRelaMemberToAcctApplyByPrimaryKey(relaApply);
     	// 跟新正式表数据
-        if(operation > 0 && relaApply.getStatus() == 1){ // 通过
+        if(operation > 0 && relaApply.getStatus() == PersonConstant.EMPLOYEE_STATUS_AGREE){ // 通过
         	RelaMemberToAcct real = new RelaMemberToAcct();
         	relaApply.setRelaId(null);
         	BeanUtils.copyProperties(relaApply, real);
@@ -329,7 +425,7 @@ public class PersonManagerController {
     }
 
     /**
-     * @Description TODO
+     * @Description 重新申请加入企业
      * @author puanl
      * @date 2018年3月24日 下午3:51:00 
      * @param request
@@ -344,18 +440,26 @@ public class PersonManagerController {
         EmployeeVO employee = request.getReqBody();
         // 获取申请信息
         RelaMemberToAcctApply relaApply = relaMemberToAcctApplyService.getRelaMemberToAcctApplyByPrimaryKey(employee.getRelaId());
-        if(relaApply == null){
-        	result = new JsonResponse<>("502","申请信息不存再");
+        if(relaApply == null || relaApply.getStatus() != PersonConstant.EMPLOYEE_STATUS_REFUSE){
+        	result = new JsonResponse<>("502","申请信息不存再，或已经申请");
         	return result;
+        }
+        // 验证账户关系
+        RelaMemberToAcct relaCheck = new RelaMemberToAcct();
+        relaCheck.setAcctId(relaApply.getAcctId());      // 账户ID
+        relaCheck.setMemberId(relaApply.getMemberId());  // 企业会员ID
+        List<RelaMemberToAcct> relaList = relaMemberToAcctService.findRelaMemberToAccts(relaCheck);
+        if(relaList != null && relaList.size() > 0 ){
+            result = new JsonResponse<>("502", "已经加入企业，不能重复申请");
+            return result;
         }
         // 修改申请数据
         relaApply.setApplySpec(employee.getApplySpec());  // 申请意见
         relaApply.setAuditTime(null);  // 审批时间
     	relaApply.setApproveAcctId(null); // 审核人账户ID
     	relaApply.setApproveName(null);  // 审核人姓名 
-    	relaApply.setStatus(2);  // 状态
+    	relaApply.setStatus(PersonConstant.EMPLOYEE_STATUS_SUBMIT);  // 状态
     	relaMemberToAcctApplyService.modifyRelaAllByPrimaryKey(relaApply);
-    	
     	result = new JsonResponse<>(relaApply);
         return result;
     }
@@ -370,8 +474,10 @@ public class PersonManagerController {
     @RequestMapping(value="/addReceiveAddress", method = { RequestMethod.POST})
     @ApiOperation("新增收货地址接口")
     @ResponseBody
-    public JsonResponse<ReceiveAddress> createReceiveAddress(@RequestBody JsonRequest<ReceiveAddressDTO> request){
+    public JsonResponse<ReceiveAddress> addReceiveAddress(@RequestBody JsonRequest<ReceiveAddressDTO> request){
         ReceiveAddressDTO receiveAddressDTO = request.getReqBody();
+        //TODO
+        receiveAddressDTO.setMemberId(9454l);
         Date date = new Date();
         receiveAddressDTO.setCreateTime(date);
         JsonResponse<ReceiveAddress> jsonResponse = new JsonResponse<>();
@@ -411,6 +517,8 @@ public class PersonManagerController {
     @ResponseBody
     public JsonResponse<DeliverAddress> addDeliverAddress(@RequestBody JsonRequest<DeliverAddressDTO> request){
         DeliverAddressDTO deliverAddressDTO = request.getReqBody();
+        //TODO
+        deliverAddressDTO.setMemberId(9454l);
         Date date = new Date();
         deliverAddressDTO.setCreateTime(date);
         JsonResponse<DeliverAddress> jsonResponse = new JsonResponse<>();
@@ -450,6 +558,8 @@ public class PersonManagerController {
     @ResponseBody
     public JsonResponse<ReceiveAddress> modifyReceiveAddress(@RequestBody JsonRequest<ReceiveAddressDTO> request){
         ReceiveAddressDTO receiveAddressDTO = request.getReqBody();
+        //TODO
+        receiveAddressDTO.setMemberId(9454l);
         Date date = new Date();
         receiveAddressDTO.setCreateTime(date);
         JsonResponse<ReceiveAddress> jsonResponse = new JsonResponse<>();
@@ -489,6 +599,8 @@ public class PersonManagerController {
     @ResponseBody
     public JsonResponse<DeliverAddress>  modifyDeliverAddress(@RequestBody JsonRequest<DeliverAddressDTO> request){
         DeliverAddressDTO deliverAddressDTO = request.getReqBody();
+        //TODO
+        deliverAddressDTO.setMemberId(9454l);
         Date date = new Date();
         deliverAddressDTO.setCreateTime(date);
         JsonResponse<DeliverAddress> jsonResponse = new JsonResponse<>();
@@ -670,12 +782,22 @@ public class PersonManagerController {
     public JsonResponse<PageDTO<DeliverAddressDTO>>  findDeliverAddressList(@RequestBody JsonRequest<BaseQueryVO> request){
         JsonResponse<PageDTO<DeliverAddressDTO>> jsonResponse = new JsonResponse<PageDTO<DeliverAddressDTO>>(); // 返回的对象
         BaseQueryVO baseQueryVO = request.getReqBody();
+        //TODO
+        baseQueryVO.setMemberId(9454l);
+        baseQueryVO.setPageNum(baseQueryVO.getPageNum() != null ? baseQueryVO
+                .getPageNum() : defaultPageNum);
+        baseQueryVO.setPageSize(baseQueryVO.getPageSize() != null ? baseQueryVO
+                .getPageSize() : defaultPageSize);
         PageDTO<DeliverAddressDTO> pageDTO = new PageDTO<DeliverAddressDTO>(baseQueryVO.getPageNum(),baseQueryVO.getPageSize()); // 返回的PageDTO对象
+        DeliverAddress deliverAddress = new DeliverAddress();
+        deliverAddress.setMemberId(baseQueryVO.getMemberId());
+        int total = deliverAddressService.getCount(deliverAddress);
+        pageDTO.setTotal(total);
         baseQueryVO.setStartRow(pageDTO.getStartRow());//插入首行
         try {
             List<DeliverAddressDTO> list = deliverAddressService.findDeliverAddresssPage(baseQueryVO);
             pageDTO.setResultData(list);
-            if(list != null && list.size() > 0){
+            if(list != null){
                 jsonResponse.setRetCode("0000000");
                 jsonResponse.setRetDesc("查看发货地址列表成功");
                 jsonResponse.setRspBody(pageDTO);
@@ -707,12 +829,18 @@ public class PersonManagerController {
     public JsonResponse<PageDTO<ReceiveAddressDTO>>  findReceiveAddressList(@RequestBody JsonRequest<BaseQueryVO> request){
         JsonResponse<PageDTO<ReceiveAddressDTO>> jsonResponse = new JsonResponse<PageDTO<ReceiveAddressDTO>>(); // 返回的对象
         BaseQueryVO baseQueryVO = request.getReqBody();
+        //TODO
+        baseQueryVO.setMemberId(9454l);
+        baseQueryVO.setPageNum(baseQueryVO.getPageNum() != null ? baseQueryVO
+                .getPageNum() : defaultPageNum);
+        baseQueryVO.setPageSize(baseQueryVO.getPageSize() != null ? baseQueryVO
+                .getPageSize() : defaultPageSize);
         PageDTO<ReceiveAddressDTO> pageDTO = new PageDTO<ReceiveAddressDTO>(baseQueryVO.getPageNum(),baseQueryVO.getPageSize()); // 返回的PageDTO对象
         baseQueryVO.setStartRow(pageDTO.getStartRow());//插入首行
         try {
             List<ReceiveAddressDTO> list = receiveAddressService.findReceiveAddresssPage(baseQueryVO);
             pageDTO.setResultData(list);
-            if(list != null && list.size() > 0){
+            if(list != null){
                 jsonResponse.setRetCode("0000000");
                 jsonResponse.setRetDesc("查看收货地址列表成功");
                 jsonResponse.setRspBody(pageDTO);

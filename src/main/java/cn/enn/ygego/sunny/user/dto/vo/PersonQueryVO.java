@@ -16,6 +16,9 @@ public class PersonQueryVO implements Serializable {
 
     private static final long serialVersionUID = -603965964557814731L;
     
+    private Long entMemberId;  /* 企业会员id */
+    private Long newAdminMemberId;  /* 转让的 个人会员id */
+    
     private Long acctId;      /* 账户ID */ 
     private Long memberId; /* 会员ID */
     private Long certApplyId; /* 资质申请ID */
@@ -26,6 +29,8 @@ public class PersonQueryVO implements Serializable {
     private String  acctCode;        /* 账户编码 */ 
     private String  mobileNum;       /* 手机号 */ 
     
+    private Integer authState;      /* 个人认证状态 */
+    
     private Integer status; /* 状态 */
     private String startTime; /* 开始时间 */
     private String endTime;  /* 结束时间 */
@@ -34,6 +39,24 @@ public class PersonQueryVO implements Serializable {
     private Integer pageNum;
     private Integer startRow;
     
+    public Long getEntMemberId() {
+        return entMemberId;
+    }
+    public void setEntMemberId(Long entMemberId) {
+        this.entMemberId = entMemberId;
+    }
+    public Long getNewAdminMemberId() {
+        return newAdminMemberId;
+    }
+    public void setNewAdminMemberId(Long newAdminMemberId) {
+        this.newAdminMemberId = newAdminMemberId;
+    }
+    public Integer getAuthState() {
+        return authState;
+    }
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
     public Long getAcctId() {
         return acctId;
     }

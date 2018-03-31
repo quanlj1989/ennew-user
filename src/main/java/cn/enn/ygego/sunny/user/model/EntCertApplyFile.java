@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class EntCertApplyFile implements Serializable {
 	
-	private static final long serialVersionUID = -5160171920802714746L;
+	private static final long serialVersionUID = -1354147791124609850L;
 	
 	private Long	certApplyFileId;		 /* 资质申请文件ID */ 
 	private Long	certApplyDetailId;		 /* 资质申请明细ID */ 

@@ -8,11 +8,11 @@ import java.io.Serializable;
  * DTO:EntPaySet
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntPaySetDTO implements Serializable {
 	
-	private static final long serialVersionUID = -25257613279298950L;
+	private static final long serialVersionUID = 7920670306772097602L;
 	
 	private Long	paySetId; /* 付款设置标识 */
 	private Long	memberId; /* 会员ID */

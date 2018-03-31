@@ -13,12 +13,15 @@ public class BusiAcctInfoDTO implements Serializable {
 	
 	private static final long serialVersionUID = -1558019768087105812L;
 	
+	private String acctIds;  /* 个人账户ID集合 */
+	
 	private Long	acctId; /* 账户ID */
 	private Long	channelId; /* 渠道ID */
 	private String	acctName; /* 账户名称 */
 	private String	password; /* 账户密码 */
 	private String	acctCode; /* 账户编码 */
 	private Integer	acctState; /* 账户状态 */
+	private Integer authState; /* 个人认证状态 */
 	private String	logoUrl; /* LOGO_URL */
 	private String	name; /* 姓名 */
 	private Integer	genderType; /* 性别 */
@@ -72,7 +75,24 @@ public class BusiAcctInfoDTO implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public Long getAcctId() {
+	
+	public String getAcctIds() {
+        return acctIds;
+    }
+
+    public void setAcctIds(String acctIds) {
+        this.acctIds = acctIds;
+    }
+
+    public Integer getAuthState() {
+        return authState;
+    }
+
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
+
+    public Long getAcctId() {
 		return acctId;
 	}
 

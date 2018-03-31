@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketChargeStandardDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketChargeStandard" id="marketChargeStandardResultMap">
+		<result property="chargeStandardId" column="CHARGE_STANDARD_ID" />
+		<result property="marketId" column="MARKET_ID" />
+		<result property="materialId" column="MATERIAL_ID" />
+		<result property="materialName" column="MATERIAL_NAME" />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL" />
+		<result property="inStorageCharge" column="IN_STORAGE_CHARGE" />
+		<result property="outStorageCharge" column="OUT_STORAGE_CHARGE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createMemberId" column="CREATE_MEMBER_ID" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		CHARGE_STANDARD_ID,
+		MARKET_ID,
+		MATERIAL_ID,
+		MATERIAL_NAME,
+		ATTR_NAME_SERIAL,
+		IN_STORAGE_CHARGE,
+		OUT_STORAGE_CHARGE,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{chargeStandardId},
+		#{marketId},
+		#{materialId},
+		#{materialName},
+		#{attrNameSerial},
+		#{inStorageCharge},
+		#{outStorageCharge},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="chargeStandardId != null and chargeStandardId != ''">and CHARGE_STANDARD_ID = #{chargeStandardId}</if>
+            <if test="marketId != null and marketId != ''">and MARKET_ID = #{marketId}</if>
+            <if test="materialId != null and materialId != ''">and MATERIAL_ID = #{materialId}</if>
+            <if test="materialName != null and materialName != ''">and MATERIAL_NAME = #{materialName}</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+            <if test="inStorageCharge != null and inStorageCharge != ''">and IN_STORAGE_CHARGE = #{inStorageCharge}</if>
+            <if test="outStorageCharge != null and outStorageCharge != ''">and OUT_STORAGE_CHARGE = #{outStorageCharge}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createMemberId != null and createMemberId != ''">and CREATE_MEMBER_ID = #{createMemberId}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketChargeStandard" useGeneratedKeys="true" keyProperty="id">
+		insert into market_charge_standard( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketChargeStandard">
+            <selectKey resultType="long" keyProperty="chargeStandardId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_charge_standard
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">MARKET_ID,</if>
+            <if test="materialId != null and materialId != ''">MATERIAL_ID,</if>
+            <if test="materialName != null and materialName != ''">MATERIAL_NAME,</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+            <if test="inStorageCharge != null and inStorageCharge != ''">IN_STORAGE_CHARGE,</if>
+            <if test="outStorageCharge != null and outStorageCharge != ''">OUT_STORAGE_CHARGE,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">#{marketId},</if>
+            <if test="materialId != null and materialId != ''">#{materialId},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+            <if test="inStorageCharge != null and inStorageCharge != ''">#{inStorageCharge},</if>
+            <if test="outStorageCharge != null and outStorageCharge != ''">#{outStorageCharge},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createMemberId != null and createMemberId != ''">#{createMemberId},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketChargeStandard">
+		delete from market_charge_standard
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_charge_standard
+        <where>
+                CHARGE_STANDARD_ID = #{chargeStandardId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketChargeStandard">
+		update market_charge_standard 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="marketId != null and marketId != ''">MARKET_ID = #{marketId},</if>
+			<if test="materialId != null and materialId != ''">MATERIAL_ID = #{materialId},</if>
+			<if test="materialName != null and materialName != ''">MATERIAL_NAME = #{materialName},</if>
+			<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+			<if test="inStorageCharge != null and inStorageCharge != ''">IN_STORAGE_CHARGE = #{inStorageCharge},</if>
+			<if test="outStorageCharge != null and outStorageCharge != ''">OUT_STORAGE_CHARGE = #{outStorageCharge},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID = #{createMemberId},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            CHARGE_STANDARD_ID = #{chargeStandardId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketChargeStandardResultMap">
+        select <include refid="table_columns" />
+        from market_charge_standard
+    </select>
+
+    <select id="select" resultMap="marketChargeStandardResultMap">
+        select <include refid="table_columns" />
+        from market_charge_standard
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_charge_standard
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketChargeStandardResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_charge_standard
+        <where>
+                CHARGE_STANDARD_ID = #{chargeStandardId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

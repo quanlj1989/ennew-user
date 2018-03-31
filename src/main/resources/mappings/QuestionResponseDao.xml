@@ -126,6 +126,26 @@
 	</select>
 	
 	<!-- other SQL -->
+	<select id="getByQuestionId" resultMap="questionResponseResultMap"  >
+		select <include refid="table_columns" />
+		from question_response
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ID = #{questionId}</if>
+		</trim>
+	</select>
 
+	<insert id="insertBatch" parameterType="cn.enn.ygego.sunny.user.model.QuestionResponse" >
+		insert into question_response( <include refid="table_columns" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		  ( #{item.responseId},
+			#{item.questionId},
+			#{item.responseContent},
+			#{item.createTime},
+			#{item.createMemberId},
+			#{item.createAcctId},
+			#{item.createName} )
+		</foreach>
+	</insert>
 
 </mapper>

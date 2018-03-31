@@ -9,6 +9,7 @@
 		<result property="password" column="PASSWORD"  />
 		<result property="acctCode" column="ACCT_CODE"  />
 		<result property="acctState" column="ACCT_STATE"  />
+		<result property="authState" column="AUTH_STATE"  />
 		<result property="logoUrl" column="LOGO_URL"  />
 		<result property="name" column="NAME"  />
 		<result property="genderType" column="GENDER_TYPE"  />
@@ -33,6 +34,7 @@
 		PASSWORD,
 		ACCT_CODE,
 		ACCT_STATE,
+		AUTH_STATE,
 		LOGO_URL,
 		NAME,
 		GENDER_TYPE,
@@ -56,6 +58,7 @@
 		#{password},
 		#{acctCode},
 		#{acctState},
+		#{authState},
 		#{logoUrl},
 		#{name},
 		#{genderType},
@@ -82,6 +85,7 @@
 				<if test="password != null and password != ''">and PASSWORD = #{password}</if>
 				<if test="acctCode != null and acctCode != ''">and ACCT_CODE = #{acctCode}</if>
 				<if test="acctState != null ">and ACCT_STATE = #{acctState}</if>
+				<if test="authState != null ">and AUTH_STATE = #{authState}</if>
 				<if test="logoUrl != null and logoUrl != ''">and LOGO_URL = #{logoUrl}</if>
 				<if test="name != null and name != ''">and NAME = #{name}</if>
 				<if test="genderType != null ">and GENDER_TYPE = #{genderType}</if>
@@ -114,6 +118,7 @@
 				<if test="password != null and password != ''">PASSWORD,</if>
 				<if test="acctCode != null and acctCode != ''">ACCT_CODE,</if>
 				<if test="acctState != null ">ACCT_STATE,</if>
+				<if test="authState != null ">AUTH_STATE,</if>
 				<if test="logoUrl != null and logoUrl != ''">LOGO_URL,</if>
 				<if test="name != null and name != ''">NAME,</if>
 				<if test="genderType != null ">GENDER_TYPE,</if>
@@ -137,6 +142,7 @@
 				<if test="password != null and password != ''">#{password},</if>
 				<if test="acctCode != null and acctCode != ''">#{acctCode},</if>
 				<if test="acctState != null ">#{acctState},</if>
+				<if test="authState != null ">#{authState},</if>
 				<if test="logoUrl != null and logoUrl != ''">#{logoUrl},</if>
 				<if test="name != null and name != ''">#{name},</if>
 				<if test="genderType != null ">#{genderType},</if>
@@ -177,6 +183,7 @@
 				<if test="password != null and password != ''">PASSWORD = #{password},</if>
 				<if test="acctCode != null and acctCode != ''">ACCT_CODE = #{acctCode},</if>
 				<if test="acctState != null ">ACCT_STATE = #{acctState},</if>
+				<if test="authState != null ">AUTH_STATE = #{authState},</if>
 				<if test="logoUrl != null and logoUrl != ''">LOGO_URL = #{logoUrl},</if>
 				<if test="name != null and name != ''">NAME = #{name},</if>
 				<if test="genderType != null ">GENDER_TYPE = #{genderType},</if>
@@ -250,9 +257,9 @@
 		LAST_LOGIN_TIME,
 		IS_DELETE
 		FROM busi_acct_info acct
-		WHERE (acct.acctName = #{username} AND acct.password = #{password}) OR
-			   (acct.mobileNum = #{username} AND acct.password = #{password}) OR
-			   (acct.email = #{username} AND acct.password = #{password})
+		WHERE (acct.ACCT_NAME = #{username} AND acct.PASSWORD = #{password}) OR
+			   (acct.MOBILE_NUM = #{username} AND acct.PASSWORD = #{password}) OR
+			   (acct.EMAIL = #{username} AND acct.PASSWORD = #{password})
 	</select>
 
 
@@ -267,6 +274,13 @@
 	<update id="updateEmail">
 		UPDATE busi_acct_info
 		SET EMAIL = #{email}
+		WHERE ACCT_ID = #{acctId}
+	</update>
+
+	<!-- 更新手机号 -->
+	<update id="updatePhone">
+		UPDATE busi_acct_info
+		SET MOBILE_NUM = #{newPhone}
 		WHERE ACCT_ID = #{acctId}
 	</update>
 

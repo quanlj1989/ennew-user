@@ -45,6 +45,6 @@ public interface RelaMemberToAcctApplyService {
      * @param employee
      * @return
      */
-    public EmployeeVO getEmployeeApplyDetail(Long relaId);
+    public EmployeeVO getEmployeeApplyDetail(EmployeeQueryVO query);
 
 }

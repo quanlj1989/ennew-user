@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class EntDept implements Serializable {
 	
-	private static final long serialVersionUID = 4255513725764224950L;
+	private static final long serialVersionUID = -6901756791281524844L;
 	
 	private Long	deptId;		 /* 部门ID */ 
 	private Long	memberId;		 /* 会员ID */ 

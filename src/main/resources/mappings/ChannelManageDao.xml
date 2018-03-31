@@ -4,12 +4,14 @@
 
     <resultMap type="cn.enn.ygego.sunny.user.model.ChannelManage" id="channelManageResultMap">
 		<result property="channelId" column="CHANNEL_ID"  />
-		<result property="appId" column="APP_ID"  />
-		<result property="channelCode" column="CHANNEL_CODE"  />
 		<result property="channelName" column="CHANNEL_NAME"  />
-		<result property="isIndepDomain" column="IS_INDEP_DOMAIN"  />
-		<result property="channelDomain" column="CHANNEL_DOMAIN"  />
-		<result property="permitOutsideEnt" column="PERMIT_OUTSIDE_ENT"  />
+		<result property="channelLogoUrl" column="CHANNEL_LOGO_URL"  />
+		<result property="channelColour" column="CHANNEL_COLOUR"  />
+		<result property="channelOperMemberId" column="CHANNEL_OPER_MEMBER_ID"  />
+		<result property="channelOperAcctId" column="CHANNEL_OPER_ACCT_ID"  />
+		<result property="channelOperAcctName" column="CHANNEL_OPER_ACCT_NAME"  />
+		<result property="roleId" column="ROLE_ID"  />
+		<result property="openMarketChannel" column="OPEN_MARKET_CHANNEL"  />
 		<result property="createTime" column="CREATE_TIME"  />
 		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
 		<result property="createAcctId" column="CREATE_ACCT_ID"  />
@@ -18,12 +20,14 @@
 	
 	<sql id="table_columns">
 		CHANNEL_ID,
-		APP_ID,
-		CHANNEL_CODE,
 		CHANNEL_NAME,
-		IS_INDEP_DOMAIN,
-		CHANNEL_DOMAIN,
-		PERMIT_OUTSIDE_ENT,
+		CHANNEL_LOGO_URL,
+		CHANNEL_COLOUR,
+		CHANNEL_OPER_MEMBER_ID,
+		CHANNEL_OPER_ACCT_ID,
+		CHANNEL_OPER_ACCT_NAME,
+		ROLE_ID,
+		OPEN_MARKET_CHANNEL,
 		CREATE_TIME,
 		CREATE_MEMBER_ID,
 		CREATE_ACCT_ID,
@@ -31,12 +35,14 @@
     </sql>
 	<sql id="entity_properties">
 		#{channelId},
-		#{appId},
-		#{channelCode},
 		#{channelName},
-		#{isIndepDomain},
-		#{channelDomain},
-		#{permitOutsideEnt},
+		#{channelLogoUrl},
+		#{channelColour},
+		#{channelOperMemberId},
+		#{channelOperAcctId},
+		#{channelOperAcctName},
+		#{roleId},
+		#{openMarketChannel},
 		#{createTime},
 		#{createMemberId},
 		#{createAcctId},
@@ -47,12 +53,14 @@
     <sql id="page_where">
         <trim prefix="where" prefixOverrides="and | or ">
 				<if test="channelId != null ">and CHANNEL_ID = #{channelId}</if>
-				<if test="appId != null ">and APP_ID = #{appId}</if>
-				<if test="channelCode != null and channelCode != ''">and CHANNEL_CODE = #{channelCode}</if>
 				<if test="channelName != null and channelName != ''">and CHANNEL_NAME = #{channelName}</if>
-				<if test="isIndepDomain != null ">and IS_INDEP_DOMAIN = #{isIndepDomain}</if>
-				<if test="channelDomain != null and channelDomain != ''">and CHANNEL_DOMAIN = #{channelDomain}</if>
-				<if test="permitOutsideEnt != null ">and PERMIT_OUTSIDE_ENT = #{permitOutsideEnt}</if>
+				<if test="channelLogoUrl != null and channelLogoUrl != ''">and CHANNEL_LOGO_URL = #{channelLogoUrl}</if>
+				<if test="channelColour != null and channelColour != ''">and CHANNEL_COLOUR = #{channelColour}</if>
+				<if test="channelOperMemberId != null ">and CHANNEL_OPER_MEMBER_ID = #{channelOperMemberId}</if>
+				<if test="channelOperAcctId != null ">and CHANNEL_OPER_ACCT_ID = #{channelOperAcctId}</if>
+				<if test="channelOperAcctName != null and channelOperAcctName != ''">and CHANNEL_OPER_ACCT_NAME = #{channelOperAcctName}</if>
+				<if test="roleId != null ">and ROLE_ID = #{roleId}</if>
+				<if test="openMarketChannel != null ">and OPEN_MARKET_CHANNEL = #{openMarketChannel}</if>
 				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
 				<if test="createMemberId != null ">and CREATE_MEMBER_ID = #{createMemberId}</if>
 				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
@@ -60,7 +68,17 @@
         </trim>
     </sql>
 
-	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage" >
+	<sql id="page_where_like">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="channelId != null ">and CHANNEL_ID like concat('%',#{channelId},'%')</if>
+			<if test="channelName != null and channelName != ''">and CHANNEL_NAME like concat('%',#{channelName},'%')</if>
+			<if test="channelOperAcctName != null and channelOperAcctName != ''">and CHANNEL_OPER_ACCT_NAME like concat('%',#{channelOperAcctName},'%')</if>
+			<if test="createStartTime != null ">and CREATE_TIME &gt;= #{createStartTime}</if>
+			<if test="createEndTime != null ">and CREATE_TIME &lt;= #{createEndTime}</if>
+		</trim>
+	</sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage"  useGeneratedKeys="true" keyProperty="channelId">
 		insert into channel_manage( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
 	</insert>
@@ -69,12 +87,14 @@
         insert into channel_manage
         <trim prefix="(" suffix=")" suffixOverrides="," >
 				<if test="channelId != null ">CHANNEL_ID,</if>
-				<if test="appId != null ">APP_ID,</if>
-				<if test="channelCode != null and channelCode != ''">CHANNEL_CODE,</if>
 				<if test="channelName != null and channelName != ''">CHANNEL_NAME,</if>
-				<if test="isIndepDomain != null ">IS_INDEP_DOMAIN,</if>
-				<if test="channelDomain != null and channelDomain != ''">CHANNEL_DOMAIN,</if>
-				<if test="permitOutsideEnt != null ">PERMIT_OUTSIDE_ENT,</if>
+				<if test="channelLogoUrl != null and channelLogoUrl != ''">CHANNEL_LOGO_URL,</if>
+				<if test="channelColour != null and channelColour != ''">CHANNEL_COLOUR,</if>
+				<if test="channelOperMemberId != null ">CHANNEL_OPER_MEMBER_ID,</if>
+				<if test="channelOperAcctId != null ">CHANNEL_OPER_ACCT_ID,</if>
+				<if test="channelOperAcctName != null and channelOperAcctName != ''">CHANNEL_OPER_ACCT_NAME,</if>
+				<if test="roleId != null ">ROLE_ID,</if>
+				<if test="openMarketChannel != null ">OPEN_MARKET_CHANNEL,</if>
 				<if test="createTime != null ">CREATE_TIME,</if>
 				<if test="createMemberId != null ">CREATE_MEMBER_ID,</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
@@ -82,12 +102,14 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
 				<if test="channelId != null ">#{channelId},</if>
-				<if test="appId != null ">#{appId},</if>
-				<if test="channelCode != null and channelCode != ''">#{channelCode},</if>
 				<if test="channelName != null and channelName != ''">#{channelName},</if>
-				<if test="isIndepDomain != null ">#{isIndepDomain},</if>
-				<if test="channelDomain != null and channelDomain != ''">#{channelDomain},</if>
-				<if test="permitOutsideEnt != null ">#{permitOutsideEnt},</if>
+				<if test="channelLogoUrl != null and channelLogoUrl != ''">#{channelLogoUrl},</if>
+				<if test="channelColour != null and channelColour != ''">#{channelColour},</if>
+				<if test="channelOperMemberId != null ">#{channelOperMemberId},</if>
+				<if test="channelOperAcctId != null ">#{channelOperAcctId},</if>
+				<if test="channelOperAcctName != null and channelOperAcctName != ''">#{channelOperAcctName},</if>
+				<if test="roleId != null ">#{roleId},</if>
+				<if test="openMarketChannel != null ">#{openMarketChannel},</if>
 				<if test="createTime != null ">#{createTime},</if>
 				<if test="createMemberId != null ">#{createMemberId},</if>
 				<if test="createAcctId != null ">#{createAcctId},</if>
@@ -112,12 +134,14 @@
 	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.ChannelManage">
 		update channel_manage 
 		<trim prefix="set" suffixOverrides=",">
-				<if test="appId != null ">APP_ID = #{appId},</if>
-				<if test="channelCode != null and channelCode != ''">CHANNEL_CODE = #{channelCode},</if>
 				<if test="channelName != null and channelName != ''">CHANNEL_NAME = #{channelName},</if>
-				<if test="isIndepDomain != null ">IS_INDEP_DOMAIN = #{isIndepDomain},</if>
-				<if test="channelDomain != null and channelDomain != ''">CHANNEL_DOMAIN = #{channelDomain},</if>
-				<if test="permitOutsideEnt != null ">PERMIT_OUTSIDE_ENT = #{permitOutsideEnt},</if>
+				<if test="channelLogoUrl != null and channelLogoUrl != ''">CHANNEL_LOGO_URL = #{channelLogoUrl},</if>
+				<if test="channelColour != null and channelColour != ''">CHANNEL_COLOUR = #{channelColour},</if>
+				<if test="channelOperMemberId != null ">CHANNEL_OPER_MEMBER_ID = #{channelOperMemberId},</if>
+				<if test="channelOperAcctId != null ">CHANNEL_OPER_ACCT_ID = #{channelOperAcctId},</if>
+				<if test="channelOperAcctName != null and channelOperAcctName != ''">CHANNEL_OPER_ACCT_NAME = #{channelOperAcctName},</if>
+				<if test="roleId != null ">ROLE_ID = #{roleId},</if>
+				<if test="openMarketChannel != null ">OPEN_MARKET_CHANNEL = #{openMarketChannel},</if>
 				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
 				<if test="createMemberId != null ">CREATE_MEMBER_ID = #{createMemberId},</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
@@ -154,6 +178,12 @@
 	</select>
 	
 	<!-- other SQL -->
-
+	<!--分页查询渠道信息-->
+	<select id="findChannelManagesPage" resultMap="channelManageResultMap" parameterType="cn.enn.ygego.sunny.user.dto.vo.ChannelRquestVO">
+		select <include refid="table_columns" />
+		from channel_manage
+		<include refid="page_where_like" />
+		LIMIT #{startRow},#{pageSize}
+	</select>
 
 </mapper>

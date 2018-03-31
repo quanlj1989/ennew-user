@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketBuyerDiscountCateDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketBuyerDiscountCate" id="marketBuyerDiscountCateResultMap">
+		<result property="discountId" column="DISCOUNT_ID" />
+		<result property="discountBuyerId" column="DISCOUNT_BUYER_ID" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="categoryName" column="CATEGORY_NAME" />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH" />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH" />
+		<result property="effDate" column="EFF_DATE" />
+		<result property="expDate" column="EXP_DATE" />
+		<result property="standardPremiumRates" column="STANDARD_PREMIUM_RATES" />
+		<result property="discountNum" column="DISCOUNT_NUM" />
+		<result property="actualCharge" column="ACTUAL_CHARGE" />
+		<result property="status" column="STATUS" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createMemberId" column="CREATE_MEMBER_ID" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+		<result property="modTime" column="MOD_TIME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		DISCOUNT_ID,
+		DISCOUNT_BUYER_ID,
+		CATEGORY_ID,
+		CATEGORY_NAME,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		EFF_DATE,
+		EXP_DATE,
+		STANDARD_PREMIUM_RATES,
+		DISCOUNT_NUM,
+		ACTUAL_CHARGE,
+		STATUS,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		MOD_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{discountId},
+		#{discountBuyerId},
+		#{categoryId},
+		#{categoryName},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{effDate},
+		#{expDate},
+		#{standardPremiumRates},
+		#{discountNum},
+		#{actualCharge},
+		#{status},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{modTime}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="discountId != null and discountId != ''">and DISCOUNT_ID = #{discountId}</if>
+            <if test="discountBuyerId != null and discountBuyerId != ''">and DISCOUNT_BUYER_ID = #{discountBuyerId}</if>
+            <if test="categoryId != null and categoryId != ''">and CATEGORY_ID = #{categoryId}</if>
+            <if test="categoryName != null and categoryName != ''">and CATEGORY_NAME = #{categoryName}</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+            <if test="effDate != null and effDate != ''">and EFF_DATE = #{effDate}</if>
+            <if test="expDate != null and expDate != ''">and EXP_DATE = #{expDate}</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">and STANDARD_PREMIUM_RATES = #{standardPremiumRates}</if>
+            <if test="discountNum != null and discountNum != ''">and DISCOUNT_NUM = #{discountNum}</if>
+            <if test="actualCharge != null and actualCharge != ''">and ACTUAL_CHARGE = #{actualCharge}</if>
+            <if test="status != null and status != ''">and STATUS = #{status}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createMemberId != null and createMemberId != ''">and CREATE_MEMBER_ID = #{createMemberId}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+            <if test="modTime != null and modTime != ''">and MOD_TIME = #{modTime}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketBuyerDiscountCate" useGeneratedKeys="true" keyProperty="id">
+		insert into market_buyer_discount_cate( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketBuyerDiscountCate">
+            <selectKey resultType="long" keyProperty="discountId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_buyer_discount_cate
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="discountBuyerId != null and discountBuyerId != ''">DISCOUNT_BUYER_ID,</if>
+            <if test="categoryId != null and categoryId != ''">CATEGORY_ID,</if>
+            <if test="categoryName != null and categoryName != ''">CATEGORY_NAME,</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+            <if test="effDate != null and effDate != ''">EFF_DATE,</if>
+            <if test="expDate != null and expDate != ''">EXP_DATE,</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">STANDARD_PREMIUM_RATES,</if>
+            <if test="discountNum != null and discountNum != ''">DISCOUNT_NUM,</if>
+            <if test="actualCharge != null and actualCharge != ''">ACTUAL_CHARGE,</if>
+            <if test="status != null and status != ''">STATUS,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+            <if test="modTime != null and modTime != ''">MOD_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="discountBuyerId != null and discountBuyerId != ''">#{discountBuyerId},</if>
+            <if test="categoryId != null and categoryId != ''">#{categoryId},</if>
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+            <if test="effDate != null and effDate != ''">#{effDate},</if>
+            <if test="expDate != null and expDate != ''">#{expDate},</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">#{standardPremiumRates},</if>
+            <if test="discountNum != null and discountNum != ''">#{discountNum},</if>
+            <if test="actualCharge != null and actualCharge != ''">#{actualCharge},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createMemberId != null and createMemberId != ''">#{createMemberId},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+            <if test="modTime != null and modTime != ''">#{modTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketBuyerDiscountCate">
+		delete from market_buyer_discount_cate
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_buyer_discount_cate
+        <where>
+                DISCOUNT_ID = #{discountId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketBuyerDiscountCate">
+		update market_buyer_discount_cate 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="discountBuyerId != null and discountBuyerId != ''">DISCOUNT_BUYER_ID = #{discountBuyerId},</if>
+			<if test="categoryId != null and categoryId != ''">CATEGORY_ID = #{categoryId},</if>
+			<if test="categoryName != null and categoryName != ''">CATEGORY_NAME = #{categoryName},</if>
+			<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+			<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+			<if test="effDate != null and effDate != ''">EFF_DATE = #{effDate},</if>
+			<if test="expDate != null and expDate != ''">EXP_DATE = #{expDate},</if>
+			<if test="standardPremiumRates != null and standardPremiumRates != ''">STANDARD_PREMIUM_RATES = #{standardPremiumRates},</if>
+			<if test="discountNum != null and discountNum != ''">DISCOUNT_NUM = #{discountNum},</if>
+			<if test="actualCharge != null and actualCharge != ''">ACTUAL_CHARGE = #{actualCharge},</if>
+			<if test="status != null and status != ''">STATUS = #{status},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID = #{createMemberId},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+			<if test="modTime != null and modTime != ''">MOD_TIME = #{modTime},</if>
+		</trim>
+        <where>
+            DISCOUNT_ID = #{discountId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketBuyerDiscountCateResultMap">
+        select <include refid="table_columns" />
+        from market_buyer_discount_cate
+    </select>
+
+    <select id="select" resultMap="marketBuyerDiscountCateResultMap">
+        select <include refid="table_columns" />
+        from market_buyer_discount_cate
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_buyer_discount_cate
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketBuyerDiscountCateResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_buyer_discount_cate
+        <where>
+                DISCOUNT_ID = #{discountId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

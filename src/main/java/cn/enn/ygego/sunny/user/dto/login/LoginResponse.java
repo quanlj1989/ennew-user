@@ -2,18 +2,20 @@ package cn.enn.ygego.sunny.user.dto.login;
 
 import cn.enn.ygego.sunny.user.model.MemberInfo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 登陆成功返回的响应信息
  * Created by dongbb on 2018/3/20.
  */
-public class LoginResponse {
+public class LoginResponse implements Serializable {
 
     private Long accountId; //账号id
     private Long memberId;	//个人会员ID
     private String accountName; //账号姓名
-    private String mobileNum; //手机号
+    private String mobilePhone; //手机号
+    private String realName; //真实姓名
 
     public Long getAccountId() {
         return accountId;
@@ -39,11 +41,19 @@ public class LoginResponse {
         this.accountName = accountName;
     }
 
-    public String getMobileNum() {
-        return mobileNum;
+    public String getMobilePhone() {
+        return mobilePhone;
     }
 
-    public void setMobileNum(String mobileNum) {
-        this.mobileNum = mobileNum;
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

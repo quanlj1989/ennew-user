@@ -10,10 +10,11 @@ import java.io.Serializable;
  */
 public class EntCustInfo implements Serializable {
 	
-	private static final long serialVersionUID = -6395275370666754153L;
+	private static final long serialVersionUID = 3492720304654010861L;
 	
 	private Long	memberId;		 /* 会员ID */ 
 	private Long	pareMemberId;		 /* 父级会员ID */ 
+	private Long	adminAcctId;		 /* 管理员账户ID */ 
 	private String	entName;		 /* 企业名称 */ 
 	private String	authenType;		 /* 认证类型 */ 
 	private String	custCode;		 /* 客户编码 */ 
@@ -26,17 +27,21 @@ public class EntCustInfo implements Serializable {
 	private String	businessLicenseFullAddress;		 /* 营业执照地址全称 */ 
 	private Integer	businessLicenseType;		 /* 营业执照类型 */ 
 	private Date	establishDate;		 /* 成立日期 */ 
-	private Date	certLimitDate;		 /* 证件期限 */ 
+	private Date	certStartDate;		 /* 营业执照起始 */ 
+	private Date	certLimitDate;		 /* 营业执照截止 */ 
 	private Integer	limitType;		 /* 期限类型 */ 
+	private Integer	entCertType;		 /* 企业证件类型 */ 
 	private Long	regCapital;		 /* 注册资本 */ 
 	private Integer	regCapitalUnit;		 /* 注册资本单位类型 */ 
 	private String	entTel;		 /* 企业电话 */ 
 	private Integer	status;		 /* 状态 */ 
 	private Integer	supplierSet;		 /* 供应商设置 */ 
-	private Integer	blackWhiteListSet;		 /* 黑白名单设置 */ 
-	private Integer	agreementPriceId;		 /* 协议价设置 */ 
+	private String	blackWhiteListSet;		 /* 黑白名单设置 */ 
+	private String	agreementPriceId;		 /* 协议价设置 */ 
 	private Integer	cateMateId;		 /* 类目物料设置 */ 
 	private Long	agreementId;		 /* 协议ID */ 
+	private Long	clearingMemberId;		 /* 结算商会员ID */ 
+	private String	clearingCustName;		 /* 结算商客户名称 */ 
 	private Date	authTime;		 /* 认证时间 */ 
 	private Date	createTime;		 /* 创建时间 */ 
 	private Long	createMemberId;		 /* 创建人会员ID */ 
@@ -54,9 +59,10 @@ public class EntCustInfo implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public EntCustInfo(Long memberId, Long pareMemberId, String entName, String authenType, String custCode, Integer entType, String businessMode, String legalPerson, Integer legalPersonNationality, Integer businessLicenseAreaId, String businessLicenseAddress, String businessLicenseFullAddress, Integer businessLicenseType, Date establishDate, Date certLimitDate, Integer limitType, Long regCapital, Integer regCapitalUnit, String entTel, Integer status, Integer supplierSet, Integer blackWhiteListSet, Integer agreementPriceId, Integer cateMateId, Long agreementId, Date authTime, Date createTime, Long createMemberId, Long createAcctId, String createName, Date modTime, Long modMemberId, Long modAcctId, String modAcctName) {
+	public EntCustInfo(Long memberId, Long pareMemberId, Long adminAcctId, String entName, String authenType, String custCode, Integer entType, String businessMode, String legalPerson, Integer legalPersonNationality, Integer businessLicenseAreaId, String businessLicenseAddress, String businessLicenseFullAddress, Integer businessLicenseType, Date establishDate, Date certStartDate, Date certLimitDate, Integer limitType, Integer entCertType, Long regCapital, Integer regCapitalUnit, String entTel, Integer status, Integer supplierSet, String blackWhiteListSet, String agreementPriceId, Integer cateMateId, Long agreementId, Long clearingMemberId, String clearingCustName, Date authTime, Date createTime, Long createMemberId, Long createAcctId, String createName, Date modTime, Long modMemberId, Long modAcctId, String modAcctName) {
 		this.memberId = memberId;
 		this.pareMemberId = pareMemberId;
+		this.adminAcctId = adminAcctId;
 		this.entName = entName;
 		this.authenType = authenType;
 		this.custCode = custCode;
@@ -69,8 +75,10 @@ public class EntCustInfo implements Serializable {
 		this.businessLicenseFullAddress = businessLicenseFullAddress;
 		this.businessLicenseType = businessLicenseType;
 		this.establishDate = establishDate;
+		this.certStartDate = certStartDate;
 		this.certLimitDate = certLimitDate;
 		this.limitType = limitType;
+		this.entCertType = entCertType;
 		this.regCapital = regCapital;
 		this.regCapitalUnit = regCapitalUnit;
 		this.entTel = entTel;
@@ -80,6 +88,8 @@ public class EntCustInfo implements Serializable {
 		this.agreementPriceId = agreementPriceId;
 		this.cateMateId = cateMateId;
 		this.agreementId = agreementId;
+		this.clearingMemberId = clearingMemberId;
+		this.clearingCustName = clearingCustName;
 		this.authTime = authTime;
 		this.createTime = createTime;
 		this.createMemberId = createMemberId;
@@ -105,6 +115,14 @@ public class EntCustInfo implements Serializable {
 
 	public void setPareMemberId(Long pareMemberId) {
 		this.pareMemberId = pareMemberId;
+	}
+
+	public Long getAdminAcctId() {
+		return adminAcctId;
+	}
+
+	public void setAdminAcctId(Long adminAcctId) {
+		this.adminAcctId = adminAcctId;
 	}
 
 	public String getEntName() {
@@ -203,6 +221,14 @@ public class EntCustInfo implements Serializable {
 		this.establishDate = establishDate;
 	}
 
+	public Date getCertStartDate() {
+		return certStartDate;
+	}
+
+	public void setCertStartDate(Date certStartDate) {
+		this.certStartDate = certStartDate;
+	}
+
 	public Date getCertLimitDate() {
 		return certLimitDate;
 	}
@@ -217,6 +243,14 @@ public class EntCustInfo implements Serializable {
 
 	public void setLimitType(Integer limitType) {
 		this.limitType = limitType;
+	}
+
+	public Integer getEntCertType() {
+		return entCertType;
+	}
+
+	public void setEntCertType(Integer entCertType) {
+		this.entCertType = entCertType;
 	}
 
 	public Long getRegCapital() {
@@ -259,19 +293,19 @@ public class EntCustInfo implements Serializable {
 		this.supplierSet = supplierSet;
 	}
 
-	public Integer getBlackWhiteListSet() {
+	public String getBlackWhiteListSet() {
 		return blackWhiteListSet;
 	}
 
-	public void setBlackWhiteListSet(Integer blackWhiteListSet) {
+	public void setBlackWhiteListSet(String blackWhiteListSet) {
 		this.blackWhiteListSet = blackWhiteListSet;
 	}
 
-	public Integer getAgreementPriceId() {
+	public String getAgreementPriceId() {
 		return agreementPriceId;
 	}
 
-	public void setAgreementPriceId(Integer agreementPriceId) {
+	public void setAgreementPriceId(String agreementPriceId) {
 		this.agreementPriceId = agreementPriceId;
 	}
 
@@ -289,6 +323,22 @@ public class EntCustInfo implements Serializable {
 
 	public void setAgreementId(Long agreementId) {
 		this.agreementId = agreementId;
+	}
+
+	public Long getClearingMemberId() {
+		return clearingMemberId;
+	}
+
+	public void setClearingMemberId(Long clearingMemberId) {
+		this.clearingMemberId = clearingMemberId;
+	}
+
+	public String getClearingCustName() {
+		return clearingCustName;
+	}
+
+	public void setClearingCustName(String clearingCustName) {
+		this.clearingCustName = clearingCustName;
 	}
 
 	public Date getAuthTime() {
@@ -365,6 +415,6 @@ public class EntCustInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EntCustInfo [" + "memberId=" + memberId+ ", pareMemberId=" + pareMemberId+ ", entName=" + entName+ ", authenType=" + authenType+ ", custCode=" + custCode+ ", entType=" + entType+ ", businessMode=" + businessMode+ ", legalPerson=" + legalPerson+ ", legalPersonNationality=" + legalPersonNationality+ ", businessLicenseAreaId=" + businessLicenseAreaId+ ", businessLicenseAddress=" + businessLicenseAddress+ ", businessLicenseFullAddress=" + businessLicenseFullAddress+ ", businessLicenseType=" + businessLicenseType+ ", establishDate=" + establishDate+ ", certLimitDate=" + certLimitDate+ ", limitType=" + limitType+ ", regCapital=" + regCapital+ ", regCapitalUnit=" + regCapitalUnit+ ", entTel=" + entTel+ ", status=" + status+ ", supplierSet=" + supplierSet+ ", blackWhiteListSet=" + blackWhiteListSet+ ", agreementPriceId=" + agreementPriceId+ ", cateMateId=" + cateMateId+ ", agreementId=" + agreementId+ ", authTime=" + authTime+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", modTime=" + modTime+ ", modMemberId=" + modMemberId+ ", modAcctId=" + modAcctId+ ", modAcctName=" + modAcctName+  "]";
+		return "EntCustInfo [" + "memberId=" + memberId+ ", pareMemberId=" + pareMemberId+ ", adminAcctId=" + adminAcctId+ ", entName=" + entName+ ", authenType=" + authenType+ ", custCode=" + custCode+ ", entType=" + entType+ ", businessMode=" + businessMode+ ", legalPerson=" + legalPerson+ ", legalPersonNationality=" + legalPersonNationality+ ", businessLicenseAreaId=" + businessLicenseAreaId+ ", businessLicenseAddress=" + businessLicenseAddress+ ", businessLicenseFullAddress=" + businessLicenseFullAddress+ ", businessLicenseType=" + businessLicenseType+ ", establishDate=" + establishDate+ ", certStartDate=" + certStartDate+ ", certLimitDate=" + certLimitDate+ ", limitType=" + limitType+ ", entCertType=" + entCertType+ ", regCapital=" + regCapital+ ", regCapitalUnit=" + regCapitalUnit+ ", entTel=" + entTel+ ", status=" + status+ ", supplierSet=" + supplierSet+ ", blackWhiteListSet=" + blackWhiteListSet+ ", agreementPriceId=" + agreementPriceId+ ", cateMateId=" + cateMateId+ ", agreementId=" + agreementId+ ", clearingMemberId=" + clearingMemberId+ ", clearingCustName=" + clearingCustName+ ", authTime=" + authTime+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", modTime=" + modTime+ ", modMemberId=" + modMemberId+ ", modAcctId=" + modAcctId+ ", modAcctName=" + modAcctName+  "]";
 	}
 }

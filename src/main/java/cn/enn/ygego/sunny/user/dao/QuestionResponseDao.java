@@ -1,8 +1,9 @@
 package cn.enn.ygego.sunny.user.dao;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import cn.enn.ygego.sunny.user.model.QuestionResponse;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * dal Interface:QuestionResponse
@@ -28,7 +29,7 @@ public interface QuestionResponseDao {
 
     QuestionResponse getByPrimaryKey(@Param("responseId") Long responseId);
 
-	
+    List<QuestionResponse> getByQuestionId(Long questionId);
 
-
+    Integer insertBatch(List<QuestionResponse> list);
 }

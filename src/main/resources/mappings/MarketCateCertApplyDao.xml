@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketCateCertApplyDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketCateCertApply" id="marketCateCertApplyResultMap">
+		<result property="certApplyDetailId" column="CERT_APPLY_DETAIL_ID" />
+		<result property="applyId" column="APPLY_ID" />
+		<result property="certType" column="CERT_TYPE" />
+		<result property="limitType" column="LIMIT_TYPE" />
+		<result property="certValidStartDate" column="CERT_VALID_START_DATE" />
+		<result property="certValidEndDate" column="CERT_VALID_END_DATE" />
+	</resultMap>
+
+	<sql id="table_columns">
+		CERT_APPLY_DETAIL_ID,
+		APPLY_ID,
+		CERT_TYPE,
+		LIMIT_TYPE,
+		CERT_VALID_START_DATE,
+		CERT_VALID_END_DATE
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyDetailId},
+		#{applyId},
+		#{certType},
+		#{limitType},
+		#{certValidStartDate},
+		#{certValidEndDate}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="certApplyDetailId != null and certApplyDetailId != ''">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+            <if test="applyId != null and applyId != ''">and APPLY_ID = #{applyId}</if>
+            <if test="certType != null and certType != ''">and CERT_TYPE = #{certType}</if>
+            <if test="limitType != null and limitType != ''">and LIMIT_TYPE = #{limitType}</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">and CERT_VALID_START_DATE = #{certValidStartDate}</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">and CERT_VALID_END_DATE = #{certValidEndDate}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApply" useGeneratedKeys="true" keyProperty="id">
+		insert into market_cate_cert_apply( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApply">
+            <selectKey resultType="long" keyProperty="certApplyDetailId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_cate_cert_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="applyId != null and applyId != ''">APPLY_ID,</if>
+            <if test="certType != null and certType != ''">CERT_TYPE,</if>
+            <if test="limitType != null and limitType != ''">LIMIT_TYPE,</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">CERT_VALID_START_DATE,</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">CERT_VALID_END_DATE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="applyId != null and applyId != ''">#{applyId},</if>
+            <if test="certType != null and certType != ''">#{certType},</if>
+            <if test="limitType != null and limitType != ''">#{limitType},</if>
+            <if test="certValidStartDate != null and certValidStartDate != ''">#{certValidStartDate},</if>
+            <if test="certValidEndDate != null and certValidEndDate != ''">#{certValidEndDate},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApply">
+		delete from market_cate_cert_apply
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_cate_cert_apply
+        <where>
+                CERT_APPLY_DETAIL_ID = #{certApplyDetailId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApply">
+		update market_cate_cert_apply 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="applyId != null and applyId != ''">APPLY_ID = #{applyId},</if>
+			<if test="certType != null and certType != ''">CERT_TYPE = #{certType},</if>
+			<if test="limitType != null and limitType != ''">LIMIT_TYPE = #{limitType},</if>
+			<if test="certValidStartDate != null and certValidStartDate != ''">CERT_VALID_START_DATE = #{certValidStartDate},</if>
+			<if test="certValidEndDate != null and certValidEndDate != ''">CERT_VALID_END_DATE = #{certValidEndDate},</if>
+		</trim>
+        <where>
+            CERT_APPLY_DETAIL_ID = #{certApplyDetailId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketCateCertApplyResultMap">
+        select <include refid="table_columns" />
+        from market_cate_cert_apply
+    </select>
+
+    <select id="select" resultMap="marketCateCertApplyResultMap">
+        select <include refid="table_columns" />
+        from market_cate_cert_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_cate_cert_apply
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketCateCertApplyResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_cate_cert_apply
+        <where>
+                CERT_APPLY_DETAIL_ID = #{certApplyDetailId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

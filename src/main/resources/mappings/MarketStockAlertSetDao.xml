@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketStockAlertSetDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketStockAlertSet" id="marketStockAlertSetResultMap">
+		<result property="alertSetId" column="ALERT_SET_ID" />
+		<result property="joinId" column="JOIN_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="storageId" column="STORAGE_ID" />
+		<result property="materialCode" column="MATERIAL_CODE" />
+		<result property="materialName" column="MATERIAL_NAME" />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL" />
+		<result property="stock" column="STOCK" />
+		<result property="unitId" column="UNIT_ID" />
+		<result property="unitName" column="UNIT_NAME" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		ALERT_SET_ID,
+		JOIN_ID,
+		MEMBER_ID,
+		STORAGE_ID,
+		MATERIAL_CODE,
+		MATERIAL_NAME,
+		ATTR_NAME_SERIAL,
+		STOCK,
+		UNIT_ID,
+		UNIT_NAME,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{alertSetId},
+		#{joinId},
+		#{memberId},
+		#{storageId},
+		#{materialCode},
+		#{materialName},
+		#{attrNameSerial},
+		#{stock},
+		#{unitId},
+		#{unitName},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="alertSetId != null and alertSetId != ''">and ALERT_SET_ID = #{alertSetId}</if>
+            <if test="joinId != null and joinId != ''">and JOIN_ID = #{joinId}</if>
+            <if test="memberId != null and memberId != ''">and MEMBER_ID = #{memberId}</if>
+            <if test="storageId != null and storageId != ''">and STORAGE_ID = #{storageId}</if>
+            <if test="materialCode != null and materialCode != ''">and MATERIAL_CODE = #{materialCode}</if>
+            <if test="materialName != null and materialName != ''">and MATERIAL_NAME = #{materialName}</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+            <if test="stock != null and stock != ''">and STOCK = #{stock}</if>
+            <if test="unitId != null and unitId != ''">and UNIT_ID = #{unitId}</if>
+            <if test="unitName != null and unitName != ''">and UNIT_NAME = #{unitName}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketStockAlertSet" useGeneratedKeys="true" keyProperty="id">
+		insert into market_stock_alert_set( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketStockAlertSet">
+            <selectKey resultType="long" keyProperty="alertSetId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_stock_alert_set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="joinId != null and joinId != ''">JOIN_ID,</if>
+            <if test="memberId != null and memberId != ''">MEMBER_ID,</if>
+            <if test="storageId != null and storageId != ''">STORAGE_ID,</if>
+            <if test="materialCode != null and materialCode != ''">MATERIAL_CODE,</if>
+            <if test="materialName != null and materialName != ''">MATERIAL_NAME,</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+            <if test="stock != null and stock != ''">STOCK,</if>
+            <if test="unitId != null and unitId != ''">UNIT_ID,</if>
+            <if test="unitName != null and unitName != ''">UNIT_NAME,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="joinId != null and joinId != ''">#{joinId},</if>
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="storageId != null and storageId != ''">#{storageId},</if>
+            <if test="materialCode != null and materialCode != ''">#{materialCode},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+            <if test="stock != null and stock != ''">#{stock},</if>
+            <if test="unitId != null and unitId != ''">#{unitId},</if>
+            <if test="unitName != null and unitName != ''">#{unitName},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketStockAlertSet">
+		delete from market_stock_alert_set
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_stock_alert_set
+        <where>
+                ALERT_SET_ID = #{alertSetId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketStockAlertSet">
+		update market_stock_alert_set 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="joinId != null and joinId != ''">JOIN_ID = #{joinId},</if>
+			<if test="memberId != null and memberId != ''">MEMBER_ID = #{memberId},</if>
+			<if test="storageId != null and storageId != ''">STORAGE_ID = #{storageId},</if>
+			<if test="materialCode != null and materialCode != ''">MATERIAL_CODE = #{materialCode},</if>
+			<if test="materialName != null and materialName != ''">MATERIAL_NAME = #{materialName},</if>
+			<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+			<if test="stock != null and stock != ''">STOCK = #{stock},</if>
+			<if test="unitId != null and unitId != ''">UNIT_ID = #{unitId},</if>
+			<if test="unitName != null and unitName != ''">UNIT_NAME = #{unitName},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            ALERT_SET_ID = #{alertSetId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketStockAlertSetResultMap">
+        select <include refid="table_columns" />
+        from market_stock_alert_set
+    </select>
+
+    <select id="select" resultMap="marketStockAlertSetResultMap">
+        select <include refid="table_columns" />
+        from market_stock_alert_set
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_stock_alert_set
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketStockAlertSetResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_stock_alert_set
+        <where>
+                ALERT_SET_ID = #{alertSetId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

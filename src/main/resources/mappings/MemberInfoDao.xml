@@ -8,6 +8,15 @@
 		<result property="status" column="STATUS"  />
         <result property="ygegoCoin" column="YGEGO_COIN"/>
 	</resultMap>
+
+	<!-- 公司对应的认证类型（采购商，供应商等） -->
+	<resultMap type="cn.enn.ygego.sunny.user.dto.company.CompanyAuthInfo" id="companyAuthInfoMap">
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="companyName" column="ENT_NAME"  />
+		<collection property="authTypes" ofType="cn.enn.ygego.sunny.user.dto.company.CompanyAuthType">
+			<result property="authType" column="AUTHEN_TYPE"/>
+		</collection>
+	</resultMap>
 	
 	<sql id="table_columns">
 		MEMBER_ID,
@@ -120,5 +129,13 @@
         WHERE b.ACCT_ID = #{acctId} AND a.STATUS = 1 AND a.MEMBER_TYPE = 3
 	</select>
 
+	<!-- 根据acctId查询所对应的企业信息以及企业对应的认证信息 -->
+	<select id="findCompanyMember" parameterType="int" resultMap="companyAuthInfoMap">
+		SELECT c.MEMBER_ID,c.ENT_NAME,c.AUTHEN_TYPE
+		FROM rela_member_to_acct a
+		LEFT JOIN member_info b ON a.MEMBER_ID = b.MEMBER_ID AND b.MEMBER_TYPE = 2
+		LEFT JOIN ent_cust_info c ON b.MEMBER_ID = c.MEMBER_ID
+		WHERE a.ACCT_ID = #{acctId} GROUP BY a.IS_DEFAULT_ENT DESC
+	</select>
 
 </mapper>

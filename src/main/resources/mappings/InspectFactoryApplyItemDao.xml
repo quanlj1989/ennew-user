@@ -4,43 +4,47 @@
 
     <resultMap type="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem" id="inspectFactoryApplyItemResultMap">
 		<result property="applyItemId" column="APPLY_ITEM_ID"  />
-		<result property="applyId" column="APPLY_ID"  />
-		<result property="itemId" column="ITEM_ID"  />
-		<result property="itemName" column="ITEM_NAME"  />
+		<result property="inspectMaterialId" column="INSPECT_MATERIAL_ID"  />
+		<result property="projectId" column="PROJECT_ID"  />
+		<result property="projectName" column="PROJECT_NAME"  />
 		<result property="certNum" column="CERT_NUM"  />
 		<result property="parentItmeId" column="PARENT_ITME_ID"  />
 		<result property="parentItemName" column="PARENT_ITEM_NAME"  />
+		<result property="maxCount" column="MAX_COUNT"  />
 	</resultMap>
 	
 	<sql id="table_columns">
 		APPLY_ITEM_ID,
-		APPLY_ID,
-		ITEM_ID,
-		ITEM_NAME,
+		INSPECT_MATERIAL_ID,
+		PROJECT_ID,
+		PROJECT_NAME,
 		CERT_NUM,
 		PARENT_ITME_ID,
-		PARENT_ITEM_NAME
+		PARENT_ITEM_NAME,
+		MAX_COUNT
     </sql>
 	<sql id="entity_properties">
 		#{applyItemId},
-		#{applyId},
-		#{itemId},
-		#{itemName},
+		#{inspectMaterialId},
+		#{projectId},
+		#{projectName},
 		#{certNum},
 		#{parentItmeId},
-		#{parentItemName}
+		#{parentItemName},
+		#{maxCount}
 	</sql>
 
     <!-- columnName like concat('%',#columnName#,'%') -->
     <sql id="page_where">
         <trim prefix="where" prefixOverrides="and | or ">
 				<if test="applyItemId != null ">and APPLY_ITEM_ID = #{applyItemId}</if>
-				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
-				<if test="itemId != null ">and ITEM_ID = #{itemId}</if>
-				<if test="itemName != null and itemName != ''">and ITEM_NAME = #{itemName}</if>
+				<if test="inspectMaterialId != null ">and INSPECT_MATERIAL_ID = #{inspectMaterialId}</if>
+				<if test="projectId != null ">and PROJECT_ID = #{projectId}</if>
+				<if test="projectName != null and projectName != ''">and PROJECT_NAME = #{projectName}</if>
 				<if test="certNum != null and certNum != ''">and CERT_NUM = #{certNum}</if>
 				<if test="parentItmeId != null ">and PARENT_ITME_ID = #{parentItmeId}</if>
 				<if test="parentItemName != null and parentItemName != ''">and PARENT_ITEM_NAME = #{parentItemName}</if>
+				<if test="maxCount != null ">and MAX_COUNT = #{maxCount}</if>
         </trim>
     </sql>
 
@@ -53,21 +57,23 @@
         insert into inspect_factory_apply_item
         <trim prefix="(" suffix=")" suffixOverrides="," >
 				<if test="applyItemId != null ">APPLY_ITEM_ID,</if>
-				<if test="applyId != null ">APPLY_ID,</if>
-				<if test="itemId != null ">ITEM_ID,</if>
-				<if test="itemName != null and itemName != ''">ITEM_NAME,</if>
+				<if test="inspectMaterialId != null ">INSPECT_MATERIAL_ID,</if>
+				<if test="projectId != null ">PROJECT_ID,</if>
+				<if test="projectName != null and projectName != ''">PROJECT_NAME,</if>
 				<if test="certNum != null and certNum != ''">CERT_NUM,</if>
 				<if test="parentItmeId != null ">PARENT_ITME_ID,</if>
 				<if test="parentItemName != null and parentItemName != ''">PARENT_ITEM_NAME,</if>
+				<if test="maxCount != null ">MAX_COUNT,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
 				<if test="applyItemId != null ">#{applyItemId},</if>
-				<if test="applyId != null ">#{applyId},</if>
-				<if test="itemId != null ">#{itemId},</if>
-				<if test="itemName != null and itemName != ''">#{itemName},</if>
+				<if test="inspectMaterialId != null ">#{inspectMaterialId},</if>
+				<if test="projectId != null ">#{projectId},</if>
+				<if test="projectName != null and projectName != ''">#{projectName},</if>
 				<if test="certNum != null and certNum != ''">#{certNum},</if>
 				<if test="parentItmeId != null ">#{parentItmeId},</if>
 				<if test="parentItemName != null and parentItemName != ''">#{parentItemName},</if>
+				<if test="maxCount != null ">#{maxCount},</if>
         </trim>
 	</insert>
 
@@ -88,12 +94,13 @@
 	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem">
 		update inspect_factory_apply_item 
 		<trim prefix="set" suffixOverrides=",">
-				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
-				<if test="itemId != null ">ITEM_ID = #{itemId},</if>
-				<if test="itemName != null and itemName != ''">ITEM_NAME = #{itemName},</if>
+				<if test="inspectMaterialId != null ">INSPECT_MATERIAL_ID = #{inspectMaterialId},</if>
+				<if test="projectId != null ">PROJECT_ID = #{projectId},</if>
+				<if test="projectName != null and projectName != ''">PROJECT_NAME = #{projectName},</if>
 				<if test="certNum != null and certNum != ''">CERT_NUM = #{certNum},</if>
 				<if test="parentItmeId != null ">PARENT_ITME_ID = #{parentItmeId},</if>
 				<if test="parentItemName != null and parentItemName != ''">PARENT_ITEM_NAME = #{parentItemName},</if>
+				<if test="maxCount != null ">MAX_COUNT = #{maxCount},</if>
 		</trim>
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="1==1">and APPLY_ITEM_ID = #{applyItemId}</if>

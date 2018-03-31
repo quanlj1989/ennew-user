@@ -37,6 +37,6 @@ public interface RelaMemberToAcctApplyDao {
     
 	List<EmployeeVO> getEmployeeApplyList(EmployeeQueryVO query);
 	
-	EmployeeVO getEmployeeApplyDetail(@Param("relaId") Long relaId);
+	EmployeeVO getEmployeeApplyDetail(EmployeeQueryVO query);
 
 }

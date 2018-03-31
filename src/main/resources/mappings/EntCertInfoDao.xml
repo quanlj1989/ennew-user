@@ -6,6 +6,7 @@
 		<result property="certInfoId" column="CERT_INFO_ID"  />
 		<result property="memberId" column="MEMBER_ID"  />
 		<result property="status" column="STATUS"  />
+		<result property="authenType" column="AUTHEN_TYPE"  />
 		<result property="certType" column="CERT_TYPE"  />
 		<result property="certNo" column="CERT_NO"  />
 		<result property="certName" column="CERT_NAME"  />
@@ -19,6 +20,7 @@
 		CERT_INFO_ID,
 		MEMBER_ID,
 		STATUS,
+		AUTHEN_TYPE,
 		CERT_TYPE,
 		CERT_NO,
 		CERT_NAME,
@@ -31,6 +33,7 @@
 		#{certInfoId},
 		#{memberId},
 		#{status},
+		#{authenType},
 		#{certType},
 		#{certNo},
 		#{certName},
@@ -46,6 +49,7 @@
 				<if test="certInfoId != null ">and CERT_INFO_ID = #{certInfoId}</if>
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
 				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="authenType != null ">and AUTHEN_TYPE = #{authenType}</if>
 				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
 				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
 				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
@@ -67,6 +71,7 @@
 				<if test="certInfoId != null ">CERT_INFO_ID,</if>
 				<if test="memberId != null ">MEMBER_ID,</if>
 				<if test="status != null ">STATUS,</if>
+				<if test="authenType != null ">AUTHEN_TYPE,</if>
 				<if test="certType != null ">CERT_TYPE,</if>
 				<if test="certNo != null and certNo != ''">CERT_NO,</if>
 				<if test="certName != null and certName != ''">CERT_NAME,</if>
@@ -79,6 +84,7 @@
 				<if test="certInfoId != null ">#{certInfoId},</if>
 				<if test="memberId != null ">#{memberId},</if>
 				<if test="status != null ">#{status},</if>
+				<if test="authenType != null ">#{authenType},</if>
 				<if test="certType != null ">#{certType},</if>
 				<if test="certNo != null and certNo != ''">#{certNo},</if>
 				<if test="certName != null and certName != ''">#{certName},</if>
@@ -108,6 +114,7 @@
 		<trim prefix="set" suffixOverrides=",">
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
 				<if test="status != null ">STATUS = #{status},</if>
+				<if test="authenType != null ">AUTHEN_TYPE = #{authenType},</if>
 				<if test="certType != null ">CERT_TYPE = #{certType},</if>
 				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
 				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>

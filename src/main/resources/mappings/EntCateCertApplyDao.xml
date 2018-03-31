@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntCateCertApplyDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntCateCertApply" id="entCateCertApplyResultMap">
+		<result property="certApplyDetailId" column="CERT_APPLY_DETAIL_ID"  />
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH"  />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="limitType" column="LIMIT_TYPE"  />
+		<result property="certValidStartDate" column="CERT_VALID_START_DATE"  />
+		<result property="certValidEndDate" column="CERT_VALID_END_DATE"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_DETAIL_ID,
+		APPLY_ID,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		CATEGORY_ID,
+		CERT_TYPE,
+		LIMIT_TYPE,
+		CERT_VALID_START_DATE,
+		CERT_VALID_END_DATE
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyDetailId},
+		#{applyId},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{categoryId},
+		#{certType},
+		#{limitType},
+		#{certValidStartDate},
+		#{certValidEndDate}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyDetailId != null ">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="limitType != null ">and LIMIT_TYPE = #{limitType}</if>
+				<if test="certValidStartDate != null ">and CERT_VALID_START_DATE = #{certValidStartDate}</if>
+				<if test="certValidEndDate != null ">and CERT_VALID_END_DATE = #{certValidEndDate}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertApply" >
+		insert into ent_cate_cert_apply( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertApply">
+        insert into ent_cate_cert_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certApplyDetailId != null ">CERT_APPLY_DETAIL_ID,</if>
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="limitType != null ">LIMIT_TYPE,</if>
+				<if test="certValidStartDate != null ">CERT_VALID_START_DATE,</if>
+				<if test="certValidEndDate != null ">CERT_VALID_END_DATE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certApplyDetailId != null ">#{certApplyDetailId},</if>
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="limitType != null ">#{limitType},</if>
+				<if test="certValidStartDate != null ">#{certValidStartDate},</if>
+				<if test="certValidEndDate != null ">#{certValidEndDate},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertApply">
+		delete from ent_cate_cert_apply
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_cate_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertApply">
+		update ent_cate_cert_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
+				<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+				<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="limitType != null ">LIMIT_TYPE = #{limitType},</if>
+				<if test="certValidStartDate != null ">CERT_VALID_START_DATE = #{certValidStartDate},</if>
+				<if test="certValidEndDate != null ">CERT_VALID_END_DATE = #{certValidEndDate},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entCateCertApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_cate_cert_apply
+    </select>
+
+    <select id="find" resultMap="entCateCertApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_cate_cert_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_cate_cert_apply
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entCateCertApplyResultMap"  >
+		select <include refid="table_columns" />
+		from ent_cate_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

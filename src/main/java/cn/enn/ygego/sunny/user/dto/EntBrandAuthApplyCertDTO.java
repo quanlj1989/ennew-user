@@ -7,11 +7,11 @@ import java.io.Serializable;
  * DTO:EntBrandAuthApplyCert
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntBrandAuthApplyCertDTO implements Serializable {
 	
-	private static final long serialVersionUID = 3451901104979901719L;
+	private static final long serialVersionUID = -7286379271448175309L;
 	
 	private Long	brandApplyCertId; /* 品牌申请资质ID */
 	private Long	brandApplyId; /* 品牌申请ID */

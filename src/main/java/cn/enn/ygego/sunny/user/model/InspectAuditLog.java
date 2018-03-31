@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class InspectAuditLog implements Serializable {
 	
-	private static final long serialVersionUID = 9153549568324248085L;
+	private static final long serialVersionUID = 1025667203195373232L;
 	
 	private Long	logId;		 /* 日志ID */ 
 	private Long	applyId;		 /* 申请标识 */ 

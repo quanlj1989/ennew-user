@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class EntCertApply implements Serializable {
 	
-	private static final long serialVersionUID = 1242561960054896168L;
+	private static final long serialVersionUID = 639572318477099017L;
 	
 	private Long	certApplyId;		 /* 资质申请ID */ 
 	private Long	memberId;		 /* 会员ID */ 
@@ -27,8 +27,10 @@ public class EntCertApply implements Serializable {
 	private String	businessLicenseAddress;		 /* 营业执照详细地址 */ 
 	private Integer	businessLicenseType;		 /* 营业执照类型 */ 
 	private Date	establishDate;		 /* 成立日期 */ 
-	private Date	certLimitDate;		 /* 证件期限 */ 
+	private Date	certStartDate;		 /* 营业执照起始 */ 
+	private Date	certLimitDate;		 /* 营业执照截止 */ 
 	private Integer	limitType;		 /* 期限类型 */ 
+	private Integer	entCertType;		 /* 企业证件类型 */ 
 	private Long	regCapital;		 /* 注册资本 */ 
 	private Integer	regCapitalUnit;		 /* 注册资本单位类型 */ 
 	private String	entTel;		 /* 企业电话 */ 
@@ -51,7 +53,7 @@ public class EntCertApply implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public EntCertApply(Long certApplyId, Long memberId, String entCode, Long pareMemberId, Integer applyType, Integer authenType, String entName, Integer entType, String businessMode, String legalPerson, Integer legalPersonNationality, Integer businessLicenseAreaId, String businessLicenseAddress, Integer businessLicenseType, Date establishDate, Date certLimitDate, Integer limitType, Long regCapital, Integer regCapitalUnit, String entTel, Integer status, Date applyTime, Date createTime, Long createMemberId, Long createAcctId, String createName, Long approveAcctId, String approveName, Long approveMemberId, Date auditTime, String approveDesc) {
+	public EntCertApply(Long certApplyId, Long memberId, String entCode, Long pareMemberId, Integer applyType, Integer authenType, String entName, Integer entType, String businessMode, String legalPerson, Integer legalPersonNationality, Integer businessLicenseAreaId, String businessLicenseAddress, Integer businessLicenseType, Date establishDate, Date certStartDate, Date certLimitDate, Integer limitType, Integer entCertType, Long regCapital, Integer regCapitalUnit, String entTel, Integer status, Date applyTime, Date createTime, Long createMemberId, Long createAcctId, String createName, Long approveAcctId, String approveName, Long approveMemberId, Date auditTime, String approveDesc) {
 		this.certApplyId = certApplyId;
 		this.memberId = memberId;
 		this.entCode = entCode;
@@ -67,8 +69,10 @@ public class EntCertApply implements Serializable {
 		this.businessLicenseAddress = businessLicenseAddress;
 		this.businessLicenseType = businessLicenseType;
 		this.establishDate = establishDate;
+		this.certStartDate = certStartDate;
 		this.certLimitDate = certLimitDate;
 		this.limitType = limitType;
+		this.entCertType = entCertType;
 		this.regCapital = regCapital;
 		this.regCapitalUnit = regCapitalUnit;
 		this.entTel = entTel;
@@ -205,6 +209,14 @@ public class EntCertApply implements Serializable {
 		this.establishDate = establishDate;
 	}
 
+	public Date getCertStartDate() {
+		return certStartDate;
+	}
+
+	public void setCertStartDate(Date certStartDate) {
+		this.certStartDate = certStartDate;
+	}
+
 	public Date getCertLimitDate() {
 		return certLimitDate;
 	}
@@ -219,6 +231,14 @@ public class EntCertApply implements Serializable {
 
 	public void setLimitType(Integer limitType) {
 		this.limitType = limitType;
+	}
+
+	public Integer getEntCertType() {
+		return entCertType;
+	}
+
+	public void setEntCertType(Integer entCertType) {
+		this.entCertType = entCertType;
 	}
 
 	public Long getRegCapital() {
@@ -335,6 +355,6 @@ public class EntCertApply implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EntCertApply [" + "certApplyId=" + certApplyId+ ", memberId=" + memberId+ ", entCode=" + entCode+ ", pareMemberId=" + pareMemberId+ ", applyType=" + applyType+ ", authenType=" + authenType+ ", entName=" + entName+ ", entType=" + entType+ ", businessMode=" + businessMode+ ", legalPerson=" + legalPerson+ ", legalPersonNationality=" + legalPersonNationality+ ", businessLicenseAreaId=" + businessLicenseAreaId+ ", businessLicenseAddress=" + businessLicenseAddress+ ", businessLicenseType=" + businessLicenseType+ ", establishDate=" + establishDate+ ", certLimitDate=" + certLimitDate+ ", limitType=" + limitType+ ", regCapital=" + regCapital+ ", regCapitalUnit=" + regCapitalUnit+ ", entTel=" + entTel+ ", status=" + status+ ", applyTime=" + applyTime+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", approveAcctId=" + approveAcctId+ ", approveName=" + approveName+ ", approveMemberId=" + approveMemberId+ ", auditTime=" + auditTime+ ", approveDesc=" + approveDesc+  "]";
+		return "EntCertApply [" + "certApplyId=" + certApplyId+ ", memberId=" + memberId+ ", entCode=" + entCode+ ", pareMemberId=" + pareMemberId+ ", applyType=" + applyType+ ", authenType=" + authenType+ ", entName=" + entName+ ", entType=" + entType+ ", businessMode=" + businessMode+ ", legalPerson=" + legalPerson+ ", legalPersonNationality=" + legalPersonNationality+ ", businessLicenseAreaId=" + businessLicenseAreaId+ ", businessLicenseAddress=" + businessLicenseAddress+ ", businessLicenseType=" + businessLicenseType+ ", establishDate=" + establishDate+ ", certStartDate=" + certStartDate+ ", certLimitDate=" + certLimitDate+ ", limitType=" + limitType+ ", entCertType=" + entCertType+ ", regCapital=" + regCapital+ ", regCapitalUnit=" + regCapitalUnit+ ", entTel=" + entTel+ ", status=" + status+ ", applyTime=" + applyTime+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", approveAcctId=" + approveAcctId+ ", approveName=" + approveName+ ", approveMemberId=" + approveMemberId+ ", auditTime=" + auditTime+ ", approveDesc=" + approveDesc+  "]";
 	}
 }

@@ -6,7 +6,7 @@ import cn.enn.ygego.sunny.user.model.EntCertApplyFile;
 /**
  * dal Interface:EntCertApplyFile
  * @author gencode
- * @date 2018-3-22
+ * @date 2018-3-28
  */
 public interface EntCertApplyFileService {
 

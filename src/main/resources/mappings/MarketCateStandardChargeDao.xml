@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketCateStandardChargeDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketCateStandardCharge" id="marketCateStandardChargeResultMap">
+		<result property="chargeId" column="CHARGE_ID" />
+		<result property="marketId" column="MARKET_ID" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="categoryName" column="CATEGORY_NAME" />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH" />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH" />
+		<result property="standardPremiumRates" column="STANDARD_PREMIUM_RATES" />
+		<result property="status" column="STATUS" />
+		<result property="memo" column="MEMO" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createMemberId" column="CREATE_MEMBER_ID" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+		<result property="modTime" column="MOD_TIME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		CHARGE_ID,
+		MARKET_ID,
+		CATEGORY_ID,
+		CATEGORY_NAME,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		STANDARD_PREMIUM_RATES,
+		STATUS,
+		MEMO,
+		CREATE_TIME,
+		CREATE_MEMBER_ID,
+		CREATE_ACCT_ID,
+		CREATE_NAME,
+		MOD_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{chargeId},
+		#{marketId},
+		#{categoryId},
+		#{categoryName},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{standardPremiumRates},
+		#{status},
+		#{memo},
+		#{createTime},
+		#{createMemberId},
+		#{createAcctId},
+		#{createName},
+		#{modTime}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="chargeId != null and chargeId != ''">and CHARGE_ID = #{chargeId}</if>
+            <if test="marketId != null and marketId != ''">and MARKET_ID = #{marketId}</if>
+            <if test="categoryId != null and categoryId != ''">and CATEGORY_ID = #{categoryId}</if>
+            <if test="categoryName != null and categoryName != ''">and CATEGORY_NAME = #{categoryName}</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">and STANDARD_PREMIUM_RATES = #{standardPremiumRates}</if>
+            <if test="status != null and status != ''">and STATUS = #{status}</if>
+            <if test="memo != null and memo != ''">and MEMO = #{memo}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createMemberId != null and createMemberId != ''">and CREATE_MEMBER_ID = #{createMemberId}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+            <if test="modTime != null and modTime != ''">and MOD_TIME = #{modTime}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketCateStandardCharge" useGeneratedKeys="true" keyProperty="id">
+		insert into market_cate_standard_charge( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateStandardCharge">
+            <selectKey resultType="long" keyProperty="chargeId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_cate_standard_charge
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">MARKET_ID,</if>
+            <if test="categoryId != null and categoryId != ''">CATEGORY_ID,</if>
+            <if test="categoryName != null and categoryName != ''">CATEGORY_NAME,</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">STANDARD_PREMIUM_RATES,</if>
+            <if test="status != null and status != ''">STATUS,</if>
+            <if test="memo != null and memo != ''">MEMO,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+            <if test="modTime != null and modTime != ''">MOD_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">#{marketId},</if>
+            <if test="categoryId != null and categoryId != ''">#{categoryId},</if>
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+            <if test="standardPremiumRates != null and standardPremiumRates != ''">#{standardPremiumRates},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="memo != null and memo != ''">#{memo},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createMemberId != null and createMemberId != ''">#{createMemberId},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+            <if test="modTime != null and modTime != ''">#{modTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketCateStandardCharge">
+		delete from market_cate_standard_charge
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_cate_standard_charge
+        <where>
+                CHARGE_ID = #{chargeId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateStandardCharge">
+		update market_cate_standard_charge 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="marketId != null and marketId != ''">MARKET_ID = #{marketId},</if>
+			<if test="categoryId != null and categoryId != ''">CATEGORY_ID = #{categoryId},</if>
+			<if test="categoryName != null and categoryName != ''">CATEGORY_NAME = #{categoryName},</if>
+			<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+			<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+			<if test="standardPremiumRates != null and standardPremiumRates != ''">STANDARD_PREMIUM_RATES = #{standardPremiumRates},</if>
+			<if test="status != null and status != ''">STATUS = #{status},</if>
+			<if test="memo != null and memo != ''">MEMO = #{memo},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createMemberId != null and createMemberId != ''">CREATE_MEMBER_ID = #{createMemberId},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+			<if test="modTime != null and modTime != ''">MOD_TIME = #{modTime},</if>
+		</trim>
+        <where>
+            CHARGE_ID = #{chargeId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketCateStandardChargeResultMap">
+        select <include refid="table_columns" />
+        from market_cate_standard_charge
+    </select>
+
+    <select id="select" resultMap="marketCateStandardChargeResultMap">
+        select <include refid="table_columns" />
+        from market_cate_standard_charge
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_cate_standard_charge
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketCateStandardChargeResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_cate_standard_charge
+        <where>
+                CHARGE_ID = #{chargeId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

@@ -6,11 +6,11 @@ import java.io.Serializable;
  * DTO:EntCertFile
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntCertFileDTO implements Serializable {
 	
-	private static final long serialVersionUID = 58687455396457264L;
+	private static final long serialVersionUID = -3348361663693649079L;
 	
 	private Long	certFileId; /* 资质文件信息ID */
 	private Long	certInfoId; /* 资质信息ID */

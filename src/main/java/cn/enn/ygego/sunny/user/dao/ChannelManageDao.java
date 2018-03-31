@@ -1,6 +1,8 @@
 package cn.enn.ygego.sunny.user.dao;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.dto.vo.ChannelRquestVO;
 import org.apache.ibatis.annotations.Param;
 import cn.enn.ygego.sunny.user.model.ChannelManage;
 
@@ -27,6 +29,8 @@ public interface ChannelManageDao {
     Integer getCount(ChannelManage record);
 
     ChannelManage getByPrimaryKey(@Param("channelId") Long channelId);
+
+    public List<ChannelManage> findChannelManagesPage(ChannelRquestVO record);
 
 	
 

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntJoinMarketDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntJoinMarket" id="entJoinMarketResultMap">
+		<result property="joinId" column="JOIN_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="marketId" column="MARKET_ID"  />
+		<result property="marketName" column="MARKET_NAME"  />
+		<result property="status" column="STATUS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		JOIN_ID,
+		MEMBER_ID,
+		MARKET_ID,
+		MARKET_NAME,
+		STATUS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{joinId},
+		#{memberId},
+		#{marketId},
+		#{marketName},
+		#{status},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="joinId != null ">and JOIN_ID = #{joinId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="marketId != null ">and MARKET_ID = #{marketId}</if>
+				<if test="marketName != null and marketName != ''">and MARKET_NAME = #{marketName}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntJoinMarket" >
+		insert into ent_join_market( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntJoinMarket">
+        insert into ent_join_market
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="joinId != null ">JOIN_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="marketId != null ">MARKET_ID,</if>
+				<if test="marketName != null and marketName != ''">MARKET_NAME,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="joinId != null ">#{joinId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="marketId != null ">#{marketId},</if>
+				<if test="marketName != null and marketName != ''">#{marketName},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntJoinMarket">
+		delete from ent_join_market
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_join_market
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and JOIN_ID = #{joinId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntJoinMarket">
+		update ent_join_market 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="marketId != null ">MARKET_ID = #{marketId},</if>
+				<if test="marketName != null and marketName != ''">MARKET_NAME = #{marketName},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and JOIN_ID = #{joinId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entJoinMarketResultMap">
+        select <include refid="table_columns" />
+        from ent_join_market
+    </select>
+
+    <select id="find" resultMap="entJoinMarketResultMap">
+        select <include refid="table_columns" />
+        from ent_join_market
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_join_market
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entJoinMarketResultMap"  >
+		select <include refid="table_columns" />
+		from ent_join_market
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and JOIN_ID = #{joinId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

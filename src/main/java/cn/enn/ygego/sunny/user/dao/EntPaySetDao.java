@@ -28,7 +28,7 @@ public interface EntPaySetDao {
 
     EntPaySet getByPrimaryKey(@Param("paySetId") Long paySetId);
 
-	
+    Integer insertBatch(List<EntPaySet> paySets);
 
-
+    void deleteByMemberId(@Param("memberId") Long memberId);
 }

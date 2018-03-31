@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketAuthFileDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketAuthFile" id="marketAuthFileResultMap">
+		<result property="authFileId" column="AUTH_FILE_ID" />
+		<result property="authId" column="AUTH_ID" />
+		<result property="fileSize" column="FILE_SIZE" />
+		<result property="fileUrl" column="FILE_URL" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		AUTH_FILE_ID,
+		AUTH_ID,
+		FILE_SIZE,
+		FILE_URL,
+		CREATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{authFileId},
+		#{authId},
+		#{fileSize},
+		#{fileUrl},
+		#{createTime}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="authFileId != null and authFileId != ''">and AUTH_FILE_ID = #{authFileId}</if>
+            <if test="authId != null and authId != ''">and AUTH_ID = #{authId}</if>
+            <if test="fileSize != null and fileSize != ''">and FILE_SIZE = #{fileSize}</if>
+            <if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthFile" useGeneratedKeys="true" keyProperty="id">
+		insert into market_auth_file( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthFile">
+            <selectKey resultType="long" keyProperty="authFileId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_auth_file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="authId != null and authId != ''">AUTH_ID,</if>
+            <if test="fileSize != null and fileSize != ''">FILE_SIZE,</if>
+            <if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="authId != null and authId != ''">#{authId},</if>
+            <if test="fileSize != null and fileSize != ''">#{fileSize},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthFile">
+		delete from market_auth_file
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_auth_file
+        <where>
+                AUTH_FILE_ID = #{authFileId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketAuthFile">
+		update market_auth_file 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="authId != null and authId != ''">AUTH_ID = #{authId},</if>
+			<if test="fileSize != null and fileSize != ''">FILE_SIZE = #{fileSize},</if>
+			<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+		</trim>
+        <where>
+            AUTH_FILE_ID = #{authFileId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketAuthFileResultMap">
+        select <include refid="table_columns" />
+        from market_auth_file
+    </select>
+
+    <select id="select" resultMap="marketAuthFileResultMap">
+        select <include refid="table_columns" />
+        from market_auth_file
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_auth_file
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketAuthFileResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_auth_file
+        <where>
+                AUTH_FILE_ID = #{authFileId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

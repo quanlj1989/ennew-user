@@ -9,22 +9,25 @@ import java.io.Serializable;
  * @author gencode
  */
 public class QuestionFeedback implements Serializable {
-	
-	private static final long serialVersionUID = 6652960347918640506L;
-	
-	private Long	questionId;		 /* 问题ID */ 
-	private Integer	questionType;		 /* 问题类型 */ 
-	private String	questionCode;		 /* 问题编号 */ 
-	private String	questionUrl;		 /* 问题网址 */ 
-	private String	questionModule;		 /* 问题模块 */ 
-	private String	questionDesc;		 /* 问题描述 */ 
-	private Integer	status;		 /* 状态 */ 
-	private String	contact;		 /* 联系人 */ 
-	private String	contactTel;		 /* 联系电话 */ 
-	private Date	createTime;		 /* 创建时间 */ 
-	private Long	createMemberId;		 /* 创建人会员ID */ 
-	private Long	createAcctId;		 /* 创建人账户ID */ 
-	private String	createName;		 /* 创建人姓名 */ 
+
+	private static final long serialVersionUID = 3183741197284715502L;
+
+	private Long	questionId;		 /* 问题ID */
+	private Integer	questionType;		 /* 问题类型 */
+	private String	questionCode;		 /* 问题编号 */
+	private String	questionUrl;		 /* 问题网址 */
+	private String	questionModule;		 /* 问题模块 */
+	private String	questionDesc;		 /* 问题描述 */
+	private String	entName;		 /* 企业名称 */
+	private Integer	isResponse;		 /* 是否回复 */
+	private Integer	status;		 /* 状态 */
+	private String	contact;		 /* 联系人 */
+	private String	contactTel;		 /* 联系电话 */
+	private String	email;		 /* 电子邮件 */
+	private Date	createTime;		 /* 创建时间 */
+	private Long	createMemberId;		 /* 创建人会员ID */
+	private Long	createAcctId;		 /* 创建人账户ID */
+	private String	createName;		 /* 创建人姓名 */
 
 	// Constructor
 	public QuestionFeedback() {
@@ -33,16 +36,19 @@ public class QuestionFeedback implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public QuestionFeedback(Long questionId, Integer questionType, String questionCode, String questionUrl, String questionModule, String questionDesc, Integer status, String contact, String contactTel, Date createTime, Long createMemberId, Long createAcctId, String createName) {
+	public QuestionFeedback(Long questionId, Integer questionType, String questionCode, String questionUrl, String questionModule, String questionDesc, String entName, Integer isResponse, Integer status, String contact, String contactTel, String email, Date createTime, Long createMemberId, Long createAcctId, String createName) {
 		this.questionId = questionId;
 		this.questionType = questionType;
 		this.questionCode = questionCode;
 		this.questionUrl = questionUrl;
 		this.questionModule = questionModule;
 		this.questionDesc = questionDesc;
+		this.entName = entName;
+		this.isResponse = isResponse;
 		this.status = status;
 		this.contact = contact;
 		this.contactTel = contactTel;
+		this.email = email;
 		this.createTime = createTime;
 		this.createMemberId = createMemberId;
 		this.createAcctId = createAcctId;
@@ -97,6 +103,22 @@ public class QuestionFeedback implements Serializable {
 		this.questionDesc = questionDesc;
 	}
 
+	public String getEntName() {
+		return entName;
+	}
+
+	public void setEntName(String entName) {
+		this.entName = entName;
+	}
+
+	public Integer getIsResponse() {
+		return isResponse;
+	}
+
+	public void setIsResponse(Integer isResponse) {
+		this.isResponse = isResponse;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -119,6 +141,14 @@ public class QuestionFeedback implements Serializable {
 
 	public void setContactTel(String contactTel) {
 		this.contactTel = contactTel;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getCreateTime() {
@@ -155,6 +185,6 @@ public class QuestionFeedback implements Serializable {
 
 	@Override
 	public String toString() {
-		return "QuestionFeedback [" + "questionId=" + questionId+ ", questionType=" + questionType+ ", questionCode=" + questionCode+ ", questionUrl=" + questionUrl+ ", questionModule=" + questionModule+ ", questionDesc=" + questionDesc+ ", status=" + status+ ", contact=" + contact+ ", contactTel=" + contactTel+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+  "]";
+		return "QuestionFeedback [" + "questionId=" + questionId+ ", questionType=" + questionType+ ", questionCode=" + questionCode+ ", questionUrl=" + questionUrl+ ", questionModule=" + questionModule+ ", questionDesc=" + questionDesc+ ", entName=" + entName+ ", isResponse=" + isResponse+ ", status=" + status+ ", contact=" + contact+ ", contactTel=" + contactTel+ ", email=" + email+ ", createTime=" + createTime+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+  "]";
 	}
 }

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketCateCertApplyFileDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketCateCertApplyFile" id="marketCateCertApplyFileResultMap">
+		<result property="certApplyFileId" column="CERT_APPLY_FILE_ID" />
+		<result property="certApplyDetailId" column="CERT_APPLY_DETAIL_ID" />
+		<result property="certFileType" column="CERT_FILE_TYPE" />
+		<result property="fileSize" column="FILE_SIZE" />
+		<result property="fileUrl" column="FILE_URL" />
+	</resultMap>
+
+	<sql id="table_columns">
+		CERT_APPLY_FILE_ID,
+		CERT_APPLY_DETAIL_ID,
+		CERT_FILE_TYPE,
+		FILE_SIZE,
+		FILE_URL
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyFileId},
+		#{certApplyDetailId},
+		#{certFileType},
+		#{fileSize},
+		#{fileUrl}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="certApplyFileId != null and certApplyFileId != ''">and CERT_APPLY_FILE_ID = #{certApplyFileId}</if>
+            <if test="certApplyDetailId != null and certApplyDetailId != ''">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
+            <if test="certFileType != null and certFileType != ''">and CERT_FILE_TYPE = #{certFileType}</if>
+            <if test="fileSize != null and fileSize != ''">and FILE_SIZE = #{fileSize}</if>
+            <if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApplyFile" useGeneratedKeys="true" keyProperty="id">
+		insert into market_cate_cert_apply_file( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApplyFile">
+            <selectKey resultType="long" keyProperty="certApplyFileId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_cate_cert_apply_file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="certApplyDetailId != null and certApplyDetailId != ''">CERT_APPLY_DETAIL_ID,</if>
+            <if test="certFileType != null and certFileType != ''">CERT_FILE_TYPE,</if>
+            <if test="fileSize != null and fileSize != ''">FILE_SIZE,</if>
+            <if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="certApplyDetailId != null and certApplyDetailId != ''">#{certApplyDetailId},</if>
+            <if test="certFileType != null and certFileType != ''">#{certFileType},</if>
+            <if test="fileSize != null and fileSize != ''">#{fileSize},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApplyFile">
+		delete from market_cate_cert_apply_file
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_cate_cert_apply_file
+        <where>
+                CERT_APPLY_FILE_ID = #{certApplyFileId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateCertApplyFile">
+		update market_cate_cert_apply_file 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="certApplyDetailId != null and certApplyDetailId != ''">CERT_APPLY_DETAIL_ID = #{certApplyDetailId},</if>
+			<if test="certFileType != null and certFileType != ''">CERT_FILE_TYPE = #{certFileType},</if>
+			<if test="fileSize != null and fileSize != ''">FILE_SIZE = #{fileSize},</if>
+			<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+		</trim>
+        <where>
+            CERT_APPLY_FILE_ID = #{certApplyFileId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketCateCertApplyFileResultMap">
+        select <include refid="table_columns" />
+        from market_cate_cert_apply_file
+    </select>
+
+    <select id="select" resultMap="marketCateCertApplyFileResultMap">
+        select <include refid="table_columns" />
+        from market_cate_cert_apply_file
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_cate_cert_apply_file
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketCateCertApplyFileResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_cate_cert_apply_file
+        <where>
+                CERT_APPLY_FILE_ID = #{certApplyFileId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

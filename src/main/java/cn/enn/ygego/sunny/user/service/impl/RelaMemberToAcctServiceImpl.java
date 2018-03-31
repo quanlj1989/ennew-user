@@ -3,6 +3,7 @@ package cn.enn.ygego.sunny.user.service.impl;
 import java.util.List;
 import cn.enn.ygego.sunny.user.service.RelaMemberToAcctService;
 import cn.enn.ygego.sunny.user.dao.RelaMemberToAcctDao;
+import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 
 import org.springframework.stereotype.Service;
@@ -49,11 +50,20 @@ public class RelaMemberToAcctServiceImpl implements RelaMemberToAcctService{
         return relaMemberToAcctDao.updateByPrimaryKey(record);
     }
 
-
-
-
-
-
+    @Override
+    public boolean modifyEntAdminRela(MemberInfo newAdminMember, RelaMemberToAcct oldRela) {
+        
+        boolean result = false;
+        
+        // TODO 删除原有关联
+            //1. 调用权限配置
+            //2. 删除关系数据
+        
+        // TODO 建立新的关联
+            //1. 调用权限配置
+        
+        return result;
+    }
 
 
 

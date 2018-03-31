@@ -10,11 +10,12 @@ import java.io.Serializable;
  */
 public class EntCertApplyDetail implements Serializable {
 	
-	private static final long serialVersionUID = -1875468703685132172L;
+	private static final long serialVersionUID = 2098633640446973535L;
 	
 	private Long	certApplyDetailId;		 /* 资质申请明细ID */ 
 	private Long	certApplyId;		 /* 资质申请ID */ 
 	private Long	memberId;		 /* 会员ID */ 
+	private Integer	authenType;		 /* 认证类型 */ 
 	private Integer	certType;		 /* 资质类型 */ 
 	private String	certName;		 /* 资质名称 */ 
 	private String	certNo;		 /* 资质号码 */ 
@@ -29,10 +30,11 @@ public class EntCertApplyDetail implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public EntCertApplyDetail(Long certApplyDetailId, Long certApplyId, Long memberId, Integer certType, String certName, String certNo, Date certValidDate, Integer sortNum, Date createTime) {
+	public EntCertApplyDetail(Long certApplyDetailId, Long certApplyId, Long memberId, Integer authenType, Integer certType, String certName, String certNo, Date certValidDate, Integer sortNum, Date createTime) {
 		this.certApplyDetailId = certApplyDetailId;
 		this.certApplyId = certApplyId;
 		this.memberId = memberId;
+		this.authenType = authenType;
 		this.certType = certType;
 		this.certName = certName;
 		this.certNo = certNo;
@@ -63,6 +65,14 @@ public class EntCertApplyDetail implements Serializable {
 
 	public void setMemberId(Long memberId) {
 		this.memberId = memberId;
+	}
+
+	public Integer getAuthenType() {
+		return authenType;
+	}
+
+	public void setAuthenType(Integer authenType) {
+		this.authenType = authenType;
 	}
 
 	public Integer getCertType() {
@@ -115,6 +125,6 @@ public class EntCertApplyDetail implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EntCertApplyDetail [" + "certApplyDetailId=" + certApplyDetailId+ ", certApplyId=" + certApplyId+ ", memberId=" + memberId+ ", certType=" + certType+ ", certName=" + certName+ ", certNo=" + certNo+ ", certValidDate=" + certValidDate+ ", sortNum=" + sortNum+ ", createTime=" + createTime+  "]";
+		return "EntCertApplyDetail [" + "certApplyDetailId=" + certApplyDetailId+ ", certApplyId=" + certApplyId+ ", memberId=" + memberId+ ", authenType=" + authenType+ ", certType=" + certType+ ", certName=" + certName+ ", certNo=" + certNo+ ", certValidDate=" + certValidDate+ ", sortNum=" + sortNum+ ", createTime=" + createTime+  "]";
 	}
 }

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketInfoDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketInfo" id="marketInfoResultMap">
+		<result property="marketId" column="MARKET_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="marketCode" column="MARKET_CODE" />
+		<result property="marketName" column="MARKET_NAME" />
+		<result property="serviceType" column="SERVICE_TYPE" />
+		<result property="areaId" column="AREA_ID" />
+		<result property="areaIdFullPath" column="AREA_ID_FULL_PATH" />
+		<result property="areaNameFullPath" column="AREA_NAME_FULL_PATH" />
+		<result property="addressDetail" column="ADDRESS_DETAIL" />
+		<result property="contact" column="CONTACT" />
+		<result property="contactTel" column="CONTACT_TEL" />
+		<result property="email" column="EMAIL" />
+		<result property="status" column="STATUS" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		MARKET_ID,
+		MEMBER_ID,
+		MARKET_CODE,
+		MARKET_NAME,
+		SERVICE_TYPE,
+		AREA_ID,
+		AREA_ID_FULL_PATH,
+		AREA_NAME_FULL_PATH,
+		ADDRESS_DETAIL,
+		CONTACT,
+		CONTACT_TEL,
+		EMAIL,
+		STATUS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{marketId},
+		#{memberId},
+		#{marketCode},
+		#{marketName},
+		#{serviceType},
+		#{areaId},
+		#{areaIdFullPath},
+		#{areaNameFullPath},
+		#{addressDetail},
+		#{contact},
+		#{contactTel},
+		#{email},
+		#{status},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="marketId != null and marketId != ''">and MARKET_ID = #{marketId}</if>
+            <if test="memberId != null and memberId != ''">and MEMBER_ID = #{memberId}</if>
+            <if test="marketCode != null and marketCode != ''">and MARKET_CODE = #{marketCode}</if>
+            <if test="marketName != null and marketName != ''">and MARKET_NAME = #{marketName}</if>
+            <if test="serviceType != null and serviceType != ''">and SERVICE_TYPE = #{serviceType}</if>
+            <if test="areaId != null and areaId != ''">and AREA_ID = #{areaId}</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">and AREA_ID_FULL_PATH = #{areaIdFullPath}</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">and AREA_NAME_FULL_PATH = #{areaNameFullPath}</if>
+            <if test="addressDetail != null and addressDetail != ''">and ADDRESS_DETAIL = #{addressDetail}</if>
+            <if test="contact != null and contact != ''">and CONTACT = #{contact}</if>
+            <if test="contactTel != null and contactTel != ''">and CONTACT_TEL = #{contactTel}</if>
+            <if test="email != null and email != ''">and EMAIL = #{email}</if>
+            <if test="status != null and status != ''">and STATUS = #{status}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into market_info( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketInfo">
+            <selectKey resultType="long" keyProperty="marketId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="memberId != null and memberId != ''">MEMBER_ID,</if>
+            <if test="marketCode != null and marketCode != ''">MARKET_CODE,</if>
+            <if test="marketName != null and marketName != ''">MARKET_NAME,</if>
+            <if test="serviceType != null and serviceType != ''">SERVICE_TYPE,</if>
+            <if test="areaId != null and areaId != ''">AREA_ID,</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH,</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH,</if>
+            <if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL,</if>
+            <if test="contact != null and contact != ''">CONTACT,</if>
+            <if test="contactTel != null and contactTel != ''">CONTACT_TEL,</if>
+            <if test="email != null and email != ''">EMAIL,</if>
+            <if test="status != null and status != ''">STATUS,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="marketCode != null and marketCode != ''">#{marketCode},</if>
+            <if test="marketName != null and marketName != ''">#{marketName},</if>
+            <if test="serviceType != null and serviceType != ''">#{serviceType},</if>
+            <if test="areaId != null and areaId != ''">#{areaId},</if>
+            <if test="areaIdFullPath != null and areaIdFullPath != ''">#{areaIdFullPath},</if>
+            <if test="areaNameFullPath != null and areaNameFullPath != ''">#{areaNameFullPath},</if>
+            <if test="addressDetail != null and addressDetail != ''">#{addressDetail},</if>
+            <if test="contact != null and contact != ''">#{contact},</if>
+            <if test="contactTel != null and contactTel != ''">#{contactTel},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketInfo">
+		delete from market_info
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_info
+        <where>
+                MARKET_ID = #{marketId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketInfo">
+		update market_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="memberId != null and memberId != ''">MEMBER_ID = #{memberId},</if>
+			<if test="marketCode != null and marketCode != ''">MARKET_CODE = #{marketCode},</if>
+			<if test="marketName != null and marketName != ''">MARKET_NAME = #{marketName},</if>
+			<if test="serviceType != null and serviceType != ''">SERVICE_TYPE = #{serviceType},</if>
+			<if test="areaId != null and areaId != ''">AREA_ID = #{areaId},</if>
+			<if test="areaIdFullPath != null and areaIdFullPath != ''">AREA_ID_FULL_PATH = #{areaIdFullPath},</if>
+			<if test="areaNameFullPath != null and areaNameFullPath != ''">AREA_NAME_FULL_PATH = #{areaNameFullPath},</if>
+			<if test="addressDetail != null and addressDetail != ''">ADDRESS_DETAIL = #{addressDetail},</if>
+			<if test="contact != null and contact != ''">CONTACT = #{contact},</if>
+			<if test="contactTel != null and contactTel != ''">CONTACT_TEL = #{contactTel},</if>
+			<if test="email != null and email != ''">EMAIL = #{email},</if>
+			<if test="status != null and status != ''">STATUS = #{status},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            MARKET_ID = #{marketId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketInfoResultMap">
+        select <include refid="table_columns" />
+        from market_info
+    </select>
+
+    <select id="select" resultMap="marketInfoResultMap">
+        select <include refid="table_columns" />
+        from market_info
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_info
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketInfoResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_info
+        <where>
+                MARKET_ID = #{marketId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

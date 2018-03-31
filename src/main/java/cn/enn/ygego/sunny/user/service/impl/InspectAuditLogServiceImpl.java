@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * dal Interface:InspectAuditLog
  * @author gencode
- * @date 2018-3-22
+ * @date 2018-3-30
  */
 @Service
 public class InspectAuditLogServiceImpl implements InspectAuditLogService{

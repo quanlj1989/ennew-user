@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.AcctLoginLogDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.AcctLoginLog" id="acctLoginLogResultMap">
+		<result property="logId" column="LOG_ID"  />
+		<result property="logCode" column="LOG_CODE"  />
+		<result property="loginTime" column="LOGIN_TIME"  />
+		<result property="ipAddr" column="IP_ADDR"  />
+		<result property="loginType" column="LOGIN_TYPE"  />
+		<result property="loginResult" column="LOGIN_RESULT"  />
+		<result property="loginDetail" column="LOGIN_DETAIL"  />
+		<result property="operMemberId" column="OPER_MEMBER_ID"  />
+		<result property="operAcctId" column="OPER_ACCT_ID"  />
+		<result property="operPersonName" column="OPER_PERSON_NAME"  />
+		<result property="superMemberId" column="SUPER_MEMBER_ID"  />
+		<result property="superAcctId" column="SUPER_ACCT_ID"  />
+		<result property="superAcctName" column="SUPER_ACCT_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		LOG_ID,
+		LOG_CODE,
+		LOGIN_TIME,
+		IP_ADDR,
+		LOGIN_TYPE,
+		LOGIN_RESULT,
+		LOGIN_DETAIL,
+		OPER_MEMBER_ID,
+		OPER_ACCT_ID,
+		OPER_PERSON_NAME,
+		SUPER_MEMBER_ID,
+		SUPER_ACCT_ID,
+		SUPER_ACCT_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{logId},
+		#{logCode},
+		#{loginTime},
+		#{ipAddr},
+		#{loginType},
+		#{loginResult},
+		#{loginDetail},
+		#{operMemberId},
+		#{operAcctId},
+		#{operPersonName},
+		#{superMemberId},
+		#{superAcctId},
+		#{superAcctName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="logId != null ">and LOG_ID = #{logId}</if>
+				<if test="logCode != null and logCode != ''">and LOG_CODE = #{logCode}</if>
+				<if test="loginTime != null ">and LOGIN_TIME = #{loginTime}</if>
+				<if test="ipAddr != null and ipAddr != ''">and IP_ADDR = #{ipAddr}</if>
+				<if test="loginType != null ">and LOGIN_TYPE = #{loginType}</if>
+				<if test="loginResult != null ">and LOGIN_RESULT = #{loginResult}</if>
+				<if test="loginDetail != null and loginDetail != ''">and LOGIN_DETAIL = #{loginDetail}</if>
+				<if test="operMemberId != null ">and OPER_MEMBER_ID = #{operMemberId}</if>
+				<if test="operAcctId != null ">and OPER_ACCT_ID = #{operAcctId}</if>
+				<if test="operPersonName != null and operPersonName != ''">and OPER_PERSON_NAME = #{operPersonName}</if>
+				<if test="superMemberId != null ">and SUPER_MEMBER_ID = #{superMemberId}</if>
+				<if test="superAcctId != null ">and SUPER_ACCT_ID = #{superAcctId}</if>
+				<if test="superAcctName != null and superAcctName != ''">and SUPER_ACCT_NAME = #{superAcctName}</if>
+        </trim>
+    </sql>
+
+	<sql id="query_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="loginType != null ">and LOGIN_TYPE = #{loginType}</if>
+			<if test="loginResult != null ">and LOGIN_RESULT = #{loginResult}</if>
+			<if test="keyword != null and keyword != ''">and LOGIN_DETAIL = #{keyword}</if>
+			<if test="startTime != null ">and LOGIN_TIME &gt;= #{startTime}</if>
+			<if test="endTime != null ">and LOGIN_TIME &lt;= #{endTime}</if>
+			<if test="1==1">and OPER_ACCT_ID = #{acctId}</if>
+		</trim>
+	</sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.AcctLoginLog" >
+		insert into acct_login_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.AcctLoginLog">
+        insert into acct_login_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">LOG_ID,</if>
+				<if test="logCode != null and logCode != ''">LOG_CODE,</if>
+				<if test="loginTime != null ">LOGIN_TIME,</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR,</if>
+				<if test="loginType != null ">LOGIN_TYPE,</if>
+				<if test="loginResult != null ">LOGIN_RESULT,</if>
+				<if test="loginDetail != null and loginDetail != ''">LOGIN_DETAIL,</if>
+				<if test="operMemberId != null ">OPER_MEMBER_ID,</if>
+				<if test="operAcctId != null ">OPER_ACCT_ID,</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME,</if>
+				<if test="superMemberId != null ">SUPER_MEMBER_ID,</if>
+				<if test="superAcctId != null ">SUPER_ACCT_ID,</if>
+				<if test="superAcctName != null and superAcctName != ''">SUPER_ACCT_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="logId != null ">#{logId},</if>
+				<if test="logCode != null and logCode != ''">#{logCode},</if>
+				<if test="loginTime != null ">#{loginTime},</if>
+				<if test="ipAddr != null and ipAddr != ''">#{ipAddr},</if>
+				<if test="loginType != null ">#{loginType},</if>
+				<if test="loginResult != null ">#{loginResult},</if>
+				<if test="loginDetail != null and loginDetail != ''">#{loginDetail},</if>
+				<if test="operMemberId != null ">#{operMemberId},</if>
+				<if test="operAcctId != null ">#{operAcctId},</if>
+				<if test="operPersonName != null and operPersonName != ''">#{operPersonName},</if>
+				<if test="superMemberId != null ">#{superMemberId},</if>
+				<if test="superAcctId != null ">#{superAcctId},</if>
+				<if test="superAcctName != null and superAcctName != ''">#{superAcctName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.AcctLoginLog">
+		delete from acct_login_log
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from acct_login_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.AcctLoginLog">
+		update acct_login_log 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="logCode != null and logCode != ''">LOG_CODE = #{logCode},</if>
+				<if test="loginTime != null ">LOGIN_TIME = #{loginTime},</if>
+				<if test="ipAddr != null and ipAddr != ''">IP_ADDR = #{ipAddr},</if>
+				<if test="loginType != null ">LOGIN_TYPE = #{loginType},</if>
+				<if test="loginResult != null ">LOGIN_RESULT = #{loginResult},</if>
+				<if test="loginDetail != null and loginDetail != ''">LOGIN_DETAIL = #{loginDetail},</if>
+				<if test="operMemberId != null ">OPER_MEMBER_ID = #{operMemberId},</if>
+				<if test="operAcctId != null ">OPER_ACCT_ID = #{operAcctId},</if>
+				<if test="operPersonName != null and operPersonName != ''">OPER_PERSON_NAME = #{operPersonName},</if>
+				<if test="superMemberId != null ">SUPER_MEMBER_ID = #{superMemberId},</if>
+				<if test="superAcctId != null ">SUPER_ACCT_ID = #{superAcctId},</if>
+				<if test="superAcctName != null and superAcctName != ''">SUPER_ACCT_NAME = #{superAcctName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="acctLoginLogResultMap">
+        select <include refid="table_columns" />
+        from acct_login_log
+    </select>
+
+    <select id="find" resultMap="acctLoginLogResultMap">
+        select <include refid="table_columns" />
+        from acct_login_log
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from acct_login_log
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="acctLoginLogResultMap"  >
+		select <include refid="table_columns" />
+		from acct_login_log
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and LOG_ID = #{logId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	<select id="findPageCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.AcctLoginLogVO" resultType="java.lang.Long">
+		select count(LOG_ID)
+		from acct_login_log
+		<include refid="query_page_where" />
+	</select>
+    <select id="findPage" parameterType="cn.enn.ygego.sunny.user.dto.vo.AcctLoginLogVO" resultMap="acctLoginLogResultMap">
+        select <include refid="table_columns" />
+        from acct_login_log
+        <include refid="query_page_where" />
+        order by LOG_ID desc
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow}, #{pageSize}
+		</if>
+    </select>
+
+</mapper>

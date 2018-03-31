@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntAuthCertApplyDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntAuthCertApply" id="entAuthCertApplyResultMap">
+		<result property="certApplyId" column="CERT_APPLY_ID"  />
+		<result property="authApplyId" column="AUTH_APPLY_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="authenType" column="AUTHEN_TYPE"  />
+		<result property="certType" column="CERT_TYPE"  />
+		<result property="certName" column="CERT_NAME"  />
+		<result property="certNo" column="CERT_NO"  />
+		<result property="certValidDate" column="CERT_VALID_DATE"  />
+		<result property="sortNum" column="SORT_NUM"  />
+		<result property="createTime" column="CREATE_TIME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_APPLY_ID,
+		AUTH_APPLY_ID,
+		MEMBER_ID,
+		AUTHEN_TYPE,
+		CERT_TYPE,
+		CERT_NAME,
+		CERT_NO,
+		CERT_VALID_DATE,
+		SORT_NUM,
+		CREATE_TIME
+    </sql>
+	<sql id="entity_properties">
+		#{certApplyId},
+		#{authApplyId},
+		#{memberId},
+		#{authenType},
+		#{certType},
+		#{certName},
+		#{certNo},
+		#{certValidDate},
+		#{sortNum},
+		#{createTime}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certApplyId != null ">and CERT_APPLY_ID = #{certApplyId}</if>
+				<if test="authApplyId != null ">and AUTH_APPLY_ID = #{authApplyId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="authenType != null ">and AUTHEN_TYPE = #{authenType}</if>
+				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
+				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
+				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
+				<if test="certValidDate != null ">and CERT_VALID_DATE = #{certValidDate}</if>
+				<if test="sortNum != null ">and SORT_NUM = #{sortNum}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntAuthCertApply" >
+		insert into ent_auth_cert_apply( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntAuthCertApply">
+        insert into ent_auth_cert_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certApplyId != null ">CERT_APPLY_ID,</if>
+				<if test="authApplyId != null ">AUTH_APPLY_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="authenType != null ">AUTHEN_TYPE,</if>
+				<if test="certType != null ">CERT_TYPE,</if>
+				<if test="certName != null and certName != ''">CERT_NAME,</if>
+				<if test="certNo != null and certNo != ''">CERT_NO,</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE,</if>
+				<if test="sortNum != null ">SORT_NUM,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certApplyId != null ">#{certApplyId},</if>
+				<if test="authApplyId != null ">#{authApplyId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="authenType != null ">#{authenType},</if>
+				<if test="certType != null ">#{certType},</if>
+				<if test="certName != null and certName != ''">#{certName},</if>
+				<if test="certNo != null and certNo != ''">#{certNo},</if>
+				<if test="certValidDate != null ">#{certValidDate},</if>
+				<if test="sortNum != null ">#{sortNum},</if>
+				<if test="createTime != null ">#{createTime},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntAuthCertApply">
+		delete from ent_auth_cert_apply
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_auth_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntAuthCertApply">
+		update ent_auth_cert_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="authApplyId != null ">AUTH_APPLY_ID = #{authApplyId},</if>
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="authenType != null ">AUTHEN_TYPE = #{authenType},</if>
+				<if test="certType != null ">CERT_TYPE = #{certType},</if>
+				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
+				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>
+				<if test="certValidDate != null ">CERT_VALID_DATE = #{certValidDate},</if>
+				<if test="sortNum != null ">SORT_NUM = #{sortNum},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entAuthCertApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_auth_cert_apply
+    </select>
+
+    <select id="find" resultMap="entAuthCertApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_auth_cert_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_auth_cert_apply
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entAuthCertApplyResultMap"  >
+		select <include refid="table_columns" />
+		from ent_auth_cert_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

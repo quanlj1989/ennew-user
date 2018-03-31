@@ -18,8 +18,10 @@
 		<result property="businessLicenseAddress" column="BUSINESS_LICENSE_ADDRESS"  />
 		<result property="businessLicenseType" column="BUSINESS_LICENSE_TYPE"  />
 		<result property="establishDate" column="ESTABLISH_DATE"  />
+		<result property="certStartDate" column="CERT_START_DATE"  />
 		<result property="certLimitDate" column="CERT_LIMIT_DATE"  />
 		<result property="limitType" column="LIMIT_TYPE"  />
+		<result property="entCertType" column="ENT_CERT_TYPE"  />
 		<result property="regCapital" column="REG_CAPITAL"  />
 		<result property="regCapitalUnit" column="REG_CAPITAL_UNIT"  />
 		<result property="entTel" column="ENT_TEL"  />
@@ -52,8 +54,10 @@
 		BUSINESS_LICENSE_ADDRESS,
 		BUSINESS_LICENSE_TYPE,
 		ESTABLISH_DATE,
+		CERT_START_DATE,
 		CERT_LIMIT_DATE,
 		LIMIT_TYPE,
+		ENT_CERT_TYPE,
 		REG_CAPITAL,
 		REG_CAPITAL_UNIT,
 		ENT_TEL,
@@ -85,8 +89,10 @@
 		#{businessLicenseAddress},
 		#{businessLicenseType},
 		#{establishDate},
+		#{certStartDate},
 		#{certLimitDate},
 		#{limitType},
+		#{entCertType},
 		#{regCapital},
 		#{regCapitalUnit},
 		#{entTel},
@@ -121,8 +127,10 @@
 				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">and BUSINESS_LICENSE_ADDRESS = #{businessLicenseAddress}</if>
 				<if test="businessLicenseType != null ">and BUSINESS_LICENSE_TYPE = #{businessLicenseType}</if>
 				<if test="establishDate != null ">and ESTABLISH_DATE = #{establishDate}</if>
+				<if test="certStartDate != null ">and CERT_START_DATE = #{certStartDate}</if>
 				<if test="certLimitDate != null ">and CERT_LIMIT_DATE = #{certLimitDate}</if>
 				<if test="limitType != null ">and LIMIT_TYPE = #{limitType}</if>
+				<if test="entCertType != null ">and ENT_CERT_TYPE = #{entCertType}</if>
 				<if test="regCapital != null ">and REG_CAPITAL = #{regCapital}</if>
 				<if test="regCapitalUnit != null ">and REG_CAPITAL_UNIT = #{regCapitalUnit}</if>
 				<if test="entTel != null and entTel != ''">and ENT_TEL = #{entTel}</if>
@@ -163,8 +171,10 @@
 				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">BUSINESS_LICENSE_ADDRESS,</if>
 				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE,</if>
 				<if test="establishDate != null ">ESTABLISH_DATE,</if>
+				<if test="certStartDate != null ">CERT_START_DATE,</if>
 				<if test="certLimitDate != null ">CERT_LIMIT_DATE,</if>
 				<if test="limitType != null ">LIMIT_TYPE,</if>
+				<if test="entCertType != null ">ENT_CERT_TYPE,</if>
 				<if test="regCapital != null ">REG_CAPITAL,</if>
 				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT,</if>
 				<if test="entTel != null and entTel != ''">ENT_TEL,</if>
@@ -196,8 +206,10 @@
 				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">#{businessLicenseAddress},</if>
 				<if test="businessLicenseType != null ">#{businessLicenseType},</if>
 				<if test="establishDate != null ">#{establishDate},</if>
+				<if test="certStartDate != null ">#{certStartDate},</if>
 				<if test="certLimitDate != null ">#{certLimitDate},</if>
 				<if test="limitType != null ">#{limitType},</if>
+				<if test="entCertType != null ">#{entCertType},</if>
 				<if test="regCapital != null ">#{regCapital},</if>
 				<if test="regCapitalUnit != null ">#{regCapitalUnit},</if>
 				<if test="entTel != null and entTel != ''">#{entTel},</if>
@@ -246,8 +258,10 @@
 				<if test="businessLicenseAddress != null and businessLicenseAddress != ''">BUSINESS_LICENSE_ADDRESS = #{businessLicenseAddress},</if>
 				<if test="businessLicenseType != null ">BUSINESS_LICENSE_TYPE = #{businessLicenseType},</if>
 				<if test="establishDate != null ">ESTABLISH_DATE = #{establishDate},</if>
+				<if test="certStartDate != null ">CERT_START_DATE = #{certStartDate},</if>
 				<if test="certLimitDate != null ">CERT_LIMIT_DATE = #{certLimitDate},</if>
 				<if test="limitType != null ">LIMIT_TYPE = #{limitType},</if>
+				<if test="entCertType != null ">ENT_CERT_TYPE = #{entCertType},</if>
 				<if test="regCapital != null ">REG_CAPITAL = #{regCapital},</if>
 				<if test="regCapitalUnit != null ">REG_CAPITAL_UNIT = #{regCapitalUnit},</if>
 				<if test="entTel != null and entTel != ''">ENT_TEL = #{entTel},</if>

@@ -116,7 +116,7 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
 
     @Override
     public IndividualCertApplyVO getCertApplyByMemberId(IndividualCertApplyVO query, boolean hasFile){
-        IndividualCertApplyVO resultDto = individualCertApplyDao.getCertApplyByMemberId(query);
+        IndividualCertApplyVO resultDto = individualCertApplyDao.getCertApplyById(query);
         if(hasFile && resultDto != null && resultDto.getCertApplyDetailId() != null){
           //查询附件信息
           List<IndividualCertApplyFile> applyFileList =  individualCertApplyFileDao.getByCertApplyDetailId(resultDto.getCertApplyDetailId());
@@ -201,6 +201,7 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         // 保存客户信息表
         IndividualCust cust = new IndividualCust();
         BeanUtils.copyProperties(cust, record);
+        cust.setAuthTime(new Date());  // 认证时间
         individualCustDao.insert(cust);
         
         // 查询申请详细信息
@@ -209,6 +210,11 @@ public class IndividualCertApplyServiceImpl implements IndividualCertApplyServic
         // 保存资质详情信息
         IndividualCertInfo custDetail = new IndividualCertInfo();
         BeanUtils.copyProperties(custDetail, applyDetail);
+        custDetail.setCreateTime(new Date());
+        custDetail.setCreateAcctId(cust.getCreateAcctId());
+        custDetail.setCreateName(cust.getCreateName());
+        custDetail.setStatus(1);  // 1有效 0无效
+        
         individualCertInfoDao.insertSelective(custDetail);
         
         // 查询申请文件列表

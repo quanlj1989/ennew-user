@@ -263,8 +263,8 @@
 			bu.ACCT_NAME acctName ,
 			bu.ACCT_CODE acctCode ,
 			bu.ACCT_STATE acctState ,
+			bu.AUTH_STATE authState ,
 			bu.LOGO_URL logoUrl ,
-			bu.`NAME` `name` ,
 			bu.GENDER_TYPE genderType ,
 			bu.DEPT_ID deptId ,
 			bu.MOBILE_NUM mobileNum ,
@@ -279,6 +279,7 @@
 			apl.CERT_APPLY_ID certApplyId , 
 			rel.MEMBER_ID memberId ,
 			apl.APPLY_TYPE applyType ,
+			apl.`NAME` `name`,
 			apl.CERT_TYPE certType ,
 			apl.CERT_CODE certCode ,
 			apl.`STATUS` `status` ,
@@ -323,19 +324,13 @@
 			
 		FROM INDIVIDUAL_CERT_APPLY apl 
 		LEFT JOIN individual_cert_apply_detail dtl ON apl.CERT_APPLY_ID = dtl.CERT_APPLY_ID
-		WHERE 
-		<choose>
-			<when test="certApplyId != null">
-				apl.CERT_APPLY_ID = #{certApplyId}
-			</when>
-			<otherwise>
-				apl.CERT_APPLY_ID = ''
-			</otherwise>
-		</choose>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">apl.CERT_APPLY_ID = #{certApplyId}</if>
+        </trim>
 		
 	</select>
 	
-	<select id="getCertApplyByMemberId" parameterType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO"
+	<select id="getCertApplyById" parameterType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO"
 			resultType="cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO" >
 		
 		SELECT 
@@ -346,7 +341,6 @@
 			bu.ACCT_CODE acctCode ,
 			bu.ACCT_STATE acctState ,
 			bu.LOGO_URL logoUrl ,
-			bu.`NAME` `name` ,
 			bu.GENDER_TYPE genderType ,
 			bu.DEPT_ID deptId ,
 			bu.MOBILE_NUM mobileNum ,
@@ -360,6 +354,7 @@
 			
 			apl.CERT_APPLY_ID certApplyId , 
 			apl.APPLY_TYPE applyType ,
+			apl.`NAME` `name` ,
 			apl.CERT_TYPE certType ,
 			apl.CERT_CODE certCode ,
 			apl.`STATUS` `status` ,
@@ -379,7 +374,7 @@
 		LEFT JOIN rela_member_to_acct rel ON apl.MEMBER_ID = rel.MEMBER_ID AND rel.MEMBER_TYPE = 3
 		LEFT JOIN busi_acct_info bu ON rel.ACCT_ID = bu.ACCT_ID
 		<choose>
-			<when test="certApplyId == null and  memberId == null"> where apl.CERT_APPLY_ID = '' </when>
+			<when test="certApplyId == null and  memberId == null"> where apl.CERT_APPLY_ID = null </when>
 			<otherwise>
 				<trim prefix="where" prefixOverrides="and | or ">
 					<if test="certApplyId != null">and apl.CERT_APPLY_ID = #{certApplyId}</if>

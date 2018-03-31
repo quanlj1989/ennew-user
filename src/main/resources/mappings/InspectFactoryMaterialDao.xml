@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.InspectFactoryMaterialDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.InspectFactoryMaterial" id="inspectFactoryMaterialResultMap">
+		<result property="inspectMaterialId" column="INSPECT_MATERIAL_ID"  />
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="brandId" column="BRAND_ID"  />
+		<result property="dictBrand" column="DICT_BRAND"  />
+		<result property="materialId" column="MATERIAL_ID"  />
+		<result property="materialCode" column="MATERIAL_CODE"  />
+		<result property="materialName" column="MATERIAL_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		INSPECT_MATERIAL_ID,
+		APPLY_ID,
+		BRAND_ID,
+		DICT_BRAND,
+		MATERIAL_ID,
+		MATERIAL_CODE,
+		MATERIAL_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{inspectMaterialId},
+		#{applyId},
+		#{brandId},
+		#{dictBrand},
+		#{materialId},
+		#{materialCode},
+		#{materialName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="inspectMaterialId != null ">and INSPECT_MATERIAL_ID = #{inspectMaterialId}</if>
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="brandId != null ">and BRAND_ID = #{brandId}</if>
+				<if test="dictBrand != null and dictBrand != ''">and DICT_BRAND = #{dictBrand}</if>
+				<if test="materialId != null ">and MATERIAL_ID = #{materialId}</if>
+				<if test="materialCode != null and materialCode != ''">and MATERIAL_CODE = #{materialCode}</if>
+				<if test="materialName != null and materialName != ''">and MATERIAL_NAME = #{materialName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryMaterial" >
+		insert into inspect_factory_material( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryMaterial">
+        insert into inspect_factory_material
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="inspectMaterialId != null ">INSPECT_MATERIAL_ID,</if>
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="brandId != null ">BRAND_ID,</if>
+				<if test="dictBrand != null and dictBrand != ''">DICT_BRAND,</if>
+				<if test="materialId != null ">MATERIAL_ID,</if>
+				<if test="materialCode != null and materialCode != ''">MATERIAL_CODE,</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="inspectMaterialId != null ">#{inspectMaterialId},</if>
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="brandId != null ">#{brandId},</if>
+				<if test="dictBrand != null and dictBrand != ''">#{dictBrand},</if>
+				<if test="materialId != null ">#{materialId},</if>
+				<if test="materialCode != null and materialCode != ''">#{materialCode},</if>
+				<if test="materialName != null and materialName != ''">#{materialName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryMaterial">
+		delete from inspect_factory_material
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from inspect_factory_material
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and INSPECT_MATERIAL_ID = #{inspectMaterialId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.InspectFactoryMaterial">
+		update inspect_factory_material 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
+				<if test="brandId != null ">BRAND_ID = #{brandId},</if>
+				<if test="dictBrand != null and dictBrand != ''">DICT_BRAND = #{dictBrand},</if>
+				<if test="materialId != null ">MATERIAL_ID = #{materialId},</if>
+				<if test="materialCode != null and materialCode != ''">MATERIAL_CODE = #{materialCode},</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME = #{materialName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and INSPECT_MATERIAL_ID = #{inspectMaterialId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="inspectFactoryMaterialResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_material
+    </select>
+
+    <select id="find" resultMap="inspectFactoryMaterialResultMap">
+        select <include refid="table_columns" />
+        from inspect_factory_material
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from inspect_factory_material
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="inspectFactoryMaterialResultMap"  >
+		select <include refid="table_columns" />
+		from inspect_factory_material
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and INSPECT_MATERIAL_ID = #{inspectMaterialId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

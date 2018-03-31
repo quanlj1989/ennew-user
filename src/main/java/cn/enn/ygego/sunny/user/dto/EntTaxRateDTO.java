@@ -1,17 +1,19 @@
 package cn.enn.ygego.sunny.user.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DTO:EntTaxRate
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-28
  */
 public class EntTaxRateDTO implements Serializable {
 	
-	private static final long serialVersionUID = -1869285874636896249L;
+	private static final long serialVersionUID = -5836635962162004859L;
 	
 	private Long	taxRateId; /* 发票税率ID */
 	private Long	memberId; /* 会员ID */
@@ -23,8 +25,19 @@ public class EntTaxRateDTO implements Serializable {
 	private Long	createAcctId; /* 创建人账户ID */
 	private String	createName; /* 创建人姓名 */
 
+	private List<EntPaySetDTO> paySets = new ArrayList<>();
+
+	public List<EntPaySetDTO> getPaySets() {
+		return paySets;
+	}
+
+	public void setPaySets(List<EntPaySetDTO> paySets) {
+		this.paySets = paySets;
+	}
+
 	// Constructor
 	public EntTaxRateDTO() {
+		this.paySets = new ArrayList<>();
 	}
 
 	/**

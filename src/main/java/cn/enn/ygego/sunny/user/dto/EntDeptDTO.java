@@ -7,11 +7,11 @@ import java.io.Serializable;
  * DTO:EntDept
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntDeptDTO implements Serializable {
 	
-	private static final long serialVersionUID = -165975991615056071L;
+	private static final long serialVersionUID = -1810805964847551269L;
 	
 	private Long	deptId; /* 部门ID */
 	private Long	memberId; /* 会员ID */

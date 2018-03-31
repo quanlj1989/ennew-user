@@ -6,6 +6,7 @@
 		<result property="certApplyDetailId" column="CERT_APPLY_DETAIL_ID"  />
 		<result property="certApplyId" column="CERT_APPLY_ID"  />
 		<result property="memberId" column="MEMBER_ID"  />
+		<result property="authenType" column="AUTHEN_TYPE"  />
 		<result property="certType" column="CERT_TYPE"  />
 		<result property="certName" column="CERT_NAME"  />
 		<result property="certNo" column="CERT_NO"  />
@@ -18,6 +19,7 @@
 		CERT_APPLY_DETAIL_ID,
 		CERT_APPLY_ID,
 		MEMBER_ID,
+		AUTHEN_TYPE,
 		CERT_TYPE,
 		CERT_NAME,
 		CERT_NO,
@@ -29,6 +31,7 @@
 		#{certApplyDetailId},
 		#{certApplyId},
 		#{memberId},
+		#{authenType},
 		#{certType},
 		#{certName},
 		#{certNo},
@@ -43,6 +46,7 @@
 				<if test="certApplyDetailId != null ">and CERT_APPLY_DETAIL_ID = #{certApplyDetailId}</if>
 				<if test="certApplyId != null ">and CERT_APPLY_ID = #{certApplyId}</if>
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="authenType != null ">and AUTHEN_TYPE = #{authenType}</if>
 				<if test="certType != null ">and CERT_TYPE = #{certType}</if>
 				<if test="certName != null and certName != ''">and CERT_NAME = #{certName}</if>
 				<if test="certNo != null and certNo != ''">and CERT_NO = #{certNo}</if>
@@ -63,6 +67,7 @@
 				<if test="certApplyDetailId != null ">CERT_APPLY_DETAIL_ID,</if>
 				<if test="certApplyId != null ">CERT_APPLY_ID,</if>
 				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="authenType != null ">AUTHEN_TYPE,</if>
 				<if test="certType != null ">CERT_TYPE,</if>
 				<if test="certName != null and certName != ''">CERT_NAME,</if>
 				<if test="certNo != null and certNo != ''">CERT_NO,</if>
@@ -74,6 +79,7 @@
 				<if test="certApplyDetailId != null ">#{certApplyDetailId},</if>
 				<if test="certApplyId != null ">#{certApplyId},</if>
 				<if test="memberId != null ">#{memberId},</if>
+				<if test="authenType != null ">#{authenType},</if>
 				<if test="certType != null ">#{certType},</if>
 				<if test="certName != null and certName != ''">#{certName},</if>
 				<if test="certNo != null and certNo != ''">#{certNo},</if>
@@ -102,6 +108,7 @@
 		<trim prefix="set" suffixOverrides=",">
 				<if test="certApplyId != null ">CERT_APPLY_ID = #{certApplyId},</if>
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="authenType != null ">AUTHEN_TYPE = #{authenType},</if>
 				<if test="certType != null ">CERT_TYPE = #{certType},</if>
 				<if test="certName != null and certName != ''">CERT_NAME = #{certName},</if>
 				<if test="certNo != null and certNo != ''">CERT_NO = #{certNo},</if>

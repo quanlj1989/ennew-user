@@ -56,6 +56,11 @@ public class DeliverAddressServiceImpl implements DeliverAddressService{
         return deliverAddressDao.updateByPrimaryKey(record);
     }
 
+    public Integer getCount(DeliverAddress record){
+        return deliverAddressDao.getCount(record);
+    }
+
+
 
 
 

@@ -19,9 +19,9 @@ import java.util.Map;
 public enum ResponseCodeEnum {
 
     //通用响应信息
-    SUCCESS("0000000","处理成功"), //处理成功
-    FAIL("0100001","处理失败"), //处理失败（自定义抛出异常）
-    EXCEPTION("0100001","服务器异常"),//服务器异常
+    SUCCESS("0000000","处理成功！"), //处理成功
+    FAIL("0100001","处理失败！"), //处理失败（自定义抛出异常）
+    EXCEPTION("0100002","服务器异常！"),//服务器异常
 
     WHITE_LIST_FAIL("0123001","处理白名单失败"),
     WHITE_LIST_EXCEPTION("0123002","处理白名单服务器异常");

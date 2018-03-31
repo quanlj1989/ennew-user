@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class EntDomainPermitApply implements Serializable {
 	
-	private static final long serialVersionUID = -4859635500890788672L;
+	private static final long serialVersionUID = 3201137668460257696L;
 	
 	private Long	domainApplyId;		 /* 场申请ID */ 
 	private Long	channelApplyId;		 /* 渠道申请ID */ 

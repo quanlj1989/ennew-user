@@ -2,7 +2,7 @@ package cn.enn.ygego.sunny.user.dao;
 
 import java.util.List;
 
-import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
+import cn.enn.ygego.sunny.user.dto.company.CompanyAuthInfo;
 import org.apache.ibatis.annotations.Param;
 
 import cn.enn.ygego.sunny.user.model.MemberInfo;
@@ -44,5 +44,13 @@ public interface MemberInfoDao {
      * @return
      */
     MemberInfo findPersonMember(@Param("acctId") Long acctId);
+
+
+    /**
+     * 根据acctId查询所对应的企业信息以及企业对应的认证信息
+     * @param acctId 账号id
+     * @return
+     */
+    List<CompanyAuthInfo> findCompanyMember(@Param("acctId") Long acctId);
 
 }

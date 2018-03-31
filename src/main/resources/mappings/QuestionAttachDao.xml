@@ -105,6 +105,22 @@
 	</select>
 	
 	<!-- other SQL -->
+	<insert id="insertBatch" parameterType="cn.enn.ygego.sunny.user.model.QuestionAttach" >
+		insert into question_attach( <include refid="table_columns" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		  ( #{item.questionAttachId},
+			#{item.questionId},
+			#{item.fileSize},
+			#{item.fileUrl} )
+		</foreach>
+	</insert>
 
-
+	<select id="getByQuestionId"  resultMap="questionAttachResultMap">
+		select <include refid="table_columns" />
+		from question_attach
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and QUESTION_ID = #{questionId}</if>
+		</trim>
+	</select>
 </mapper>

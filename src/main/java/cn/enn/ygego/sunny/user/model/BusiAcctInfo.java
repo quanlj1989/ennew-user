@@ -18,6 +18,7 @@ public class BusiAcctInfo implements Serializable {
 	private String	password;		 /* 账户密码 */ 
 	private String	acctCode;		 /* 账户编码 */ 
 	private Integer	acctState;		 /* 账户状态 */ 
+	private Integer authState;      /* 个人认证状态 */
 	private String	logoUrl;		 /* LOGO_URL */ 
 	private String	name;		 /* 姓名 */ 
 	private Integer	genderType;		 /* 性别 */ 
@@ -65,7 +66,16 @@ public class BusiAcctInfo implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public Long getAcctId() {
+	
+	public Integer getAuthState() {
+        return authState;
+    }
+
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
+
+    public Long getAcctId() {
 		return acctId;
 	}
 

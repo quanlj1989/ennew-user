@@ -7,19 +7,22 @@
 		<result property="memberId" column="MEMBER_ID"  />
 		<result property="acctId" column="ACCT_ID"  />
 		<result property="memberType" column="MEMBER_TYPE"  />
+		<result property="isDefaultEnt" column="IS_DEFAULT_ENT"/>
 	</resultMap>
 	
 	<sql id="table_columns">
 		RELA_ID,
 		MEMBER_ID,
 		ACCT_ID,
-		MEMBER_TYPE
+		MEMBER_TYPE,
+		IS_DEFAULT_ENT
     </sql>
 	<sql id="entity_properties">
 		#{relaId},
 		#{memberId},
 		#{acctId},
-		#{memberType}
+		#{memberType},
+		#{isDefaultEnt}
 	</sql>
 
     <!-- columnName like concat('%',#columnName#,'%') -->
@@ -29,6 +32,7 @@
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
 				<if test="acctId != null ">and ACCT_ID = #{acctId}</if>
 				<if test="memberType != null ">and MEMBER_TYPE = #{memberType}</if>
+				<if test="isDefaultEnt != null ">and IS_DEFAULT_ENT = #{isDefaultEnt}</if>
         </trim>
     </sql>
 
@@ -44,12 +48,14 @@
 				<if test="memberId != null ">MEMBER_ID,</if>
 				<if test="acctId != null ">ACCT_ID,</if>
 				<if test="memberType != null ">MEMBER_TYPE,</if>
+				<if test="isDefaultEnt != null ">IS_DEFAULT_ENT,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
 				<if test="relaId != null ">#{relaId},</if>
 				<if test="memberId != null ">#{memberId},</if>
 				<if test="acctId != null ">#{acctId},</if>
 				<if test="memberType != null ">#{memberType},</if>
+				<if test="isDefaultEnt != null ">#{isDefaultEnt},</if>
         </trim>
 	</insert>
 
@@ -73,6 +79,7 @@
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
 				<if test="acctId != null ">ACCT_ID = #{acctId},</if>
 				<if test="memberType != null ">MEMBER_TYPE = #{memberType},</if>
+				<if test="isDefaultEnt != null ">IS_DEFAULT_ENT = #{isDefaultEnt},</if>
 		</trim>
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="1==1">and RELA_ID = #{relaId}</if>
@@ -106,5 +113,18 @@
 	
 	<!-- other SQL -->
 
+	<!-- 清空之前设置的默认企业 -->
+	<update id="cleanDefaultCompany">
+		UPDATE rela_member_to_acct
+		SET IS_DEFAULT_ENT = 0
+		WHERE ACCT_ID = #{acctId} AND MEMBER_TYPE = 2 AND IS_DEFAULT_ENT = 1
+	</update>
+
+	<!-- 设置默认企业 -->
+	<update id="setDefaultCompany">
+		UPDATE rela_member_to_acct
+		SET IS_DEFAULT_ENT = 1
+		WHERE MEMBER_ID = #{companyMemberId} AND ACCT_ID = #{acctId} AND MEMBER_TYPE = 2
+	</update>
 
 </mapper>

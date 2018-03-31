@@ -174,15 +174,9 @@
 			
 		FROM individual_cust cus 
 		LEFT JOIN individual_cert_info inf ON cus.MEMBER_ID = inf.MEMBER_ID
-		WHERE 
-		<choose>
-			<when test="memberId != null">
-				apl.MEMBER_ID = #{memberId}
-			</when>
-			<otherwise>
-				apl.MEMBER_ID = ''
-			</otherwise>
-		</choose>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and cus.MEMBER_ID = #{memberId}</if>
+        </trim>
 		
 	</select>
 	
@@ -195,6 +189,7 @@
             bu.ACCT_NAME acctName ,
             bu.ACCT_CODE acctCode ,
             bu.ACCT_STATE acctState ,
+            bu.AUTH_STATE authState ,
             bu.LOGO_URL logoUrl ,
             bu.`NAME` `name` ,
             bu.GENDER_TYPE genderType ,
@@ -221,7 +216,7 @@
                     rel.MEMBER_ID = #{memberId} AND rel.MEMBER_TYPE = 3
             </when>
             <otherwise>
-                    mem.MEMBER_ID = ''
+                    rel.MEMBER_ID = ''
             </otherwise>
         </choose>
     </select>
@@ -248,6 +243,7 @@
 				bu.ACCT_NAME acctName ,
 				bu.ACCT_CODE acctCode ,
 				bu.ACCT_STATE acctState ,
+				bu.AUTH_STATE authState ,
 				bu.LOGO_URL logoUrl ,
 				bu.`NAME` `name` ,
 				bu.GENDER_TYPE genderType ,
@@ -261,7 +257,7 @@
 				bu.POST_CODE postCode ,
 				bu.REGISTER_TIME registerTime
 		FROM busi_acct_info bu
-		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID AND rel.MEMBER_TYPE = 3
 		LEFT JOIN individual_cust cu ON rel.MEMBER_ID = cu.MEMBER_ID
 		<include refid="person_page_where" />
 		<if test="startRow != null and pageSize != null and pageSize!=0">

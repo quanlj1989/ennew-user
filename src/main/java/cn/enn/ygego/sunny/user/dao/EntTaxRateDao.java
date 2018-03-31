@@ -1,6 +1,9 @@
 package cn.enn.ygego.sunny.user.dao;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.dto.EntTaxRateDTO;
+import cn.enn.ygego.sunny.user.dto.vo.EntTaxRateVO;
 import org.apache.ibatis.annotations.Param;
 import cn.enn.ygego.sunny.user.model.EntTaxRate;
 
@@ -28,7 +31,7 @@ public interface EntTaxRateDao {
 
     EntTaxRate getByPrimaryKey(@Param("taxRateId") Long taxRateId);
 
-	
+    List<EntTaxRate> findPage(EntTaxRateVO entTaxRateVO);
 
-
+    EntTaxRateDTO getByMemberId(Long memberId);
 }

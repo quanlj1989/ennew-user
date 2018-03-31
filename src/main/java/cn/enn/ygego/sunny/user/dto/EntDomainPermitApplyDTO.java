@@ -7,11 +7,11 @@ import java.io.Serializable;
  * DTO:EntDomainPermitApply
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntDomainPermitApplyDTO implements Serializable {
 	
-	private static final long serialVersionUID = -2595316380565562699L;
+	private static final long serialVersionUID = -9077206089931688366L;
 	
 	private Long	domainApplyId; /* 场申请ID */
 	private Long	channelApplyId; /* 渠道申请ID */

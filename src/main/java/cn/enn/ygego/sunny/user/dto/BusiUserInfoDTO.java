@@ -7,20 +7,20 @@ import java.io.Serializable;
  * DTO:BusiUserInfo
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-29
  */
 public class BusiUserInfoDTO implements Serializable {
 	
-	private static final long serialVersionUID = 7780474082178949971L;
+	private static final long serialVersionUID = -3228835844844979714L;
 	
 	private Long	userId; /* 用户ID */
 	private Long	acctId; /* 账户ID */
-	private String	userTitle; /* 用户名称 */
-	private Integer	userType; /* 用户类型 */
-	private Integer	status; /* 状态 */
+	private String	openId; /* 唯一标识 */
+	private String	mobilePhone;
+	private String	email;
+	private String	realName;
+	private Long	configId; /* 配置ID */
 	private Date	createTime; /* 创建时间 */
-	private Date	modTime; /* 修改时间 */
-	private Integer	isDelete; /* 是否删除 */
 
 	// Constructor
 	public BusiUserInfoDTO() {
@@ -29,15 +29,15 @@ public class BusiUserInfoDTO implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public BusiUserInfoDTO(Long userId, Long acctId, String userTitle, Integer userType, Integer status, Date createTime, Date modTime, Integer isDelete) {
+	public BusiUserInfoDTO(Long userId, Long acctId, String openId, String mobilePhone, String email, String realName, Long configId, Date createTime) {
 		this.userId = userId;
 		this.acctId = acctId;
-		this.userTitle = userTitle;
-		this.userType = userType;
-		this.status = status;
+		this.openId = openId;
+		this.mobilePhone = mobilePhone;
+		this.email = email;
+		this.realName = realName;
+		this.configId = configId;
 		this.createTime = createTime;
-		this.modTime = modTime;
-		this.isDelete = isDelete;
 	}
 
 	public Long getUserId() {
@@ -54,26 +54,40 @@ public class BusiUserInfoDTO implements Serializable {
 	public void setAcctId(Long acctId) {
 		this.acctId = acctId;
 	}
-	public String getUserTitle() {
-		return userTitle;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setUserTitle(String userTitle) {
-		this.userTitle = userTitle;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
-	public Integer getUserType() {
-		return userType;
-	}
-
-	public void setUserType(Integer userType) {
-		this.userType = userType;
-	}
-	public Integer getStatus() {
-		return status;
+	public String getMobilePhone() {
+		return mobilePhone;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+	public Long getConfigId() {
+		return configId;
+	}
+
+	public void setConfigId(Long configId) {
+		this.configId = configId;
 	}
 	public Date getCreateTime() {
 		return createTime;
@@ -82,22 +96,8 @@ public class BusiUserInfoDTO implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Date getModTime() {
-		return modTime;
-	}
-
-	public void setModTime(Date modTime) {
-		this.modTime = modTime;
-	}
-	public Integer getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(Integer isDelete) {
-		this.isDelete = isDelete;
-	}
 	@Override
 	public String toString() {
-		return "BusiUserInfoDTO [" + "userId=" + userId + ", acctId=" + acctId + ", userTitle=" + userTitle + ", userType=" + userType + ", status=" + status + ", createTime=" + createTime + ", modTime=" + modTime + ", isDelete=" + isDelete +  "]";
+		return "BusiUserInfoDTO [" + "userId=" + userId + ", acctId=" + acctId + ", openId=" + openId + ", mobilePhone=" + mobilePhone + ", email=" + email + ", realName=" + realName + ", configId=" + configId + ", createTime=" + createTime +  "]";
 	}
 }

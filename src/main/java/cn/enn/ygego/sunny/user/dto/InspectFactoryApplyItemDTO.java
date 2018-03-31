@@ -6,19 +6,20 @@ import java.io.Serializable;
  * DTO:InspectFactoryApplyItem
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class InspectFactoryApplyItemDTO implements Serializable {
 	
-	private static final long serialVersionUID = -7873975191295043449L;
+	private static final long serialVersionUID = 5392056293708481823L;
 	
 	private Long	applyItemId; /* 申请项目标识 */
-	private Long	applyId; /* 申请标识 */
-	private Integer	itemId; /* 项目标识 */
-	private String	itemName; /* 项目名称 */
+	private Long	inspectMaterialId; /* 验厂物料ID */
+	private Integer	projectId; /* 项目标识 */
+	private String	projectName; /* 项目名称 */
 	private String	certNum; /* 证书编号 */
 	private Integer	parentItmeId; /* 父级项目标识 */
 	private String	parentItemName; /* 父级项目名称 */
+	private Integer	maxCount; /* 最大张数 */
 
 	// Constructor
 	public InspectFactoryApplyItemDTO() {
@@ -27,14 +28,15 @@ public class InspectFactoryApplyItemDTO implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public InspectFactoryApplyItemDTO(Long applyItemId, Long applyId, Integer itemId, String itemName, String certNum, Integer parentItmeId, String parentItemName) {
+	public InspectFactoryApplyItemDTO(Long applyItemId, Long inspectMaterialId, Integer projectId, String projectName, String certNum, Integer parentItmeId, String parentItemName, Integer maxCount) {
 		this.applyItemId = applyItemId;
-		this.applyId = applyId;
-		this.itemId = itemId;
-		this.itemName = itemName;
+		this.inspectMaterialId = inspectMaterialId;
+		this.projectId = projectId;
+		this.projectName = projectName;
 		this.certNum = certNum;
 		this.parentItmeId = parentItmeId;
 		this.parentItemName = parentItemName;
+		this.maxCount = maxCount;
 	}
 
 	public Long getApplyItemId() {
@@ -44,26 +46,26 @@ public class InspectFactoryApplyItemDTO implements Serializable {
 	public void setApplyItemId(Long applyItemId) {
 		this.applyItemId = applyItemId;
 	}
-	public Long getApplyId() {
-		return applyId;
+	public Long getInspectMaterialId() {
+		return inspectMaterialId;
 	}
 
-	public void setApplyId(Long applyId) {
-		this.applyId = applyId;
+	public void setInspectMaterialId(Long inspectMaterialId) {
+		this.inspectMaterialId = inspectMaterialId;
 	}
-	public Integer getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Integer itemId) {
-		this.itemId = itemId;
-	}
-	public String getItemName() {
-		return itemName;
+	public Integer getProjectId() {
+		return projectId;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 	public String getCertNum() {
 		return certNum;
@@ -86,8 +88,15 @@ public class InspectFactoryApplyItemDTO implements Serializable {
 	public void setParentItemName(String parentItemName) {
 		this.parentItemName = parentItemName;
 	}
+	public Integer getMaxCount() {
+		return maxCount;
+	}
+
+	public void setMaxCount(Integer maxCount) {
+		this.maxCount = maxCount;
+	}
 	@Override
 	public String toString() {
-		return "InspectFactoryApplyItemDTO [" + "applyItemId=" + applyItemId + ", applyId=" + applyId + ", itemId=" + itemId + ", itemName=" + itemName + ", certNum=" + certNum + ", parentItmeId=" + parentItmeId + ", parentItemName=" + parentItemName +  "]";
+		return "InspectFactoryApplyItemDTO [" + "applyItemId=" + applyItemId + ", inspectMaterialId=" + inspectMaterialId + ", projectId=" + projectId + ", projectName=" + projectName + ", certNum=" + certNum + ", parentItmeId=" + parentItmeId + ", parentItemName=" + parentItemName + ", maxCount=" + maxCount +  "]";
 	}
 }

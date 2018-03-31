@@ -24,6 +24,4 @@ public interface BusiAcctInfoService {
 
     public Integer modifyBusiAcctInfoByPrimaryKey(BusiAcctInfo record);
 
-
-
 }

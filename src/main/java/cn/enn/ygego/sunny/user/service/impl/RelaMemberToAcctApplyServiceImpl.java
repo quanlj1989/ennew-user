@@ -66,8 +66,8 @@ public class RelaMemberToAcctApplyServiceImpl implements RelaMemberToAcctApplySe
 	}
 
 	@Override
-	public EmployeeVO getEmployeeApplyDetail(Long relaId) {
-		return relaMemberToAcctApplyDao.getEmployeeApplyDetail(relaId);
+	public EmployeeVO getEmployeeApplyDetail(EmployeeQueryVO query) {
+		return relaMemberToAcctApplyDao.getEmployeeApplyDetail(query);
 	}
 
 

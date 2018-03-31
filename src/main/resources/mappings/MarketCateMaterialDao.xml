@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.MarketCateMaterialDao">
+    <resultMap type="cn.enn.ygego.sunny.user.model.MarketCateMaterial" id="marketCateMaterialResultMap">
+		<result property="cateMaterialId" column="CATE_MATERIAL_ID" />
+		<result property="marketId" column="MARKET_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="applyType" column="APPLY_TYPE" />
+		<result property="categoryNamePath" column="CATEGORY_NAME_PATH" />
+		<result property="categoryIdPath" column="CATEGORY_ID_PATH" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="materialId" column="MATERIAL_ID" />
+		<result property="brandId" column="BRAND_ID" />
+		<result property="brandName" column="BRAND_NAME" />
+		<result property="producerMemberId" column="PRODUCER_MEMBER_ID" />
+		<result property="producerName" column="PRODUCER_NAME" />
+		<result property="materialCode" column="MATERIAL_CODE" />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createAcctId" column="CREATE_ACCT_ID" />
+		<result property="createName" column="CREATE_NAME" />
+	</resultMap>
+
+	<sql id="table_columns">
+		CATE_MATERIAL_ID,
+		MARKET_ID,
+		MEMBER_ID,
+		APPLY_TYPE,
+		CATEGORY_NAME_PATH,
+		CATEGORY_ID_PATH,
+		CATEGORY_ID,
+		MATERIAL_ID,
+		BRAND_ID,
+		BRAND_NAME,
+		PRODUCER_MEMBER_ID,
+		PRODUCER_NAME,
+		MATERIAL_CODE,
+		ATTR_NAME_SERIAL,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{cateMaterialId},
+		#{marketId},
+		#{memberId},
+		#{applyType},
+		#{categoryNamePath},
+		#{categoryIdPath},
+		#{categoryId},
+		#{materialId},
+		#{brandId},
+		#{brandName},
+		#{producerMemberId},
+		#{producerName},
+		#{materialCode},
+		#{attrNameSerial},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="cateMaterialId != null and cateMaterialId != ''">and CATE_MATERIAL_ID = #{cateMaterialId}</if>
+            <if test="marketId != null and marketId != ''">and MARKET_ID = #{marketId}</if>
+            <if test="memberId != null and memberId != ''">and MEMBER_ID = #{memberId}</if>
+            <if test="applyType != null and applyType != ''">and APPLY_TYPE = #{applyType}</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">and CATEGORY_NAME_PATH = #{categoryNamePath}</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">and CATEGORY_ID_PATH = #{categoryIdPath}</if>
+            <if test="categoryId != null and categoryId != ''">and CATEGORY_ID = #{categoryId}</if>
+            <if test="materialId != null and materialId != ''">and MATERIAL_ID = #{materialId}</if>
+            <if test="brandId != null and brandId != ''">and BRAND_ID = #{brandId}</if>
+            <if test="brandName != null and brandName != ''">and BRAND_NAME = #{brandName}</if>
+            <if test="producerMemberId != null and producerMemberId != ''">and PRODUCER_MEMBER_ID = #{producerMemberId}</if>
+            <if test="producerName != null and producerName != ''">and PRODUCER_NAME = #{producerName}</if>
+            <if test="materialCode != null and materialCode != ''">and MATERIAL_CODE = #{materialCode}</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+            <if test="createTime != null and createTime != ''">and CREATE_TIME = #{createTime}</if>
+            <if test="createAcctId != null and createAcctId != ''">and CREATE_ACCT_ID = #{createAcctId}</if>
+            <if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.MarketCateMaterial" useGeneratedKeys="true" keyProperty="id">
+		insert into market_cate_material( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateMaterial">
+            <selectKey resultType="long" keyProperty="cateMaterialId" order="AFTER">
+                SELECT
+                LAST_INSERT_ID()
+            </selectKey>
+        insert into market_cate_material
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">MARKET_ID,</if>
+            <if test="memberId != null and memberId != ''">MEMBER_ID,</if>
+            <if test="applyType != null and applyType != ''">APPLY_TYPE,</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH,</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH,</if>
+            <if test="categoryId != null and categoryId != ''">CATEGORY_ID,</if>
+            <if test="materialId != null and materialId != ''">MATERIAL_ID,</if>
+            <if test="brandId != null and brandId != ''">BRAND_ID,</if>
+            <if test="brandName != null and brandName != ''">BRAND_NAME,</if>
+            <if test="producerMemberId != null and producerMemberId != ''">PRODUCER_MEMBER_ID,</if>
+            <if test="producerName != null and producerName != ''">PRODUCER_NAME,</if>
+            <if test="materialCode != null and materialCode != ''">MATERIAL_CODE,</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+            <if test="createTime != null and createTime != ''">CREATE_TIME,</if>
+            <if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID,</if>
+            <if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="marketId != null and marketId != ''">#{marketId},</if>
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="applyType != null and applyType != ''">#{applyType},</if>
+            <if test="categoryNamePath != null and categoryNamePath != ''">#{categoryNamePath},</if>
+            <if test="categoryIdPath != null and categoryIdPath != ''">#{categoryIdPath},</if>
+            <if test="categoryId != null and categoryId != ''">#{categoryId},</if>
+            <if test="materialId != null and materialId != ''">#{materialId},</if>
+            <if test="brandId != null and brandId != ''">#{brandId},</if>
+            <if test="brandName != null and brandName != ''">#{brandName},</if>
+            <if test="producerMemberId != null and producerMemberId != ''">#{producerMemberId},</if>
+            <if test="producerName != null and producerName != ''">#{producerName},</if>
+            <if test="materialCode != null and materialCode != ''">#{materialCode},</if>
+            <if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createAcctId != null and createAcctId != ''">#{createAcctId},</if>
+            <if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.MarketCateMaterial">
+		delete from market_cate_material
+        <include refid="page_where" />
+	</delete>
+
+     <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from market_cate_material
+        <where>
+                CATE_MATERIAL_ID = #{cateMaterialId}
+        </where>
+    </delete>
+
+
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.enn.ygego.sunny.user.model.MarketCateMaterial">
+		update market_cate_material 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="marketId != null and marketId != ''">MARKET_ID = #{marketId},</if>
+			<if test="memberId != null and memberId != ''">MEMBER_ID = #{memberId},</if>
+			<if test="applyType != null and applyType != ''">APPLY_TYPE = #{applyType},</if>
+			<if test="categoryNamePath != null and categoryNamePath != ''">CATEGORY_NAME_PATH = #{categoryNamePath},</if>
+			<if test="categoryIdPath != null and categoryIdPath != ''">CATEGORY_ID_PATH = #{categoryIdPath},</if>
+			<if test="categoryId != null and categoryId != ''">CATEGORY_ID = #{categoryId},</if>
+			<if test="materialId != null and materialId != ''">MATERIAL_ID = #{materialId},</if>
+			<if test="brandId != null and brandId != ''">BRAND_ID = #{brandId},</if>
+			<if test="brandName != null and brandName != ''">BRAND_NAME = #{brandName},</if>
+			<if test="producerMemberId != null and producerMemberId != ''">PRODUCER_MEMBER_ID = #{producerMemberId},</if>
+			<if test="producerName != null and producerName != ''">PRODUCER_NAME = #{producerName},</if>
+			<if test="materialCode != null and materialCode != ''">MATERIAL_CODE = #{materialCode},</if>
+			<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+			<if test="createTime != null and createTime != ''">CREATE_TIME = #{createTime},</if>
+			<if test="createAcctId != null and createAcctId != ''">CREATE_ACCT_ID = #{createAcctId},</if>
+			<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+        <where>
+            CATE_MATERIAL_ID = #{cateMaterialId}
+        </where>
+	</update>
+
+    <select id="selectAll" resultMap="marketCateMaterialResultMap">
+        select <include refid="table_columns" />
+        from market_cate_material
+    </select>
+
+    <select id="select" resultMap="marketCateMaterialResultMap">
+        select <include refid="table_columns" />
+        from market_cate_material
+        <include refid="page_where" />
+	</select>
+
+    <select id="selectCount" resultType="int" >
+        select count(ID) from market_cate_material
+        <include refid="page_where" />
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="marketCateMaterialResultMap" parameterType="long" >
+        select <include refid="table_columns" />
+        from market_cate_material
+        <where>
+                CATE_MATERIAL_ID = #{cateMaterialId}
+        </where>
+    </select>
+	
+	<!-- 其他自定义SQL -->
+
+
+</mapper>

@@ -7,11 +7,11 @@ import java.io.Serializable;
  * DTO:InspectAuditLog
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class InspectAuditLogDTO implements Serializable {
 	
-	private static final long serialVersionUID = -539066831889981948L;
+	private static final long serialVersionUID = -5902944432007015836L;
 	
 	private Long	logId; /* 日志ID */
 	private Long	applyId; /* 申请标识 */

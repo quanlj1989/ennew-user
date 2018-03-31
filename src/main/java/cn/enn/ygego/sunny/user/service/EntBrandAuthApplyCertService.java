@@ -6,7 +6,7 @@ import cn.enn.ygego.sunny.user.model.EntBrandAuthApplyCert;
 /**
  * dal Interface:EntBrandAuthApplyCert
  * @author gencode
- * @date 2018-3-22
+ * @date 2018-3-28
  */
 public interface EntBrandAuthApplyCertService {
 

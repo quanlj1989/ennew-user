@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntSetDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntSet" id="entSetResultMap">
+		<result property="setId" column="SET_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="blackWhiteListSet" column="BLACK_WHITE_LIST_SET"  />
+		<result property="agreementPriceId" column="AGREEMENT_PRICE_ID"  />
+		<result property="cateMateId" column="CATE_MATE_ID"  />
+		<result property="pareMemberId" column="PARE_MEMBER_ID"  />
+		<result property="applyType" column="APPLY_TYPE"  />
+		<result property="status" column="STATUS"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		SET_ID,
+		MEMBER_ID,
+		BLACK_WHITE_LIST_SET,
+		AGREEMENT_PRICE_ID,
+		CATE_MATE_ID,
+		PARE_MEMBER_ID,
+		APPLY_TYPE,
+		STATUS,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{setId},
+		#{memberId},
+		#{blackWhiteListSet},
+		#{agreementPriceId},
+		#{cateMateId},
+		#{pareMemberId},
+		#{applyType},
+		#{status},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="setId != null ">and SET_ID = #{setId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">and BLACK_WHITE_LIST_SET = #{blackWhiteListSet}</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">and AGREEMENT_PRICE_ID = #{agreementPriceId}</if>
+				<if test="cateMateId != null ">and CATE_MATE_ID = #{cateMateId}</if>
+				<if test="pareMemberId != null ">and PARE_MEMBER_ID = #{pareMemberId}</if>
+				<if test="applyType != null ">and APPLY_TYPE = #{applyType}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntSet" >
+		insert into ent_set( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntSet">
+        insert into ent_set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="setId != null ">SET_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">BLACK_WHITE_LIST_SET,</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">AGREEMENT_PRICE_ID,</if>
+				<if test="cateMateId != null ">CATE_MATE_ID,</if>
+				<if test="pareMemberId != null ">PARE_MEMBER_ID,</if>
+				<if test="applyType != null ">APPLY_TYPE,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="setId != null ">#{setId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">#{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">#{agreementPriceId},</if>
+				<if test="cateMateId != null ">#{cateMateId},</if>
+				<if test="pareMemberId != null ">#{pareMemberId},</if>
+				<if test="applyType != null ">#{applyType},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO ent_set 
+			( MEMBER_ID, BLACK_WHITE_LIST_SET, AGREEMENT_PRICE_ID, CATE_MATE_ID, PARE_MEMBER_ID ,
+			 APPLY_TYPE , STATUS, CREATE_TIME, CREATE_ACCT_ID , CREATE_NAME )
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT 
+				#{item.memberId} as MEMBER_ID , 
+				#{item.blackWhiteListSet} as BLACK_WHITE_LIST_SET ,
+				#{item.agreementPriceId} as AGREEMENT_PRICE_ID ,
+				#{item.cateMateId} as CATE_MATE_ID ,
+				#{item.pareMemberId} as PARE_MEMBER_ID ,
+				#{item.applyType} as APPLY_TYPE ,
+				#{item.status} as STATUS ,
+				#{item.createTime} as CREATE_TIME ,
+				#{item.createAcctId} as CREATE_ACCT_ID ,
+				#{item.createName} as CREATE_NAME 
+			FROM DUAL
+		</foreach>
+	</insert>
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntSet">
+		delete from ent_set
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_set
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SET_ID = #{setId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntSet">
+		update ent_set 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="blackWhiteListSet != null and blackWhiteListSet != ''">BLACK_WHITE_LIST_SET = #{blackWhiteListSet},</if>
+				<if test="agreementPriceId != null and agreementPriceId != ''">AGREEMENT_PRICE_ID = #{agreementPriceId},</if>
+				<if test="cateMateId != null ">CATE_MATE_ID = #{cateMateId},</if>
+				<if test="pareMemberId != null ">PARE_MEMBER_ID = #{pareMemberId},</if>
+				<if test="applyType != null ">APPLY_TYPE = #{applyType},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SET_ID = #{setId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entSetResultMap">
+        select <include refid="table_columns" />
+        from ent_set
+    </select>
+
+    <select id="find" resultMap="entSetResultMap">
+        select <include refid="table_columns" />
+        from ent_set
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_set
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entSetResultMap"  >
+		select <include refid="table_columns" />
+		from ent_set
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and SET_ID = #{setId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+	
+	<select id="getCompanyListCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyQueryVO" 
+		resultType="java.lang.Integer" >
+		SELECT 
+			COUNT(eci.MEMBER_ID )
+		FROM ent_cust_info eci
+		LEFT JOIN busi_acct_info bu ON bu.ACCT_ID = eci.ADMIN_ACCT_ID
+		<include refid="companyList_where" />
+		
+	</select>
+
+	<select id="getCompanyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyQueryVO" 
+		resultType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyVO" >
+		SELECT 
+			eci.MEMBER_ID  memberId,
+			eci.PARE_MEMBER_ID  pareMemberId,
+			eci.ADMIN_ACCT_ID  adminAcctId,
+			bu.ACCT_NAME  acctName,
+			bu.`NAME`  `name`,
+			bu.MOBILE_NUM  mobileNum,
+			eci.ENT_NAME  entName,
+			eci.CUST_CODE  custCode,
+			eci.BUSINESS_MODE  businessMode,
+			eci.LEGAL_PERSON  legalPerson,
+			eci.LEGAL_PERSON_NATIONALITY  legalPersonNationality,
+			eci.ESTABLISH_DATE  establishDate,
+			eci.ENT_TEL  entTel,
+			eci.SUPPLIER_SET  supplierSet,
+			eci.BLACK_WHITE_LIST_SET  blackWhiteListSet,
+			eci.AGREEMENT_PRICE_ID  agreementPriceId,
+			eci.CATE_MATE_ID  cateMateId,
+			eci.AUTH_TIME  authTime
+		FROM ent_cust_info eci
+		LEFT JOIN busi_acct_info bu ON bu.ACCT_ID = eci.ADMIN_ACCT_ID
+		<include refid="companyList_where" />
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<sql id="companyList_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+		 	<if test="freeCompany == true"> and eci.PARE_MEMBER_ID = null </if> 
+			<if test="entName != null ">and eci.ENT_NAME like concat('%',#{entName},'%')</if>
+			<if test="applyType != null ">and eci.APPLY_TYPE = #{applyType}</if>
+			<if test="status != null ">and eci.STATUS = #{status}</if>
+			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+        </trim>
+	</sql>
+	
+	<select id="getJoinCompanyListCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyQueryVO" 
+		resultType="java.lang.Integer" >
+		SELECT 
+			COUNT(eci.MEMBER_ID )
+		FROM ent_set es 
+		LEFT JOIN ent_cust_info eci ON es.MEMBER_ID = es.MEMBER_ID
+		<include refid="sunCompanyList_where" />
+	</select>
+	
+	<select id="getJoinCompanyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyQueryVO" 
+		resultType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyVO" >
+		SELECT 
+			eci.MEMBER_ID  memberId,
+			eci.PARE_MEMBER_ID  pareMemberId,
+			eci.ADMIN_ACCT_ID  adminAcctId,
+			eci.ENT_NAME  entName,
+			eci.CUST_CODE  custCode,
+			eci.BUSINESS_MODE  businessMode,
+			eci.LEGAL_PERSON  legalPerson,
+			eci.LEGAL_PERSON_NATIONALITY  legalPersonNationality,
+			eci.ESTABLISH_DATE  establishDate,
+			eci.ENT_TEL  entTel,
+			eci.SUPPLIER_SET  supplierSet,
+			eci.BLACK_WHITE_LIST_SET  blackWhiteListSet,
+			eci.AGREEMENT_PRICE_ID  agreementPriceId,
+			eci.CATE_MATE_ID  cateMateId,
+			eci.AUTH_TIME  authTime ,
+			
+			es.MEMBER_ID  setMemberId,
+			es.PARE_MEMBER_ID  setPareMemberId,
+			es.SET_ID  setId,
+			es.BLACK_WHITE_LIST_SET  serBlackWhiteListSet,
+			es.AGREEMENT_PRICE_ID  setAgreementPriceId,
+			es.CATE_MATE_ID  setCateMateId,
+			es.APPLY_TYPE  applyType,
+			es.`STATUS`  `status`,
+			es.CREATE_ACCT_ID  setCreateAcctId,
+			es.CREATE_NAME  setCreateName,
+			es.CREATE_TIME  setCreateTime
+		
+		FROM ent_set es 
+		<include refid="sunCompanyList_where" />
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<sql id="sunCompanyList_where">
+		<!-- 子查父 -->
+		<if test="memberId != null  and  pareMemberId == null " >
+			LEFT JOIN ent_cust_info eci ON es.PARE_MEMBER_ID = eci.MEMBER_ID
+			WHERE es.MEMBER_ID = #{memberId} AND es.STATUS != null
+		</if>
+		<if test="memberId != null  and  pareMemberId != null ">
+			LEFT JOIN ent_cust_info eci ON es.PARE_MEMBER_ID = eci.MEMBER_ID
+			WHERE es.MEMBER_ID = #{memberId} AND eci.MEMBER_ID = #{pareMemberId}
+		</if>
+		<!-- 父查子 -->
+		<if test="memberId == null  and  pareMemberId != null " >
+			LEFT JOIN ent_cust_info eci ON es.MEMBER_ID = es.MEMBER_ID
+			WHERE es.PARE_MEMBER_ID = #{pareMemberId}
+		</if>
+		<!-- 未设置返回空 -->
+		<if test="memberId == null  and  pareMemberId == null ">
+			LEFT JOIN ent_cust_info eci ON es.MEMBER_ID = es.MEMBER_ID
+			WHERE es.MEMBER_ID = #{memberId}
+		</if>
+		<if test="entName != null ">and eci.ENT_NAME like concat('%',#{entName},'%')</if>
+		<if test="applyType != null ">and eci.APPLY_TYPE = #{applyType}</if>
+		<if test="status != null ">and eci.STATUS = #{status}</if>
+	</sql>
+
+	<select id="getSunCompanyBySetId" parameterType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyQueryVO" 
+		resultType="cn.enn.ygego.sunny.user.dto.vo.JoinCompanyVO" >
+		SELECT 
+			eci.MEMBER_ID  memberId,
+			eci.PARE_MEMBER_ID  pareMemberId,
+			eci.ADMIN_ACCT_ID  adminAcctId,
+			eci.ENT_NAME  entName,
+			eci.CUST_CODE  custCode,
+			eci.BUSINESS_MODE  businessMode,
+			eci.LEGAL_PERSON  legalPerson,
+			eci.LEGAL_PERSON_NATIONALITY  legalPersonNationality,
+			eci.ESTABLISH_DATE  establishDate,
+			eci.ENT_TEL  entTel,
+			eci.SUPPLIER_SET  supplierSet,
+			eci.BLACK_WHITE_LIST_SET  blackWhiteListSet,
+			eci.AGREEMENT_PRICE_ID  agreementPriceId,
+			eci.CATE_MATE_ID  cateMateId,
+			eci.AUTH_TIME  authTime ,
+			
+			es.MEMBER_ID  setMemberId,
+			es.PARE_MEMBER_ID  setPareMemberId,
+			es.SET_ID  setId,
+			es.BLACK_WHITE_LIST_SET  serBlackWhiteListSet,
+			es.AGREEMENT_PRICE_ID  setAgreementPriceId,
+			es.CATE_MATE_ID  setCateMateId,
+			es.APPLY_TYPE  applyType,
+			es.`STATUS`  `status`,
+			es.CREATE_ACCT_ID  setCreateAcctId,
+			es.CREATE_NAME  setCreateName,
+			es.CREATE_TIME  setCreateTime
+		
+		FROM ent_set es 
+		LEFT JOIN ent_cust_info eci ON es.MEMBER_ID = es.MEMBER_ID
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and es.SET_ID = #{setId}</if>
+        </trim>
+	</select>
+
+
+	<update id="updateEntSetByList" parameterType="java.util.List">
+		update ent_set
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="BLACK_WHITE_LIST_SET = case" suffix="end,">
+                 <foreach collection="list" item="item" index="index">
+                     <if test="item.blackWhiteListSet !=null">
+                         when id=#{item.setId} then #{item.blackWhiteListSet}
+                     </if>
+                     <if test="item.blackWhiteListSet == null">
+                         when id=#{item.setId} then ent_set.BLACK_WHITE_LIST_SET
+                     </if>
+                 </foreach>
+            </trim>
+            <trim prefix="AGREEMENT_PRICE_ID = case" suffix="end,">
+                 <foreach collection="list" item="item" index="index">
+                     <if test="item.agreementPriceId !=null">
+                         when id=#{item.setId} then #{item.agreementPriceId}
+                     </if>
+                     <if test="item.agreementPriceId == null">
+                         when id=#{item.setId} then ent_set.AGREEMENT_PRICE_ID
+                     </if>
+                 </foreach>
+            </trim>
+            <trim prefix="CATE_MATE_ID = case" suffix="end,">
+                 <foreach collection="list" item="item" index="index">
+                     <if test="item.cateMateId !=null">
+                         when id=#{item.setId} then #{item.cateMateId}
+                     </if>
+                     <if test="item.cateMateId == null">
+                         when id=#{item.setId} then ent_set.CATE_MATE_ID
+                     </if>
+                 </foreach>
+            </trim>
+            <trim prefix="APPLY_TYPE = case" suffix="end,">
+                 <foreach collection="list" item="item" index="index">
+                     <if test="item.applyType !=null">
+                         when id=#{item.setId} then #{item.applyType}
+                     </if>
+                     <if test="item.applyType == null">
+                         when id=#{item.setId} then ent_set.APPLY_TYPE
+                     </if>
+                 </foreach>
+            </trim>
+            <trim prefix="STATUS = case" suffix="end,">
+                 <foreach collection="list" item="item" index="index">
+                     <if test="item.status !=null">
+                         when id=#{item.setId} then #{item.status}
+                     </if>
+                     <if test="item.status == null">
+                         when id=#{item.setId} then ent_set.STATUS
+                     </if>
+                 </foreach>
+            </trim>
+        </trim>
+        where SET_ID in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.setId}
+        </foreach>
+	</update>
+
+</mapper>

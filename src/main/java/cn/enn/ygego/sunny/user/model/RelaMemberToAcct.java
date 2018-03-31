@@ -14,7 +14,8 @@ public class RelaMemberToAcct implements Serializable {
 	private Long	relaId;		 /* 关系ID */ 
 	private Long	memberId;		 /* 会员ID */ 
 	private Long	acctId;		 /* 账户ID */ 
-	private Integer	memberType;		 /* 会员类型 */ 
+	private Integer	memberType;		 /* 会员类型 */
+	private Integer isDefaultEnt;  /* 是否默认企业 0：否 1：是 */
 
 	// Constructor
 	public RelaMemberToAcct() {
@@ -60,6 +61,14 @@ public class RelaMemberToAcct implements Serializable {
 
 	public void setMemberType(Integer memberType) {
 		this.memberType = memberType;
+	}
+
+	public Integer getIsDefaultEnt() {
+		return isDefaultEnt;
+	}
+
+	public void setIsDefaultEnt(Integer isDefaultEnt) {
+		this.isDefaultEnt = isDefaultEnt;
 	}
 
 	@Override

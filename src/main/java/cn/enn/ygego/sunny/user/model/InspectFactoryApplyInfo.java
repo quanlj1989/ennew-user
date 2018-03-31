@@ -10,19 +10,21 @@ import java.io.Serializable;
  */
 public class InspectFactoryApplyInfo implements Serializable {
 	
-	private static final long serialVersionUID = -72961707540285987L;
+	private static final long serialVersionUID = -1349023890311741884L;
 	
 	private Long	applyId;		 /* 申请标识 */ 
+	private Long	origApplyId;		 /* 原申请标识 */ 
+	private Long	typeId;		 /* 类型标识 */ 
 	private Integer	categoryId;		 /* 类目ID */ 
 	private String	gcPictureUrl;		 /* 类目图片路径 */ 
 	private String	categoryName;		 /* 类目名称 */ 
-	private Long	typeId;		 /* 类型标识 */ 
 	private String	entName;		 /* 企业名称 */ 
 	private Integer	applyStatus;		 /* 申请状态 */ 
 	private Integer	isApproachExpire;		 /* 是否临期 */ 
 	private String	inspFactLevel;		 /* 验厂级别 */ 
 	private Date	expireTime;		 /* 过期时间 */ 
 	private String	rejectReason;		 /* 驳回原因 */ 
+	private Integer	isValid;		 /* 是否有效 */ 
 	private Long	createMemberId;		 /* 创建人会员ID */ 
 	private Long	createAcctId;		 /* 创建人账户ID */ 
 	private String	createName;		 /* 创建人姓名 */ 
@@ -39,18 +41,20 @@ public class InspectFactoryApplyInfo implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public InspectFactoryApplyInfo(Long applyId, Integer categoryId, String gcPictureUrl, String categoryName, Long typeId, String entName, Integer applyStatus, Integer isApproachExpire, String inspFactLevel, Date expireTime, String rejectReason, Long createMemberId, Long createAcctId, String createName, Long approveAcctId, String approveName, Long approveMemberId, Date createTime, Date auditTime) {
+	public InspectFactoryApplyInfo(Long applyId, Long origApplyId, Long typeId, Integer categoryId, String gcPictureUrl, String categoryName, String entName, Integer applyStatus, Integer isApproachExpire, String inspFactLevel, Date expireTime, String rejectReason, Integer isValid, Long createMemberId, Long createAcctId, String createName, Long approveAcctId, String approveName, Long approveMemberId, Date createTime, Date auditTime) {
 		this.applyId = applyId;
+		this.origApplyId = origApplyId;
+		this.typeId = typeId;
 		this.categoryId = categoryId;
 		this.gcPictureUrl = gcPictureUrl;
 		this.categoryName = categoryName;
-		this.typeId = typeId;
 		this.entName = entName;
 		this.applyStatus = applyStatus;
 		this.isApproachExpire = isApproachExpire;
 		this.inspFactLevel = inspFactLevel;
 		this.expireTime = expireTime;
 		this.rejectReason = rejectReason;
+		this.isValid = isValid;
 		this.createMemberId = createMemberId;
 		this.createAcctId = createAcctId;
 		this.createName = createName;
@@ -67,6 +71,22 @@ public class InspectFactoryApplyInfo implements Serializable {
 
 	public void setApplyId(Long applyId) {
 		this.applyId = applyId;
+	}
+
+	public Long getOrigApplyId() {
+		return origApplyId;
+	}
+
+	public void setOrigApplyId(Long origApplyId) {
+		this.origApplyId = origApplyId;
+	}
+
+	public Long getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Long typeId) {
+		this.typeId = typeId;
 	}
 
 	public Integer getCategoryId() {
@@ -91,14 +111,6 @@ public class InspectFactoryApplyInfo implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}
-
-	public Long getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(Long typeId) {
-		this.typeId = typeId;
 	}
 
 	public String getEntName() {
@@ -147,6 +159,14 @@ public class InspectFactoryApplyInfo implements Serializable {
 
 	public void setRejectReason(String rejectReason) {
 		this.rejectReason = rejectReason;
+	}
+
+	public Integer getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(Integer isValid) {
+		this.isValid = isValid;
 	}
 
 	public Long getCreateMemberId() {
@@ -215,6 +235,6 @@ public class InspectFactoryApplyInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InspectFactoryApplyInfo [" + "applyId=" + applyId+ ", categoryId=" + categoryId+ ", gcPictureUrl=" + gcPictureUrl+ ", categoryName=" + categoryName+ ", typeId=" + typeId+ ", entName=" + entName+ ", applyStatus=" + applyStatus+ ", isApproachExpire=" + isApproachExpire+ ", inspFactLevel=" + inspFactLevel+ ", expireTime=" + expireTime+ ", rejectReason=" + rejectReason+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", approveAcctId=" + approveAcctId+ ", approveName=" + approveName+ ", approveMemberId=" + approveMemberId+ ", createTime=" + createTime+ ", auditTime=" + auditTime+  "]";
+		return "InspectFactoryApplyInfo [" + "applyId=" + applyId+ ", origApplyId=" + origApplyId+ ", typeId=" + typeId+ ", categoryId=" + categoryId+ ", gcPictureUrl=" + gcPictureUrl+ ", categoryName=" + categoryName+ ", entName=" + entName+ ", applyStatus=" + applyStatus+ ", isApproachExpire=" + isApproachExpire+ ", inspFactLevel=" + inspFactLevel+ ", expireTime=" + expireTime+ ", rejectReason=" + rejectReason+ ", isValid=" + isValid+ ", createMemberId=" + createMemberId+ ", createAcctId=" + createAcctId+ ", createName=" + createName+ ", approveAcctId=" + approveAcctId+ ", approveName=" + approveName+ ", approveMemberId=" + approveMemberId+ ", createTime=" + createTime+ ", auditTime=" + auditTime+  "]";
 	}
 }

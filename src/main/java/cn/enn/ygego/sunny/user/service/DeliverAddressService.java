@@ -29,6 +29,6 @@ public interface DeliverAddressService {
 
     public Integer modifyDeliverAddressByPrimaryKey(DeliverAddress record);
 
-
+    public Integer getCount(DeliverAddress record);
 
 }

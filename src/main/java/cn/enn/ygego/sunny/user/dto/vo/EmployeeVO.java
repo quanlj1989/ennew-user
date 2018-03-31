@@ -8,7 +8,7 @@ public class EmployeeVO extends RelaMemberToAcctApplyDTO {
 
     private static final long serialVersionUID = -8833426004818814262L;
     
-    private String entName;  /* 企业名称 */
+    private Integer authState;      /* 个人认证状态 */
     private String  acctName; /* 账户名称 */
     private String  acctCode; /* 账户编码 */
     private String  name; /* 姓名 */
@@ -17,13 +17,42 @@ public class EmployeeVO extends RelaMemberToAcctApplyDTO {
     private String  email; /* 电子邮件 */
     private Date    registerTime; /* 注册时间 */
     
+    private String  certName; /* 证件姓名 */
+    private Integer certType; /* 证件类型 */
+    private String  certCode; /* 证件号码 */
     
-    public String getEntName() {
-		return entName;
-	}
-	public void setEntName(String entName) {
-		this.entName = entName;
-	}
+    private Long personMemberId;  /* 个人用户ID */
+    
+    public Long getPersonMemberId() {
+        return personMemberId;
+    }
+    public void setPersonMemberId(Long personMemberId) {
+        this.personMemberId = personMemberId;
+    }
+    public String getCertName() {
+        return certName;
+    }
+    public void setCertName(String certName) {
+        this.certName = certName;
+    }
+    public Integer getCertType() {
+        return certType;
+    }
+    public void setCertType(Integer certType) {
+        this.certType = certType;
+    }
+    public String getCertCode() {
+        return certCode;
+    }
+    public void setCertCode(String certCode) {
+        this.certCode = certCode;
+    }
+    public Integer getAuthState() {
+        return authState;
+    }
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
 	public String getAcctName() {
         return acctName;
     }
@@ -68,9 +97,10 @@ public class EmployeeVO extends RelaMemberToAcctApplyDTO {
     }
     @Override
     public String toString() {
-        
-        return super.toString() + "EmpolyeeVO [acctName=" + acctName + ", acctCode=" + acctCode + ", name=" + name + ", genderType="
-                + genderType + ", mobileNum=" + mobileNum + ", email=" + email + ", registerTime=" + registerTime + "]";
+        return "EmployeeVO [authState=" + authState + ", acctName=" + acctName + ", acctCode=" + acctCode + ", name="
+                + name + ", genderType=" + genderType + ", mobileNum=" + mobileNum + ", email=" + email
+                + ", registerTime=" + registerTime + ", certName=" + certName + ", certType=" + certType + ", certCode="
+                + certCode + "]";
     }
-    
+   
 }

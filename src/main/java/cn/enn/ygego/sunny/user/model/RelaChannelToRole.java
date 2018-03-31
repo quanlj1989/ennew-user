@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class RelaChannelToRole implements Serializable {
 	
-	private static final long serialVersionUID = 7905042499331366722L;
+	private static final long serialVersionUID = -8823988970810440385L;
 	
 	private Long	relaId;		 /* 关系ID */ 
 	private Long	channelId;		 /* 渠道ID */ 

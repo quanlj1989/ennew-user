@@ -28,7 +28,7 @@ public interface QuestionAttachDao {
 
     QuestionAttach getByPrimaryKey(@Param("questionAttachId") Long questionAttachId);
 
-	
+    void insertBatch(List<QuestionAttach> attachList);
 
-
+    List<QuestionAttach> getByQuestionId(Long questionId);
 }

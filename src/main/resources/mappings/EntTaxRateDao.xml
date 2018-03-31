@@ -13,6 +13,30 @@
 		<result property="createAcctId" column="CREATE_ACCT_ID"  />
 		<result property="createName" column="CREATE_NAME"  />
 	</resultMap>
+
+	<resultMap type="cn.enn.ygego.sunny.user.dto.EntTaxRateDTO" id="queryEntTaxRateInfoMap">
+		<result property="taxRateId" column="TAX_RATE_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="invoiceType" column="INVOICE_TYPE"  />
+		<result property="taxRate" column="TAX_RATE"  />
+		<result property="invoiceMethod" column="INVOICE_METHOD"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createMemberId" column="CREATE_MEMBER_ID"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+
+		<collection property="paySets" ofType="cn.enn.ygego.sunny.user.dto.EntPaySetDTO">
+			<result property="paySetId" column="PAY_SET_ID"  />
+			<result property="memberId" column="MEMBER_ID"  />
+			<result property="payNodeType" column="PAY_NODE_TYPE"  />
+			<result property="payNodeName" column="PAY_NODE_NAME"  />
+			<result property="payRatio" column="PAY_RATIO"  />
+			<result property="payoffDays" column="PAYOFF_DAYS"  />
+			<result property="createTime" column="CREATE_TIME"  />
+			<result property="createAcctId" column="CREATE_ACCT_ID"  />
+			<result property="createName" column="CREATE_NAME"  />
+		</collection>
+	</resultMap>
 	
 	<sql id="table_columns">
 		TAX_RATE_ID,
@@ -51,6 +75,14 @@
 				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
         </trim>
     </sql>
+
+	<sql id="query_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="invoiceType != null">and INVOICE_TYPE = #{invoiceType}</if>
+			<if test="invoiceMethod != null">and INVOICE_METHOD = #{invoiceMethod}</if>
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+		</trim>
+	</sql>
 
 	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntTaxRate" >
 		insert into ent_tax_rate( <include refid="table_columns" /> ) 
@@ -141,5 +173,28 @@
 	
 	<!-- other SQL -->
 
+	<select id="findPageCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.EntTaxRateVO" resultType="java.lang.Long">
+		select count(TAX_RATE_ID)
+		from ent_tax_rate
+		<include refid="query_page_where" />
+	</select>
 
+	<select id="findPage" parameterType="cn.enn.ygego.sunny.user.dto.vo.EntTaxRateVO" resultMap="entTaxRateResultMap">
+		select <include refid="table_columns" />
+		from ent_tax_rate
+		<include refid="query_page_where" />
+		GROUP BY TAX_RATE_ID desc
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="getByMemberId" parameterType="cn.enn.ygego.sunny.user.dto.vo.EntTaxRateVO" resultMap="queryEntTaxRateInfoMap"  >
+		select t.*, p.*
+		from ent_tax_rate t
+		left join ent_pay_set p on t.MEMBER_ID = p.MEMBER_ID
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and t.MEMBER_ID = #{memberId}</if>
+		</trim>
+	</select>
 </mapper>

@@ -28,7 +28,17 @@ public interface RelaMemberToAcctDao {
 
     RelaMemberToAcct getByPrimaryKey(@Param("relaId") Long relaId);
 
-	
+    /**
+     *  清空之前设置的默认企业
+     * @param acctId
+     * @return
+     */
+    int cleanDefaultCompany(@Param("acctId") Long acctId);
 
+    /**
+     * 设置默认企业
+     * @return
+     */
+    int setDefaultCompany(@Param("acctId") Long acctId,@Param("companyMemberId") Long companyMemberId);
 
 }

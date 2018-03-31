@@ -1,10 +1,14 @@
 package cn.enn.ygego.sunny.user.dto;
 
+import cn.enn.ygego.sunny.core.page.PageDTO;
+import cn.enn.ygego.sunny.user.model.QuestionAttach;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DTO:QuestionFeedback
@@ -29,12 +33,18 @@ public class QuestionFeedbackDTO implements Serializable {
 	private String	questionModule; /* 问题模块 */
 	@ApiModelProperty("问题描述")
 	private String	questionDesc; /* 问题描述 */
+	@ApiModelProperty("企业名称")
+	private String	entName; /* 企业名称 */
+	@ApiModelProperty("是否回复")
+	private Integer	isResponse; /* 是否回复 */
 	@ApiModelProperty("状态")
 	private Integer	status; /* 状态 */
 	@ApiModelProperty("联系人")
 	private String	contact; /* 联系人 */
 	@ApiModelProperty("联系电话")
 	private String	contactTel; /* 联系电话 */
+	@ApiModelProperty("电子邮件")
+	private String	email; /* 电子邮件 */
 	@ApiModelProperty("创建时间")
 	private Date	createTime; /* 创建时间 */
 	@ApiModelProperty("创建人会员ID")
@@ -44,23 +54,50 @@ public class QuestionFeedbackDTO implements Serializable {
 	@ApiModelProperty("创建人姓名")
 	private String	createName; /* 创建人姓名 */
 
+	@ApiModelProperty("上传附件信息")
+	private List<QuestionAttachDTO> attachList = new ArrayList<>();
+
+	private List<QuestionResponseDTO> responseList = new ArrayList<>();
+
+	public List<QuestionResponseDTO> getResponseList() {
+		return responseList;
+	}
+
+	public void setResponseList(List<QuestionResponseDTO> responseList) {
+		this.responseList = responseList;
+	}
+
+	public List<QuestionAttachDTO> getAttachList() {
+		return attachList;
+	}
+
+	public void setAttachList(List<QuestionAttachDTO> attachList) {
+		this.attachList = attachList;
+		this.responseList = new ArrayList<>();
+	}
+
 	// Constructor
 	public QuestionFeedbackDTO() {
+		this.attachList = new ArrayList<>();
+		this.responseList = new ArrayList<>();
 	}
 
 	/**
 	 * full Constructor
 	 */
-	public QuestionFeedbackDTO(Long questionId, Integer questionType, String questionCode, String questionUrl, String questionModule, String questionDesc, Integer status, String contact, String contactTel, Date createTime, Long createMemberId, Long createAcctId, String createName) {
+	public QuestionFeedbackDTO(Long questionId, Integer questionType, String questionCode, String questionUrl, String questionModule, String questionDesc, String entName, Integer isResponse, Integer status, String contact, String contactTel, String email, Date createTime, Long createMemberId, Long createAcctId, String createName) {
 		this.questionId = questionId;
 		this.questionType = questionType;
 		this.questionCode = questionCode;
 		this.questionUrl = questionUrl;
 		this.questionModule = questionModule;
 		this.questionDesc = questionDesc;
+		this.entName = entName;
+		this.isResponse = isResponse;
 		this.status = status;
 		this.contact = contact;
 		this.contactTel = contactTel;
+		this.email = email;
 		this.createTime = createTime;
 		this.createMemberId = createMemberId;
 		this.createAcctId = createAcctId;
@@ -158,8 +195,34 @@ public class QuestionFeedbackDTO implements Serializable {
 	public void setCreateName(String createName) {
 		this.createName = createName;
 	}
+
+	public String getEntName() {
+		return entName;
+	}
+
+	public void setEntName(String entName) {
+		this.entName = entName;
+	}
+
+	public Integer getIsResponse() {
+		return isResponse;
+	}
+
+	public void setIsResponse(Integer isResponse) {
+		this.isResponse = isResponse;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "QuestionFeedbackDTO [" + "questionId=" + questionId + ", questionType=" + questionType + ", questionCode=" + questionCode + ", questionUrl=" + questionUrl + ", questionModule=" + questionModule + ", questionDesc=" + questionDesc + ", status=" + status + ", contact=" + contact + ", contactTel=" + contactTel + ", createTime=" + createTime + ", createMemberId=" + createMemberId + ", createAcctId=" + createAcctId + ", createName=" + createName +  "]";
 	}
+
 }

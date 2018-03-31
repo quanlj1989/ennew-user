@@ -1,0 +1,41 @@
+package cn.enn.ygego.sunny.user.dao;
+
+import java.util.List;
+import cn.enn.ygego.sunny.user.model.MarketDiscountCate;
+import org.springframework.stereotype.Repository;
+
+
+/**
+ * ClassName: MarketDiscountCate
+ * Description:
+ * Author: 杨超
+ * Date: 2018-3-31
+ * History:
+ * <author>           <time>         <version>           <desc>
+ * 作者姓名           修改时间           版本号              描述
+ */
+public interface MarketDiscountCateDao {
+
+    List<MarketDiscountCate> selectAll();
+
+    List<MarketDiscountCate> select(MarketDiscountCate record);
+
+    Integer selectCount(MarketDiscountCate record);
+
+    MarketDiscountCate selectByPrimaryKey(Long discountId);
+
+    Integer deleteByPrimaryKey(Long discountId);
+
+    Integer delete(MarketDiscountCate record);
+
+    Integer insertSelective(MarketDiscountCate record);
+
+    Integer updateByPrimaryKeySelective(MarketDiscountCate record);
+
+
+
+
+
+
+
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntApplyProducerAuthDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntApplyProducerAuth" id="entApplyProducerAuthResultMap">
+		<result property="authApplyId" column="AUTH_APPLY_ID"  />
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="producerMemberId" column="PRODUCER_MEMBER_ID"  />
+		<result property="producerName" column="PRODUCER_NAME"  />
+		<result property="authFileNo" column="AUTH_FILE_NO"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		AUTH_APPLY_ID,
+		APPLY_ID,
+		PRODUCER_MEMBER_ID,
+		PRODUCER_NAME,
+		AUTH_FILE_NO
+    </sql>
+	<sql id="entity_properties">
+		#{authApplyId},
+		#{applyId},
+		#{producerMemberId},
+		#{producerName},
+		#{authFileNo}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="authApplyId != null ">and AUTH_APPLY_ID = #{authApplyId}</if>
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="producerMemberId != null ">and PRODUCER_MEMBER_ID = #{producerMemberId}</if>
+				<if test="producerName != null and producerName != ''">and PRODUCER_NAME = #{producerName}</if>
+				<if test="authFileNo != null and authFileNo != ''">and AUTH_FILE_NO = #{authFileNo}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProducerAuth" >
+		insert into ent_apply_producer_auth( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProducerAuth">
+        insert into ent_apply_producer_auth
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="authApplyId != null ">AUTH_APPLY_ID,</if>
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="producerMemberId != null ">PRODUCER_MEMBER_ID,</if>
+				<if test="producerName != null and producerName != ''">PRODUCER_NAME,</if>
+				<if test="authFileNo != null and authFileNo != ''">AUTH_FILE_NO,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="authApplyId != null ">#{authApplyId},</if>
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="producerMemberId != null ">#{producerMemberId},</if>
+				<if test="producerName != null and producerName != ''">#{producerName},</if>
+				<if test="authFileNo != null and authFileNo != ''">#{authFileNo},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProducerAuth">
+		delete from ent_apply_producer_auth
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_apply_producer_auth
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and AUTH_APPLY_ID = #{authApplyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntApplyProducerAuth">
+		update ent_apply_producer_auth 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="applyId != null ">APPLY_ID = #{applyId},</if>
+				<if test="producerMemberId != null ">PRODUCER_MEMBER_ID = #{producerMemberId},</if>
+				<if test="producerName != null and producerName != ''">PRODUCER_NAME = #{producerName},</if>
+				<if test="authFileNo != null and authFileNo != ''">AUTH_FILE_NO = #{authFileNo},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and AUTH_APPLY_ID = #{authApplyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entApplyProducerAuthResultMap">
+        select <include refid="table_columns" />
+        from ent_apply_producer_auth
+    </select>
+
+    <select id="find" resultMap="entApplyProducerAuthResultMap">
+        select <include refid="table_columns" />
+        from ent_apply_producer_auth
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_apply_producer_auth
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entApplyProducerAuthResultMap"  >
+		select <include refid="table_columns" />
+		from ent_apply_producer_auth
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and AUTH_APPLY_ID = #{authApplyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

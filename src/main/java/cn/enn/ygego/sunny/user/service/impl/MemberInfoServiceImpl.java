@@ -1,6 +1,9 @@
 package cn.enn.ygego.sunny.user.service.impl;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.dto.company.CompanyAuthInfo;
+import cn.enn.ygego.sunny.user.dto.company.CompanyAuthType;
 import cn.enn.ygego.sunny.user.service.MemberInfoService;
 import cn.enn.ygego.sunny.user.dao.MemberInfoDao;
 import cn.enn.ygego.sunny.user.model.MemberInfo;
@@ -48,6 +51,5 @@ public class MemberInfoServiceImpl implements MemberInfoService{
     public Integer modifyMemberInfoByPrimaryKey(MemberInfo record){
         return memberInfoDao.updateByPrimaryKey(record);
     }
-
 
 }

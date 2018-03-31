@@ -97,7 +97,7 @@
 	</delete>
 
 
-	<update id="updateAllByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
 		update rela_member_to_acct_apply 
 		<trim prefix="set" suffixOverrides=",">
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
@@ -109,12 +109,12 @@
 				<if test="approveName != null and approveName != ''">APPROVE_NAME = #{approveName},</if>
 				<if test="auditTime != null ">AUDIT_TIME = #{auditTime},</if>
 		</trim>
-		<trim prefix="where" prefixOverrides="and | or ">
+		<trim prefix="where" prefixOverrides="and | or "> 
 			<if test="1==1">and RELA_ID = #{relaId}</if>
         </trim>
 	</update>
 	
-	<update id="updateAllById" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
+	<update id="updateAllByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply">
 		update rela_member_to_acct_apply 
 		<trim prefix="set" suffixOverrides=",">
 			MEMBER_ID = #{memberId},
@@ -172,17 +172,15 @@
 	
 	<select id="getEmployeeApplyCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
 		resultType="java.lang.Integer" >
-		SELECT COUNT(DISTINCT aly.RELA_ID , ent.ENT_NAME)
+		SELECT COUNT(aly.RELA_ID)
 		FROM rela_member_to_acct_apply aly 
 		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID      <!-- 查询账户信息 -->
-		LEFT JOIN ent_cust_info ent ON aly.MEMBER_ID = ent.MEMBER_ID <!-- 查询企业名称 -->
 		<include refid="employee_page_where" />
 	</select>
 	
 	<select id="getEmployeeApplyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
 		resultType="cn.enn.ygego.sunny.user.dto.vo.EmployeeVO" >
-		SELECT DISTINCT
-			ent.ENT_NAME entName ,
+		SELECT
 			
 			aly.RELA_ID relaId ,
 			aly.MEMBER_ID memberId ,
@@ -194,50 +192,59 @@
 			aly.APPROVE_NAME approveName ,
 			aly.AUDIT_TIME auditTime ,
 			
-			ACCT_NAME acctName ,
-			ACCT_CODE acctCode ,
-			NAME name ,
-			GENDER_TYPE genderType ,
-			MOBILE_NUM mobileNum ,
-			EMAIL email ,
-			REGISTER_TIME registerTime
+			bu.AUTH_STATE authState ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.REGISTER_TIME registerTime
 			
 		FROM rela_member_to_acct_apply aly 
 		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID      <!-- 查询账户信息 -->
-		LEFT JOIN ent_cust_info ent ON aly.MEMBER_ID = ent.MEMBER_ID <!-- 查询企业名称 -->
 		<include refid="employee_page_where" />
 		<if test="startRow != null and pageSize != null and pageSize!=0">
             limit #{startRow}, #{pageSize}
         </if>
 	</select>
 	
-	<select id="getEmployeeApplyDetail" resultMap="relaMemberToAcctApplyResultMap"  >
-		SELECT DISTINCT
-			ent.ENT_NAME entName ,
-			
+	<select id="getEmployeeApplyDetail"  parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO"
+		resultType="cn.enn.ygego.sunny.user.dto.vo.EmployeeVO" >
+		SELECT 
 			aly.RELA_ID relaId ,
 			aly.MEMBER_ID memberId ,
 			aly.ACCT_ID acctId ,
 			aly.MEMBER_TYPE memberType ,
-			aly.STATUS status ,
+			aly.`STATUS` `status` ,
 			aly.APPLY_SPEC applySpec ,
 			aly.APPROVE_ACCT_ID approveAcctId ,
 			aly.APPROVE_NAME approveName ,
 			aly.AUDIT_TIME auditTime ,
 			
-			ACCT_NAME acctName ,
-			ACCT_CODE acctCode ,
-			NAME name ,
-			GENDER_TYPE genderType ,
-			MOBILE_NUM mobileNum ,
-			EMAIL email ,
-			REGISTER_TIME registerTime
+			bu.AUTH_STATE authState ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.REGISTER_TIME registerTime,
+
+			rel.MEMBER_ID personMemberId ,
+			
+			cus.CERT_CODE certCode ,
+			cus.CERT_TYPE certType ,
+			cus.`NAME` certName
 			
 		FROM rela_member_to_acct_apply aly 
-		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID      
-		LEFT JOIN ent_cust_info ent ON aly.MEMBER_ID = ent.MEMBER_ID 
+		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID 
+		LEFT JOIN rela_member_to_acct rel ON rel.ACCT_ID = bu.ACCT_ID AND rel.MEMBER_TYPE = 3
+		LEFT JOIN individual_cust cus ON cus.MEMBER_ID = rel.MEMBER_ID    
 		<trim prefix="where" prefixOverrides="and | or ">
-			<if test="1==1">and aly.RELA_ID = #{relaId}</if>
+			<if test="relaId != null">and aly.RELA_ID = #{relaId}</if>
+			<if test="personMemberId != null" > and rel.MEMBER_ID = #{personMemberId} </if>
+			<if test="memberId != null" > and aly.MEMBER_ID = #{memberId} </if>
         </trim>
 	</select>
 

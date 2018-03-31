@@ -6,10 +6,13 @@ public class EmployeeQueryVO implements Serializable {
 
 	private static final long serialVersionUID = 3191206592055605637L;
 
+	private Long personMemberId;  /* 个人用户ID */
+	
 	private Long	relaId; /* 关系ID */
 	private Long	memberId; /* 企业会员ID */
 	private Long	acctId; /* 账户ID */
 	private Integer	status; /* 状态 */
+	private Integer authState;      /* 个人认证状态 */
 	
 	private String  acctName; /* 账户名称 */
     private String  acctCode; /* 账户编码 */
@@ -21,7 +24,21 @@ public class EmployeeQueryVO implements Serializable {
     private Integer pageSize;
     private Integer pageNum;
     private Integer startRow;
-	public Long getRelaId() {
+    
+    
+	public Long getPersonMemberId() {
+        return personMemberId;
+    }
+    public void setPersonMemberId(Long personMemberId) {
+        this.personMemberId = personMemberId;
+    }
+    public Integer getAuthState() {
+        return authState;
+    }
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
+    public Long getRelaId() {
 		return relaId;
 	}
 	public void setRelaId(Long relaId) {

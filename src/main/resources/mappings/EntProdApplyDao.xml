@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntProdApplyDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntProdApply" id="entProdApplyResultMap">
+		<result property="applyId" column="APPLY_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="status" column="STATUS"  />
+		<result property="approveDesc" column="APPROVE_DESC"  />
+		<result property="createTime" column="CREATE_TIME"  />
+		<result property="createAcctId" column="CREATE_ACCT_ID"  />
+		<result property="createName" column="CREATE_NAME"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		APPLY_ID,
+		MEMBER_ID,
+		STATUS,
+		APPROVE_DESC,
+		CREATE_TIME,
+		CREATE_ACCT_ID,
+		CREATE_NAME
+    </sql>
+	<sql id="entity_properties">
+		#{applyId},
+		#{memberId},
+		#{status},
+		#{approveDesc},
+		#{createTime},
+		#{createAcctId},
+		#{createName}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="applyId != null ">and APPLY_ID = #{applyId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="status != null ">and STATUS = #{status}</if>
+				<if test="approveDesc != null and approveDesc != ''">and APPROVE_DESC = #{approveDesc}</if>
+				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
+				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
+				<if test="createName != null and createName != ''">and CREATE_NAME = #{createName}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntProdApply" >
+		insert into ent_prod_apply( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntProdApply">
+        insert into ent_prod_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="applyId != null ">APPLY_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="status != null ">STATUS,</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC,</if>
+				<if test="createTime != null ">CREATE_TIME,</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
+				<if test="createName != null and createName != ''">CREATE_NAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="applyId != null ">#{applyId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="status != null ">#{status},</if>
+				<if test="approveDesc != null and approveDesc != ''">#{approveDesc},</if>
+				<if test="createTime != null ">#{createTime},</if>
+				<if test="createAcctId != null ">#{createAcctId},</if>
+				<if test="createName != null and createName != ''">#{createName},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntProdApply">
+		delete from ent_prod_apply
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_prod_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntProdApply">
+		update ent_prod_apply 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="status != null ">STATUS = #{status},</if>
+				<if test="approveDesc != null and approveDesc != ''">APPROVE_DESC = #{approveDesc},</if>
+				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>
+				<if test="createName != null and createName != ''">CREATE_NAME = #{createName},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entProdApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_prod_apply
+    </select>
+
+    <select id="find" resultMap="entProdApplyResultMap">
+        select <include refid="table_columns" />
+        from ent_prod_apply
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_prod_apply
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entProdApplyResultMap"  >
+		select <include refid="table_columns" />
+		from ent_prod_apply
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and APPLY_ID = #{applyId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

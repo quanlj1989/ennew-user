@@ -6,11 +6,11 @@ import java.io.Serializable;
  * DTO:EntStore
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
 public class EntStoreDTO implements Serializable {
 	
-	private static final long serialVersionUID = 1518138890916072258L;
+	private static final long serialVersionUID = -6027749116558086165L;
 	
 	private Long	storeId; /* 店铺ID */
 	private Long	memberId; /* 会员ID */

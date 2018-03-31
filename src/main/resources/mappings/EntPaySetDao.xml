@@ -140,6 +140,27 @@
 	</select>
 	
 	<!-- other SQL -->
+	<insert id="insertBatch" parameterType="cn.enn.ygego.sunny.user.model.EntPaySet" >
+		insert into ent_pay_set( <include refid="table_columns" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			( #{item.paySetId},
+			  #{item.memberId},
+			  #{item.payNodeType},
+			  #{item.payNodeName},
+			  #{item.payRatio},
+			  #{item.payoffDays},
+			  #{item.createTime},
+			  #{item.createAcctId},
+			  #{item.createName} )
+		</foreach>
+	</insert>
 
+	<delete id="deleteByMemberId">
+		delete from ent_pay_set
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and MEMBER_ID = #{memberId}</if>
+		</trim>
+	</delete>
 
 </mapper>

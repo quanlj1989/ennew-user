@@ -6,10 +6,13 @@
 		<result property="channelPermitId" column="CHANNEL_PERMIT_ID"  />
 		<result property="memberId" column="MEMBER_ID"  />
 		<result property="channelId" column="CHANNEL_ID"  />
+		<result property="sapServiceId" column="SAP_SERVICE_ID"  />
+		<result property="clearingMemberId" column="CLEARING_MEMBER_ID"  />
 		<result property="supplierSet" column="SUPPLIER_SET"  />
 		<result property="blackWhiteListSet" column="BLACK_WHITE_LIST_SET"  />
 		<result property="agreementPriceId" column="AGREEMENT_PRICE_ID"  />
 		<result property="cateMateId" column="CATE_MATE_ID"  />
+		<result property="authenType" column="AUTHEN_TYPE"  />
 		<result property="status" column="STATUS"  />
 		<result property="createTime" column="CREATE_TIME"  />
 		<result property="createAcctId" column="CREATE_ACCT_ID"  />
@@ -20,10 +23,13 @@
 		CHANNEL_PERMIT_ID,
 		MEMBER_ID,
 		CHANNEL_ID,
+		SAP_SERVICE_ID,
+		CLEARING_MEMBER_ID,
 		SUPPLIER_SET,
 		BLACK_WHITE_LIST_SET,
 		AGREEMENT_PRICE_ID,
 		CATE_MATE_ID,
+		AUTHEN_TYPE,
 		STATUS,
 		CREATE_TIME,
 		CREATE_ACCT_ID,
@@ -33,10 +39,13 @@
 		#{channelPermitId},
 		#{memberId},
 		#{channelId},
+		#{sapServiceId},
+		#{clearingMemberId},
 		#{supplierSet},
 		#{blackWhiteListSet},
 		#{agreementPriceId},
 		#{cateMateId},
+		#{authenType},
 		#{status},
 		#{createTime},
 		#{createAcctId},
@@ -49,10 +58,13 @@
 				<if test="channelPermitId != null ">and CHANNEL_PERMIT_ID = #{channelPermitId}</if>
 				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
 				<if test="channelId != null ">and CHANNEL_ID = #{channelId}</if>
+				<if test="sapServiceId != null ">and SAP_SERVICE_ID = #{sapServiceId}</if>
+				<if test="clearingMemberId != null ">and CLEARING_MEMBER_ID = #{clearingMemberId}</if>
 				<if test="supplierSet != null ">and SUPPLIER_SET = #{supplierSet}</if>
 				<if test="blackWhiteListSet != null ">and BLACK_WHITE_LIST_SET = #{blackWhiteListSet}</if>
 				<if test="agreementPriceId != null ">and AGREEMENT_PRICE_ID = #{agreementPriceId}</if>
 				<if test="cateMateId != null ">and CATE_MATE_ID = #{cateMateId}</if>
+				<if test="authenType != null ">and AUTHEN_TYPE = #{authenType}</if>
 				<if test="status != null ">and STATUS = #{status}</if>
 				<if test="createTime != null ">and CREATE_TIME = #{createTime}</if>
 				<if test="createAcctId != null ">and CREATE_ACCT_ID = #{createAcctId}</if>
@@ -71,10 +83,13 @@
 				<if test="channelPermitId != null ">CHANNEL_PERMIT_ID,</if>
 				<if test="memberId != null ">MEMBER_ID,</if>
 				<if test="channelId != null ">CHANNEL_ID,</if>
+				<if test="sapServiceId != null ">SAP_SERVICE_ID,</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID,</if>
 				<if test="supplierSet != null ">SUPPLIER_SET,</if>
 				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET,</if>
 				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID,</if>
 				<if test="cateMateId != null ">CATE_MATE_ID,</if>
+				<if test="authenType != null ">AUTHEN_TYPE,</if>
 				<if test="status != null ">STATUS,</if>
 				<if test="createTime != null ">CREATE_TIME,</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID,</if>
@@ -84,10 +99,13 @@
 				<if test="channelPermitId != null ">#{channelPermitId},</if>
 				<if test="memberId != null ">#{memberId},</if>
 				<if test="channelId != null ">#{channelId},</if>
+				<if test="sapServiceId != null ">#{sapServiceId},</if>
+				<if test="clearingMemberId != null ">#{clearingMemberId},</if>
 				<if test="supplierSet != null ">#{supplierSet},</if>
 				<if test="blackWhiteListSet != null ">#{blackWhiteListSet},</if>
 				<if test="agreementPriceId != null ">#{agreementPriceId},</if>
 				<if test="cateMateId != null ">#{cateMateId},</if>
+				<if test="authenType != null ">#{authenType},</if>
 				<if test="status != null ">#{status},</if>
 				<if test="createTime != null ">#{createTime},</if>
 				<if test="createAcctId != null ">#{createAcctId},</if>
@@ -114,10 +132,13 @@
 		<trim prefix="set" suffixOverrides=",">
 				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
 				<if test="channelId != null ">CHANNEL_ID = #{channelId},</if>
+				<if test="sapServiceId != null ">SAP_SERVICE_ID = #{sapServiceId},</if>
+				<if test="clearingMemberId != null ">CLEARING_MEMBER_ID = #{clearingMemberId},</if>
 				<if test="supplierSet != null ">SUPPLIER_SET = #{supplierSet},</if>
 				<if test="blackWhiteListSet != null ">BLACK_WHITE_LIST_SET = #{blackWhiteListSet},</if>
 				<if test="agreementPriceId != null ">AGREEMENT_PRICE_ID = #{agreementPriceId},</if>
 				<if test="cateMateId != null ">CATE_MATE_ID = #{cateMateId},</if>
+				<if test="authenType != null ">AUTHEN_TYPE = #{authenType},</if>
 				<if test="status != null ">STATUS = #{status},</if>
 				<if test="createTime != null ">CREATE_TIME = #{createTime},</if>
 				<if test="createAcctId != null ">CREATE_ACCT_ID = #{createAcctId},</if>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntMaterialDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntMaterial" id="entMaterialResultMap">
+		<result property="entMaterialId" column="ENT_MATERIAL_ID"  />
+		<result property="entCateId" column="ENT_CATE_ID"  />
+		<result property="memberId" column="MEMBER_ID"  />
+		<result property="materialId" column="MATERIAL_ID"  />
+		<result property="categoryId" column="CATEGORY_ID"  />
+		<result property="materialName" column="MATERIAL_NAME"  />
+		<result property="attrNameSerial" column="ATTR_NAME_SERIAL"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		ENT_MATERIAL_ID,
+		ENT_CATE_ID,
+		MEMBER_ID,
+		MATERIAL_ID,
+		CATEGORY_ID,
+		MATERIAL_NAME,
+		ATTR_NAME_SERIAL
+    </sql>
+	<sql id="entity_properties">
+		#{entMaterialId},
+		#{entCateId},
+		#{memberId},
+		#{materialId},
+		#{categoryId},
+		#{materialName},
+		#{attrNameSerial}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="entMaterialId != null ">and ENT_MATERIAL_ID = #{entMaterialId}</if>
+				<if test="entCateId != null ">and ENT_CATE_ID = #{entCateId}</if>
+				<if test="memberId != null ">and MEMBER_ID = #{memberId}</if>
+				<if test="materialId != null ">and MATERIAL_ID = #{materialId}</if>
+				<if test="categoryId != null ">and CATEGORY_ID = #{categoryId}</if>
+				<if test="materialName != null and materialName != ''">and MATERIAL_NAME = #{materialName}</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">and ATTR_NAME_SERIAL = #{attrNameSerial}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntMaterial" >
+		insert into ent_material( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntMaterial">
+        insert into ent_material
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="entMaterialId != null ">ENT_MATERIAL_ID,</if>
+				<if test="entCateId != null ">ENT_CATE_ID,</if>
+				<if test="memberId != null ">MEMBER_ID,</if>
+				<if test="materialId != null ">MATERIAL_ID,</if>
+				<if test="categoryId != null ">CATEGORY_ID,</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME,</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="entMaterialId != null ">#{entMaterialId},</if>
+				<if test="entCateId != null ">#{entCateId},</if>
+				<if test="memberId != null ">#{memberId},</if>
+				<if test="materialId != null ">#{materialId},</if>
+				<if test="categoryId != null ">#{categoryId},</if>
+				<if test="materialName != null and materialName != ''">#{materialName},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">#{attrNameSerial},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntMaterial">
+		delete from ent_material
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_material
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ENT_MATERIAL_ID = #{entMaterialId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntMaterial">
+		update ent_material 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="entCateId != null ">ENT_CATE_ID = #{entCateId},</if>
+				<if test="memberId != null ">MEMBER_ID = #{memberId},</if>
+				<if test="materialId != null ">MATERIAL_ID = #{materialId},</if>
+				<if test="categoryId != null ">CATEGORY_ID = #{categoryId},</if>
+				<if test="materialName != null and materialName != ''">MATERIAL_NAME = #{materialName},</if>
+				<if test="attrNameSerial != null and attrNameSerial != ''">ATTR_NAME_SERIAL = #{attrNameSerial},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ENT_MATERIAL_ID = #{entMaterialId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entMaterialResultMap">
+        select <include refid="table_columns" />
+        from ent_material
+    </select>
+
+    <select id="find" resultMap="entMaterialResultMap">
+        select <include refid="table_columns" />
+        from ent_material
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_material
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entMaterialResultMap"  >
+		select <include refid="table_columns" />
+		from ent_material
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and ENT_MATERIAL_ID = #{entMaterialId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

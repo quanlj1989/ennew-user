@@ -6,7 +6,7 @@ import cn.enn.ygego.sunny.user.model.InspectFactoryApplyItem;
 /**
  * dal Interface:InspectFactoryApplyItem
  * @author gencode
- * @date 2018-3-22
+ * @date 2018-3-30
  */
 public interface InspectFactoryApplyItemService {
 

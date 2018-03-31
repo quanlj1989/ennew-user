@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.enn.ygego.sunny.user.dao.EntCateCertFileDao">
+
+    <resultMap type="cn.enn.ygego.sunny.user.model.EntCateCertFile" id="entCateCertFileResultMap">
+		<result property="certFileId" column="CERT_FILE_ID"  />
+		<result property="certInfoId" column="CERT_INFO_ID"  />
+		<result property="certFileType" column="CERT_FILE_TYPE"  />
+		<result property="fileSize" column="FILE_SIZE"  />
+		<result property="fileUrl" column="FILE_URL"  />
+	</resultMap>
+	
+	<sql id="table_columns">
+		CERT_FILE_ID,
+		CERT_INFO_ID,
+		CERT_FILE_TYPE,
+		FILE_SIZE,
+		FILE_URL
+    </sql>
+	<sql id="entity_properties">
+		#{certFileId},
+		#{certInfoId},
+		#{certFileType},
+		#{fileSize},
+		#{fileUrl}
+	</sql>
+
+    <!-- columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+				<if test="certFileId != null ">and CERT_FILE_ID = #{certFileId}</if>
+				<if test="certInfoId != null ">and CERT_INFO_ID = #{certInfoId}</if>
+				<if test="certFileType != null ">and CERT_FILE_TYPE = #{certFileType}</if>
+				<if test="fileSize != null ">and FILE_SIZE = #{fileSize}</if>
+				<if test="fileUrl != null and fileUrl != ''">and FILE_URL = #{fileUrl}</if>
+        </trim>
+    </sql>
+
+	<insert id="insert" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertFile" >
+		insert into ent_cate_cert_file( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+    <insert id="insertSelective" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertFile">
+        insert into ent_cate_cert_file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="certFileId != null ">CERT_FILE_ID,</if>
+				<if test="certInfoId != null ">CERT_INFO_ID,</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE,</if>
+				<if test="fileSize != null ">FILE_SIZE,</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+				<if test="certFileId != null ">#{certFileId},</if>
+				<if test="certInfoId != null ">#{certInfoId},</if>
+				<if test="certFileType != null ">#{certFileType},</if>
+				<if test="fileSize != null ">#{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+        </trim>
+	</insert>
+
+
+	<delete id="delete" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertFile">
+		delete from ent_cate_cert_file
+        <include refid="page_where" />
+	</delete>
+
+	<delete id="deleteByPrimaryKey">
+		delete from ent_cate_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_FILE_ID = #{certFileId}</if>
+        </trim>
+	</delete>
+
+
+	<update id="updateByPrimaryKey" parameterType="cn.enn.ygego.sunny.user.model.EntCateCertFile">
+		update ent_cate_cert_file 
+		<trim prefix="set" suffixOverrides=",">
+				<if test="certInfoId != null ">CERT_INFO_ID = #{certInfoId},</if>
+				<if test="certFileType != null ">CERT_FILE_TYPE = #{certFileType},</if>
+				<if test="fileSize != null ">FILE_SIZE = #{fileSize},</if>
+				<if test="fileUrl != null and fileUrl != ''">FILE_URL = #{fileUrl},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_FILE_ID = #{certFileId}</if>
+        </trim>
+	</update>
+
+    <select id="findAll" resultMap="entCateCertFileResultMap">
+        select <include refid="table_columns" />
+        from ent_cate_cert_file
+    </select>
+
+    <select id="find" resultMap="entCateCertFileResultMap">
+        select <include refid="table_columns" />
+        from ent_cate_cert_file
+        <include refid="page_where" />
+	</select>
+
+    <select id="getCount" resultType="int" >
+        select count(*) from ent_cate_cert_file
+        <include refid="page_where" />
+    </select>
+
+
+    <select id="getByPrimaryKey" resultMap="entCateCertFileResultMap"  >
+		select <include refid="table_columns" />
+		from ent_cate_cert_file
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="1==1">and CERT_FILE_ID = #{certFileId}</if>
+        </trim>
+	</select>
+	
+	<!-- other SQL -->
+
+
+</mapper>

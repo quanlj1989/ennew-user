@@ -1,6 +1,8 @@
 package cn.enn.ygego.sunny.user.service;
 
 import java.util.List;
+
+import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 
 /**
@@ -24,6 +26,15 @@ public interface RelaMemberToAcctService {
 
     public Integer modifyRelaMemberToAcctByPrimaryKey(RelaMemberToAcct record);
 
-
+    /**
+     * 企业管理员转让
+     * @Description TODO
+     * @author puanl
+     * @date 2018年3月27日 上午10:53:51 
+     * @param newAdminMember
+     * @param oldRela
+     * @return
+     */
+    public boolean modifyEntAdminRela(MemberInfo newAdminMember , RelaMemberToAcct oldRela);
 
 }

@@ -1,8 +1,5 @@
 package cn.enn.ygego.sunny.user.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.util.Date;
 import java.io.Serializable;
 
@@ -10,19 +7,18 @@ import java.io.Serializable;
  * DTO:EntCertInfo
  * 
  * @author gencode
- * @date 2018-3-19
+ * @date 2018-3-30
  */
-@ApiModel(description = "用于查询活动的条件描述类")
 public class EntCertInfoDTO implements Serializable {
 	
-	private static final long serialVersionUID = -5179427468264031863L;
+	private static final long serialVersionUID = -7163968674078243226L;
 	
 	private Long	certInfoId; /* 资质信息ID */
 	private Long	memberId; /* 会员ID */
 	private Integer	status; /* 状态 */
+	private Integer	authenType; /* 认证类型 */
 	private Integer	certType; /* 资质类型 */
 	private String	certNo; /* 资质号码 */
-	@ApiModelProperty("活动名称")
 	private String	certName; /* 资质名称 */
 	private Date	createTime; /* 创建时间 */
 	private Date	modTime; /* 修改时间 */
@@ -36,10 +32,11 @@ public class EntCertInfoDTO implements Serializable {
 	/**
 	 * full Constructor
 	 */
-	public EntCertInfoDTO(Long certInfoId, Long memberId, Integer status, Integer certType, String certNo, String certName, Date createTime, Date modTime, Long createAcctId, String createName) {
+	public EntCertInfoDTO(Long certInfoId, Long memberId, Integer status, Integer authenType, Integer certType, String certNo, String certName, Date createTime, Date modTime, Long createAcctId, String createName) {
 		this.certInfoId = certInfoId;
 		this.memberId = memberId;
 		this.status = status;
+		this.authenType = authenType;
 		this.certType = certType;
 		this.certNo = certNo;
 		this.certName = certName;
@@ -70,6 +67,13 @@ public class EntCertInfoDTO implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public Integer getAuthenType() {
+		return authenType;
+	}
+
+	public void setAuthenType(Integer authenType) {
+		this.authenType = authenType;
+	}
 	public Integer getCertType() {
 		return certType;
 	}
@@ -84,7 +88,6 @@ public class EntCertInfoDTO implements Serializable {
 	public void setCertNo(String certNo) {
 		this.certNo = certNo;
 	}
-
 	public String getCertName() {
 		return certName;
 	}
@@ -122,6 +125,6 @@ public class EntCertInfoDTO implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "EntCertInfoDTO [" + "certInfoId=" + certInfoId + ", memberId=" + memberId + ", status=" + status + ", certType=" + certType + ", certNo=" + certNo + ", certName=" + certName + ", createTime=" + createTime + ", modTime=" + modTime + ", createAcctId=" + createAcctId + ", createName=" + createName +  "]";
+		return "EntCertInfoDTO [" + "certInfoId=" + certInfoId + ", memberId=" + memberId + ", status=" + status + ", authenType=" + authenType + ", certType=" + certType + ", certNo=" + certNo + ", certName=" + certName + ", createTime=" + createTime + ", modTime=" + modTime + ", createAcctId=" + createAcctId + ", createName=" + createName +  "]";
 	}
 }

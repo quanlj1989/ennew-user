@@ -67,12 +67,12 @@ public interface IndividualCertApplyDao {
     IndividualCertApplyDTO getCertApplyByApplyId(@Param("certApplyId") Long certApplyId);
     
     /**
-     * @Description 根据会员ID，查询个人账户+个人审批详情
+     * @Description 根据 memberId 或 certApplyId ，查询个人账户+个人审批详情
      * @author puanl
      * @date 2018年3月24日 上午7:27:21 
      * @param memberId
      * @return
      */
-    IndividualCertApplyVO getCertApplyByMemberId(IndividualCertApplyVO query );
+    IndividualCertApplyVO getCertApplyById(IndividualCertApplyVO query );
     
 }
