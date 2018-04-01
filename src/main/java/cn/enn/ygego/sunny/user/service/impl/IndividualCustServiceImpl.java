@@ -69,13 +69,6 @@ public class IndividualCustServiceImpl implements IndividualCustService{
     }
 
     @Override
-    public PersonVO getPersonDetail(Long memberId , Long acctId){
-        // 查询用户信息
-        PersonVO resultPerson = individualCustDao.getPersonById(memberId, acctId);
-        return resultPerson;
-    }
-
-    @Override
     public Integer getPersonCount(PersonQueryVO query) {
         return individualCustDao.getPersonCount(query);
     }
@@ -84,7 +77,6 @@ public class IndividualCustServiceImpl implements IndividualCustService{
     public List<PersonVO> getPersonList(PersonQueryVO query) {
         return individualCustDao.getPersonList(query);
     }
-
     
 
 }

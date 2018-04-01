@@ -39,16 +39,6 @@ public interface IndividualCustService {
     public IndividualCustDTO getIndividualCustById(Long memberId , boolean hasFile);
     
     /**
-     * @Description 查询用户详情
-     * @author puanl
-     * @date 2018年3月24日 下午3:57:41 
-     * @param memberId
-     * @param acctId
-     * @return
-     */
-    public PersonVO getPersonDetail(Long memberId , Long acctId);
-    
-    /**
      * @Description 分页查询列表总数
      * @author puanl
      * @date 2018年3月24日 下午5:23:42 

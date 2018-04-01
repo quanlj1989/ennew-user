@@ -21,6 +21,8 @@ public class PersonQueryVO implements Serializable {
     
     private Long acctId;      /* 账户ID */ 
     private Long memberId; /* 会员ID */
+    private Integer memberType;  /* 会员ID类型 */
+    
     private Long certApplyId; /* 资质申请ID */
     
     private String name; /* 真实姓名 */
@@ -39,7 +41,14 @@ public class PersonQueryVO implements Serializable {
     private Integer pageNum;
     private Integer startRow;
     
-    public Long getEntMemberId() {
+    
+    public Integer getMemberType() {
+		return memberType;
+	}
+	public void setMemberType(Integer memberType) {
+		this.memberType = memberType;
+	}
+	public Long getEntMemberId() {
         return entMemberId;
     }
     public void setEntMemberId(Long entMemberId) {

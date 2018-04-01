@@ -3,8 +3,8 @@ package cn.enn.ygego.sunny.user.dto.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import cn.enn.ygego.sunny.user.dto.EntCustInfoDTO;
 import cn.enn.ygego.sunny.user.dto.IndividualCustDTO;
+import cn.enn.ygego.sunny.user.model.EntCustInfo;
 import io.swagger.annotations.ApiModel;
 
 /**
@@ -58,7 +58,7 @@ public class PersonVO implements Serializable {
     private IndividualCustDTO individualCust;
     
     /* 企业用户信息 */
-    private EntCustInfoDTO entCustInfo;
+    private EntCustInfo entCustInfo;
     
     public Integer getAuthState() {
         return authState;
@@ -205,10 +205,10 @@ public class PersonVO implements Serializable {
     public void setIndividualCust(IndividualCustDTO individualCust) {
         this.individualCust = individualCust;
     }
-    public EntCustInfoDTO getEntCustInfo() {
+    public EntCustInfo getEntCustInfo() {
         return entCustInfo;
     }
-    public void setEntCustInfo(EntCustInfoDTO entCustInfo) {
+    public void setEntCustInfo(EntCustInfo entCustInfo) {
         this.entCustInfo = entCustInfo;
     }
     public Integer getCertType() {

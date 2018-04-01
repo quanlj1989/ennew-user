@@ -2,6 +2,10 @@ package cn.enn.ygego.sunny.user.service;
 
 import java.util.List;
 
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
+import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.PersonVO;
 import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 
@@ -36,5 +40,31 @@ public interface RelaMemberToAcctService {
      * @return
      */
     public boolean modifyEntAdminRela(MemberInfo newAdminMember , RelaMemberToAcct oldRela);
-
+    
+    /**
+     * 查询个人关联企业数量
+     * @param query
+     * @return
+     */
+    public Integer getEmployeeEntCount(EmployeeQueryVO query);
+    
+    /**
+     * 查询个人关联所有企业
+     * @param query
+     * @return
+     */
+    public List<EmployeeVO> getEmployeeEntList(EmployeeQueryVO query);
+    
+    
+    Integer getPersonCount(PersonQueryVO query);
+    
+    /**
+     * 查询账户会员关系详情数据
+     * @param memberId
+     * @param acctId
+     * @param memberType
+     * @return
+     */
+    List<PersonVO> getPersonList(PersonQueryVO query);
+    
 }

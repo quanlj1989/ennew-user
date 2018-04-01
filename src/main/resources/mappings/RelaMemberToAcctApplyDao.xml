@@ -158,18 +158,6 @@
 	
 	<!-- other SQL -->
 	
-	<sql id="employee_page_where">
-        <trim prefix="where" prefixOverrides="and | or ">
-			<if test="relaId != null ">and aly.RELA_ID = #{relaId}</if>
-			<if test="memberId != null ">and aly.MEMBER_ID = #{memberId}</if>
-			<if test="acctId != null ">and aly.ACCT_ID = #{acctId}</if>
-			<if test="status != null ">and aly.STATUS = #{status}</if>
-			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
-			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
-			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
-        </trim>
-    </sql>
-	
 	<select id="getEmployeeApplyCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
 		resultType="java.lang.Integer" >
 		SELECT COUNT(aly.RELA_ID)
@@ -181,6 +169,10 @@
 	<select id="getEmployeeApplyList" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
 		resultType="cn.enn.ygego.sunny.user.dto.vo.EmployeeVO" >
 		SELECT
+			
+			ecu.ENT_NAME entName ,
+			ecu.CUST_CODE custCode , 
+			ecu.ENT_TYPE entType ,
 			
 			aly.RELA_ID relaId ,
 			aly.MEMBER_ID memberId ,
@@ -203,11 +195,24 @@
 			
 		FROM rela_member_to_acct_apply aly 
 		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID      <!-- 查询账户信息 -->
+		LEFT JOIN ent_cust_info ecu ON aly.MEMBER_ID = ecu.MEMBER_ID   <!-- 查询企业信息 -->
 		<include refid="employee_page_where" />
 		<if test="startRow != null and pageSize != null and pageSize!=0">
             limit #{startRow}, #{pageSize}
         </if>
 	</select>
+	
+	<sql id="employee_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+			<if test="relaId != null ">and aly.RELA_ID = #{relaId}</if>
+			<if test="memberId != null ">and aly.MEMBER_ID = #{memberId}</if>
+			<if test="acctId != null ">and aly.ACCT_ID = #{acctId}</if>
+			<if test="status != null ">and aly.STATUS = #{status}</if>
+			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+        </trim>
+    </sql>
 	
 	<select id="getEmployeeApplyDetail"  parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO"
 		resultType="cn.enn.ygego.sunny.user.dto.vo.EmployeeVO" >
@@ -239,8 +244,8 @@
 			
 		FROM rela_member_to_acct_apply aly 
 		LEFT JOIN busi_acct_info bu ON aly.ACCT_ID = bu.ACCT_ID 
-		LEFT JOIN rela_member_to_acct rel ON rel.ACCT_ID = bu.ACCT_ID AND rel.MEMBER_TYPE = 3
-		LEFT JOIN individual_cust cus ON cus.MEMBER_ID = rel.MEMBER_ID    
+		LEFT JOIN rela_member_to_acct rel ON rel.ACCT_ID = bu.ACCT_ID AND rel.MEMBER_TYPE = 3  <!-- 查询个人会员ID -->
+		LEFT JOIN individual_cust cus ON cus.MEMBER_ID = rel.MEMBER_ID                         <!-- 查询个人资质认证信息 -->
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="relaId != null">and aly.RELA_ID = #{relaId}</if>
 			<if test="personMemberId != null" > and rel.MEMBER_ID = #{personMemberId} </if>

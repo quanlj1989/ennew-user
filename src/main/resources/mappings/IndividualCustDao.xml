@@ -177,50 +177,8 @@
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="1==1">and cus.MEMBER_ID = #{memberId}</if>
         </trim>
-		
 	</select>
 	
-	<select id="getPersonById" resultType="cn.enn.ygego.sunny.user.dto.vo.PersonVO" >
-        SELECT 
-            rel.MEMBER_ID memberId , 
-			rel.MEMBER_TYPE memberType ,
-			
-            bu.ACCT_ID acctId ,
-            bu.ACCT_NAME acctName ,
-            bu.ACCT_CODE acctCode ,
-            bu.ACCT_STATE acctState ,
-            bu.AUTH_STATE authState ,
-            bu.LOGO_URL logoUrl ,
-            bu.`NAME` `name` ,
-            bu.GENDER_TYPE genderType ,
-            bu.DEPT_ID deptId ,
-            bu.MOBILE_NUM mobileNum ,
-            bu.EMAIL email ,
-            bu.AREA_ID areaId ,
-            bu.AREA_ID_FULL_PATH areaIdFullPath ,
-            bu.AREA_NAME_FULL_PATH areaNameFullPath ,
-            bu.CONTACT_ADDR contactAddr ,
-            bu.POST_CODE postCode ,
-            bu.REGISTER_TIME registerTime
-        FROM busi_acct_info bu
-        LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
-        WHERE
-        <choose>
-            <when test="memberId != null and acctId != null">
-                    rel.MEMBER_ID = #{memberId} AND bu.ACCT_ID = #{acctId}
-            </when>
-            <when test="memberId == null and acctId != null" >
-                    bu.ACCT_ID = #{acctId} AND rel.MEMBER_TYPE = 3
-            </when>
-            <when test="memberId != null and acctId == null" >
-                    rel.MEMBER_ID = #{memberId} AND rel.MEMBER_TYPE = 3
-            </when>
-            <otherwise>
-                    rel.MEMBER_ID = ''
-            </otherwise>
-        </choose>
-    </select>
-    
     <select id="getPersonCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO" 
 		resultType="java.lang.Integer" >
     	SELECT 

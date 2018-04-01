@@ -3,6 +3,10 @@ package cn.enn.ygego.sunny.user.service.impl;
 import java.util.List;
 import cn.enn.ygego.sunny.user.service.RelaMemberToAcctService;
 import cn.enn.ygego.sunny.user.dao.RelaMemberToAcctDao;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
+import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
+import cn.enn.ygego.sunny.user.dto.vo.PersonVO;
 import cn.enn.ygego.sunny.user.model.MemberInfo;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 
@@ -64,6 +68,28 @@ public class RelaMemberToAcctServiceImpl implements RelaMemberToAcctService{
         
         return result;
     }
+
+    @Override
+    public Integer getEmployeeEntCount(EmployeeQueryVO query){
+    	return relaMemberToAcctDao.getEmployeeEntCount(query);
+    }
+    
+	@Override
+	public List<EmployeeVO> getEmployeeEntList(EmployeeQueryVO query) {
+		List<EmployeeVO> entList = relaMemberToAcctDao.getEmployeeEntList(query);
+		// TODO   for 循环查询用户角色
+		return entList;
+	}
+
+	@Override
+	public Integer getPersonCount(PersonQueryVO query) {
+		return relaMemberToAcctDao.getPersonCount(query);
+	}
+
+	@Override
+	public List<PersonVO> getPersonList(PersonQueryVO query) {
+		return relaMemberToAcctDao.getPersonList(query);
+	}
 
 
 

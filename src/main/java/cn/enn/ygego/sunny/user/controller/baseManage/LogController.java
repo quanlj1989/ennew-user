@@ -3,7 +3,7 @@
  * Company: ygego
  */
 
-package cn.enn.ygego.sunny.user.controller.baseManage;
+package cn.enn.ygego.sunny.user.controller.BaseManage;
 
 import cn.enn.ygego.sunny.core.page.PageDTO;
 import cn.enn.ygego.sunny.core.web.json.JsonRequest;

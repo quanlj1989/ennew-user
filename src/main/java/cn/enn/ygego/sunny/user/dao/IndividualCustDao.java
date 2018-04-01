@@ -34,17 +34,6 @@ public interface IndividualCustDao {
     
     IndividualCustDTO getIndividualCustById(@Param("memberId") Long memberId);
     
-    /**
-     * 会员表与账户表关联查询
-     * @Description TODO
-     * @author "quanlinjie"
-     * @date 2018年3月20日 下午7:52:14 
-     * @param memberId
-     * @param acctId
-     * @return
-     */
-    PersonVO getPersonById(@Param("memberId") Long memberId , @Param("acctId") Long acctId);
-    
     Integer getPersonCount(PersonQueryVO query);
     
     List<PersonVO> getPersonList(PersonQueryVO query);

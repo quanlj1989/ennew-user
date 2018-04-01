@@ -46,5 +46,12 @@ public interface RelaMemberToAcctApplyService {
      * @return
      */
     public EmployeeVO getEmployeeApplyDetail(EmployeeQueryVO query);
+    
+    /**
+     * 审批员工加入企业
+     * @param relaApply
+     * @return
+     */
+    public Integer examineJoinEnt(RelaMemberToAcctApply relaApply);
 
 }

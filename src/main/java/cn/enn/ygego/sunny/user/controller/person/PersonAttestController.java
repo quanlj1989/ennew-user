@@ -19,12 +19,12 @@ import cn.enn.ygego.sunny.user.constant.PersonConstant;
 import cn.enn.ygego.sunny.user.dto.IndividualCertApplyDTO;
 import cn.enn.ygego.sunny.user.dto.vo.IndividualCertApplyVO;
 import cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO;
-import cn.enn.ygego.sunny.user.dto.vo.PersonVO;
 import cn.enn.ygego.sunny.user.model.BusiAcctInfo;
 import cn.enn.ygego.sunny.user.model.IndividualCertApply;
+import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 import cn.enn.ygego.sunny.user.service.BusiAcctInfoService;
 import cn.enn.ygego.sunny.user.service.IndividualCertApplyService;
-import cn.enn.ygego.sunny.user.service.IndividualCustService;
+import cn.enn.ygego.sunny.user.service.RelaMemberToAcctService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -48,7 +48,7 @@ public class PersonAttestController {
     @Autowired
     private IndividualCertApplyService individualCertApplyService;  /* 个人认证申请  */ 
     @Autowired
-    private IndividualCustService individualCustService;  /* 客户个人信息服务 */
+    private RelaMemberToAcctService relaMemberToAcctService; /* 账户会员关系表 */
     @Autowired
     private BusiAcctInfoService busiAcctInfoService;
     
@@ -102,7 +102,7 @@ public class PersonAttestController {
     }
     
     /**
-     * @Description 申请个人实名认证接口
+     * @Description 申请个人实名认证接口   TODO 入参增加图片
      * @author puanl
      * @date 2018年3月22日 下午5:09:08 
      * @param request
@@ -115,12 +115,16 @@ public class PersonAttestController {
         logger.info("PersonAttestController.apply request= {}",request);
         JsonResponse<IndividualCertApplyDTO> result = null;
         IndividualCertApplyDTO applyData = request.getReqBody();
-        // 判断会员ID与账户ID是否一致，且会员ID为
-        PersonVO person = individualCustService.getPersonDetail(applyData.getMemberId(), null);
-        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
-            result = new JsonResponse<>("502", "会员信息不正确！");
+        // 判断会员ID是否为个人
+        RelaMemberToAcct query = new RelaMemberToAcct();
+        query.setMemberId(applyData.getMemberId());
+        query.setMemberType(PersonConstant.MEMBER_TYPE_PERSON);
+        List<RelaMemberToAcct> queryList = relaMemberToAcctService.findRelaMemberToAccts(query);
+        if(queryList == null || queryList.size() <= 0 ){
+        	result = new JsonResponse<>("502", "会员信息不正确！");
             return result;
         }
+        RelaMemberToAcct person = queryList.get(0);
         // 验证是否已经申请认证
         IndividualCertApply record = new IndividualCertApply();
         record.setMemberId(applyData.getMemberId()); //会员id
@@ -185,12 +189,16 @@ public class PersonAttestController {
             result = new JsonResponse<>("502", "资质审核信息不存在。");
             return result;
         }
-        // 获取用户信息
-        PersonVO person = individualCustService.getPersonDetail(record.getMemberId(), null);
-        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
-            result = new JsonResponse<>("502", "会员信息不正确！");
+        // 验证会员信息
+        RelaMemberToAcct relaQuery = new RelaMemberToAcct();
+        relaQuery.setMemberId(applyData.getMemberId());
+        relaQuery.setMemberType(PersonConstant.MEMBER_TYPE_PERSON);
+        List<RelaMemberToAcct> queryList = relaMemberToAcctService.findRelaMemberToAccts(relaQuery);
+        if(queryList == null || queryList.size() <= 0 ){
+        	result = new JsonResponse<>("502", "会员信息不正确！");
             return result;
         }
+        RelaMemberToAcct person = queryList.get(0);
         // 验证个人资质申请信息状态 
         if(record.getStatus() != PersonConstant.AUTH_STATUS_SUBMIT ){
             result = new JsonResponse<>("502", "资质审核信息不能重复审批");
@@ -268,12 +276,16 @@ public class PersonAttestController {
             result = new JsonResponse<>("502","资质申请不存在，或在申请中");
             return result;
         }
-        // 获取用户信息
-        PersonVO person = individualCustService.getPersonDetail(apply.getMemberId(), null);
-        if(person == null || person.getMemberType() != PersonConstant.MEMBER_TYPE_PERSON ){
-            result = new JsonResponse<>("502", "会员信息不正确！");
+        // 获取用户信息     验证会员信息
+        RelaMemberToAcct relaQuery = new RelaMemberToAcct();
+        relaQuery.setMemberId(applyData.getMemberId());
+        relaQuery.setMemberType(PersonConstant.MEMBER_TYPE_PERSON);
+        List<RelaMemberToAcct> queryList = relaMemberToAcctService.findRelaMemberToAccts(relaQuery);
+        if(queryList == null || queryList.size() <= 0 ){
+        	result = new JsonResponse<>("502", "会员信息不正确！");
             return result;
         }
+        RelaMemberToAcct person = queryList.get(0);
         // 根据身份证号 验证是否重复
         IndividualCertApply record = new IndividualCertApply();
         record.setCertType(applyData.getCertType()); // 证件类型

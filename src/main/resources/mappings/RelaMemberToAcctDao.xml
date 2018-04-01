@@ -126,5 +126,118 @@
 		SET IS_DEFAULT_ENT = 1
 		WHERE MEMBER_ID = #{companyMemberId} AND ACCT_ID = #{acctId} AND MEMBER_TYPE = 2
 	</update>
+	
+	<!-- 个人关联所有企业  START -->
+	<select id="getEmployeeEntCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
+		resultType="java.lang.Integer" >
+		SELECT COUNT(aly.RELA_ID)
+		FROM rela_member_to_acct rel
+		LEFT JOIN busi_acct_info bu ON rel.ACCT_ID = bu.ACCT_ID 
+		LEFT JOIN ent_cust_info ecu ON rel.MEMBER_ID = ecu.MEMBER_ID
+		WHERE rel.MEMBER_TYPE = 2 
+		<include refid="employee_page_where" />
+	</select>
+	
+	<select id="getEmployeeEntList" parameterType="cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO" 
+		resultType="cn.enn.ygego.sunny.user.dto.vo.EmployeeVO" >
+		SELECT
+			
+			ecu.ENT_NAME entName ,
+			ecu.CUST_CODE custCode , 
+			ecu.ENT_TYPE entType ,
+			
+			rel.RELA_ID relaId ,
+			rel.MEMBER_ID memberId ,
+			rel.ACCT_ID acctId ,
+			rel.MEMBER_TYPE memberType ,
+			
+			bu.AUTH_STATE authState ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.REGISTER_TIME registerTime
+			
+		FROM rela_member_to_acct rel
+		LEFT JOIN busi_acct_info bu ON rel.ACCT_ID = bu.ACCT_ID 
+		LEFT JOIN ent_cust_info ecu ON rel.MEMBER_ID = ecu.MEMBER_ID
+		WHERE rel.MEMBER_TYPE = 2 
+		<include refid="employee_page_where" />
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<sql id="employee_page_where">
+		<if test="acctId != null ">and rel.ACCT_ID = #{acctId}</if>
+		<if test="memberId != null ">and rel.MEMBER_ID = #{memberId}</if>
+		
+		<if test="relaId != null ">and rel.RELA_ID = #{relaId}</if>
+		<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+		<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+		<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+    </sql>
+	<!-- 个人关联所有企业  END -->
+	
+	
+	<!-- 查询会员账户关联数据 -->
+	<select id="getPersonCount" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO" 
+		resultType="java.lang.Integer" >
+    	SELECT 
+			COUNT(bu.ACCT_ID)
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID 
+		<include refid="person_page_where" />
+    </select>
+	
+	<select id="getPersonList" parameterType="cn.enn.ygego.sunny.user.dto.vo.PersonQueryVO"
+		resultType="cn.enn.ygego.sunny.user.dto.vo.PersonVO" >
+		SELECT 
+			rel.MEMBER_ID memberId , 
+			rel.MEMBER_TYPE memberType ,
+			bu.ACCT_ID acctId ,
+			bu.ACCT_NAME acctName ,
+			bu.ACCT_CODE acctCode ,
+			bu.ACCT_STATE acctState ,
+			bu.AUTH_STATE authState ,
+			bu.LOGO_URL logoUrl ,
+			bu.`NAME` `name` ,
+			bu.GENDER_TYPE genderType ,
+			bu.DEPT_ID deptId ,
+			bu.MOBILE_NUM mobileNum ,
+			bu.EMAIL email ,
+			bu.AREA_ID areaId ,
+			bu.AREA_ID_FULL_PATH areaIdFullPath ,
+			bu.AREA_NAME_FULL_PATH areaNameFullPath ,
+			bu.CONTACT_ADDR contactAddr ,
+			bu.POST_CODE postCode ,
+			bu.REGISTER_TIME registerTime
+		FROM busi_acct_info bu
+		LEFT JOIN rela_member_to_acct rel ON bu.ACCT_ID = rel.ACCT_ID
+		<include refid="person_page_where" />
+		<if test="startRow != null and pageSize != null and pageSize!=0">
+            limit #{startRow}, #{pageSize}
+        </if>
+	</select>
+	
+	<sql id="person_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+        	<if test="memberId != null ">and rel.MEMBER_ID = #{memberId}</if>
+			<if test="acctId != null ">and bu.ACCT_ID = #{acctId}</if>
+			<if test="memberType != null ">and rel.MEMBER_TYPE = #{memberType}</if>
+        
+			<if test="acctName != null and acctName != ''">and bu.ACCT_NAME like concat('%',#{acctName},'%')</if>
+			<if test="name != null and name != ''">and bu.`NAME` like concat('%',#{name},'%')</if>
+			<if test="mobileNum != null and mobileNum != ''">and bu.MOBILE_NUM like concat('%',#{mobileNum},'%')</if>
+	        <if test="startTime != null and startTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME > DATE_FORMAT(#{startTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+	        <if test="endTime != null and endTime != ''">
+	            <![CDATA[and bu.REGISTER_TIME <= DATE_FORMAT(#{endTime}, '%Y-%m-%d %H:%i:%s')]]>
+	        </if>
+        </trim>
+    </sql>
 
 </mapper>

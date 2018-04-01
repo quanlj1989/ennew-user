@@ -1,4 +1,4 @@
-package cn.enn.ygego.sunny.user.controller.authManage;
+package cn.enn.ygego.sunny.user.controller.AuthManage;
 
 
 import cn.enn.ygego.sunny.core.page.PageDTO;

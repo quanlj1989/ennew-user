@@ -1,12 +1,27 @@
 package cn.enn.ygego.sunny.user.dto.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import cn.enn.ygego.sunny.user.dto.RelaMemberToAcctApplyDTO;
-
-public class EmployeeVO extends RelaMemberToAcctApplyDTO {
+public class EmployeeVO implements Serializable {
 
     private static final long serialVersionUID = -8833426004818814262L;
+    
+    private Long	memberId;        /* 企业会员ID */
+	private String	entName;		 /* 企业名称 */ 
+	private String	custCode;		 /* 客户编码 */ 
+	private Integer	entType;		 /* 企业类型 */ 
+    
+    private Long    personMemberId;  /* 个人用户ID */
+	private Long	acctId; /* 账户ID */
+	private Long	relaId; /* 关系ID */
+	private Integer	memberType; /* 会员类型 */
+	
+	private Integer	status; /* 状态 */
+	private String	applySpec; /* 申请说明 */
+	private Long	approveAcctId; /* 审核人账户ID */
+	private String	approveName; /* 审核人姓名 */
+	private Date	auditTime; /* 审核时间 */
     
     private Integer authState;      /* 个人认证状态 */
     private String  acctName; /* 账户名称 */
@@ -21,9 +36,79 @@ public class EmployeeVO extends RelaMemberToAcctApplyDTO {
     private Integer certType; /* 证件类型 */
     private String  certCode; /* 证件号码 */
     
-    private Long personMemberId;  /* 个人用户ID */
-    
-    public Long getPersonMemberId() {
+    public String getEntName() {
+		return entName;
+	}
+	public void setEntName(String entName) {
+		this.entName = entName;
+	}
+	public String getCustCode() {
+		return custCode;
+	}
+	public void setCustCode(String custCode) {
+		this.custCode = custCode;
+	}
+	public Integer getEntType() {
+		return entType;
+	}
+	public void setEntType(Integer entType) {
+		this.entType = entType;
+	}
+	public Long getRelaId() {
+		return relaId;
+	}
+	public void setRelaId(Long relaId) {
+		this.relaId = relaId;
+	}
+	public Long getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
+	}
+	public Long getAcctId() {
+		return acctId;
+	}
+	public void setAcctId(Long acctId) {
+		this.acctId = acctId;
+	}
+	public Integer getMemberType() {
+		return memberType;
+	}
+	public void setMemberType(Integer memberType) {
+		this.memberType = memberType;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	public String getApplySpec() {
+		return applySpec;
+	}
+	public void setApplySpec(String applySpec) {
+		this.applySpec = applySpec;
+	}
+	public Long getApproveAcctId() {
+		return approveAcctId;
+	}
+	public void setApproveAcctId(Long approveAcctId) {
+		this.approveAcctId = approveAcctId;
+	}
+	public String getApproveName() {
+		return approveName;
+	}
+	public void setApproveName(String approveName) {
+		this.approveName = approveName;
+	}
+	public Date getAuditTime() {
+		return auditTime;
+	}
+	public void setAuditTime(Date auditTime) {
+		this.auditTime = auditTime;
+	}
+	public Long getPersonMemberId() {
         return personMemberId;
     }
     public void setPersonMemberId(Long personMemberId) {

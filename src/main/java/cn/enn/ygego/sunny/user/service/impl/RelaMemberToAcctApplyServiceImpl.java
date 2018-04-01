@@ -2,12 +2,16 @@ package cn.enn.ygego.sunny.user.service.impl;
 
 import java.util.List;
 import cn.enn.ygego.sunny.user.service.RelaMemberToAcctApplyService;
+import cn.enn.ygego.sunny.user.constant.PersonConstant;
 import cn.enn.ygego.sunny.user.dao.RelaMemberToAcctApplyDao;
+import cn.enn.ygego.sunny.user.dao.RelaMemberToAcctDao;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeQueryVO;
 import cn.enn.ygego.sunny.user.dto.vo.EmployeeVO;
+import cn.enn.ygego.sunny.user.model.RelaMemberToAcct;
 import cn.enn.ygego.sunny.user.model.RelaMemberToAcctApply;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -22,6 +26,8 @@ public class RelaMemberToAcctApplyServiceImpl implements RelaMemberToAcctApplySe
 
     @Autowired
     private RelaMemberToAcctApplyDao relaMemberToAcctApplyDao;
+    @Autowired
+    private RelaMemberToAcctDao relaMemberToAcctDao;
 
     public List<RelaMemberToAcctApply> findAll(){
        return  relaMemberToAcctApplyDao.findAll();
@@ -70,6 +76,17 @@ public class RelaMemberToAcctApplyServiceImpl implements RelaMemberToAcctApplySe
 		return relaMemberToAcctApplyDao.getEmployeeApplyDetail(query);
 	}
 
-
+	@Override
+	public Integer examineJoinEnt(RelaMemberToAcctApply relaApply){
+    	Integer operation = relaMemberToAcctApplyDao.updateByPrimaryKey(relaApply);
+    	// 跟新正式表数据
+        if(relaApply.getStatus() == PersonConstant.EMPLOYEE_STATUS_AGREE){ // 通过
+        	RelaMemberToAcct real = new RelaMemberToAcct();
+        	relaApply.setRelaId(null);
+        	BeanUtils.copyProperties(relaApply, real);
+        	operation += relaMemberToAcctDao.insert(real);  //添加关系到正式表
+        }
+        return operation;
+	}
 
 }
